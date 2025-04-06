@@ -1,238 +1,126 @@
-mod client_message;
+mod message;
 mod player_profile;
 
-pub use client_message::{
-    query_info_types_enum, FactionId, LobbyClientMessage, QueryClientStatus, ShopAction,
-};
+pub use message::client::faction_id;
+pub use message::{client, server};
 
-use crate::network_client::Packet;
+use crate::network_client::NetworkClient;
+use crate::ServerState;
 use crate::ANSWER_NAME;
 
-use std::io::Read;
-use std::net::TcpStream;
-use std::sync::mpsc;
+use std::sync::Arc;
 
-#[repr(u8)]
-#[rustfmt::skip]
-#[expect(non_camel_case_types)]
-#[expect(dead_code)]
-enum lobby_server_message_types_enum {
-    connection_successful             = 0x30, // 1
-    invalid_session_id                = 0x31,
-    invalid_password                  = 0x32,
-    connect_to_match_server           = 0x33, // '3' ??
-    operation_permitted               = 0x34, // '4' ??
-    operation_denied                  = 0x35, // '5' ??
-    client_status                     = 0x36, // '6' ??
-    ping_server_answer                = 0x37, // '7' ??
-    lobby_server_invalid_message_type = 0x3F,
-}
+pub fn run(_server_state: Arc<ServerState>, network_client: NetworkClient) -> ! {
+    let mut network_client = network_client;
 
-#[repr(u8)]
-#[rustfmt::skip]
-#[expect(non_camel_case_types)]
-#[expect(dead_code)]
-enum lobby_client_message_types_enum {
-    set_status_ready_for_match        = 0x20,
-    query_client_status               = 0x21,
-    inventory_action                  = 0x23,
-    shop_action                       = 0x24,
-    skills_tree_action                = 0x25,
-    lobby_client_sign_in_info         = 0x26, // 1
-    discard_playing_order             = 0x27,
-    ping_server                       = 0x28,
-    lobby_client_invalid_message_type = 0x2F,
-}
+    let message = network_client.read::<client::Message>().unwrap();
+    let client::Message::SignInInfo { session_id } = message else {
+        panic!("First message must be 'SignInInfo'")
+    };
 
-pub fn handle(mut stream: TcpStream, buffer: &[u8]) -> ! {
-    let buffer = &mut buffer.as_ref();
+    network_client
+        .send(server::Message::ConnectionSuccessful)
+        .unwrap();
+    println!("Connected to client: {session_id}");
 
-    match () {
-        () if LobbyClientMessage::is_lobby_client_message(buffer) => {
-            match LobbyClientMessage::deserialize(buffer) {
-                Ok(LobbyClientMessage::SignInInfo { session_id }) => {
-                    println!("Received **lobby_client_sign_in_info: {session_id}**");
+    let mut state = ConnectionState::new(session_id);
 
-                    assert!(buffer.is_empty());
-                    let mut packet = Packet::new();
-                    packet.push(lobby_server_message_types_enum::connection_successful as u8);
-                    packet.send(&mut stream);
-
-                    let (tx, rx) = mpsc::channel();
-                    std::thread::spawn({
-                        let stream = stream.try_clone().unwrap();
-                        move || {
-                            run_writer(stream, rx);
-                        }
-                    });
-                    run_reader(stream, tx);
-                }
-
-                Ok(msg) => panic!("Received incorrect message. Expected 'SignInInfo': {msg:?}"),
-                Err(error) => panic!("{error:?}"),
-            }
-        }
-        () => todo!(),
+    loop {
+        let message = network_client.read::<client::Message>().unwrap();
+        let Some(response) = state.handle_message(message) else {
+            continue;
+        };
+        network_client.send(response).unwrap();
     }
 }
 
-// CONNECT TO MATCH SERVER
-// packet.push(1 + 1 + lobby_server::ADDRESS.len() as u8 + 4 + 4);
-// packet.push(lobby_server_message_types_enum::connect_to_match_server as u8);
-// packet.push(lobby_server::ADDRESS.len() as u8);
-// packet.extend(lobby_server::ADDRESS.as_bytes());
-// packet.extend(1_u32.to_le_bytes()); // match_id
-// packet.extend(0_u32.to_le_bytes()); // team_id : survarium::game_team_id
-fn run_writer(mut stream: TcpStream, rx: mpsc::Receiver<LobbyClientMessage>) -> ! {
-    let stream = &mut stream;
+struct ConnectionState {
+    #[allow(dead_code)]
+    session_id: u32,
+    id: u32,
+}
+impl ConnectionState {
+    fn new(session_id: u32) -> Self {
+        Self { session_id, id: 0 }
+    }
 
-    let mut id = 0_u32;
-    loop {
-        let msg = rx.recv().unwrap();
-
+    pub fn handle_message(&mut self, msg: client::Message) -> Option<server::Message> {
         println!("[writer] Received {msg:?}");
+
+        // CONNECT TO MATCH SERVER
+        // packet.push(1 + 1 + lobby_server::ADDRESS.len() as u8 + 4 + 4);
+        // packet.push(lobby_server_message_types_enum::connect_to_match_server as u8);
+        // packet.push(lobby_server::ADDRESS.len() as u8);
+        // packet.extend(lobby_server::ADDRESS.as_bytes());
+        // packet.extend(1_u32.to_le_bytes()); // match_id
+        // packet.extend(0_u32.to_le_bytes()); // team_id : survarium::game_team_id
         match msg {
-            LobbyClientMessage::SignInInfo { session_id: _ } => (),
-            LobbyClientMessage::PingServer { alive_seconds: _ } => (),
+            client::Message::ReadyForMatch { profile_id: _ } => todo!(),
 
-            LobbyClientMessage::ReadyForMatch { profile_id: _ } => (),
-            LobbyClientMessage::SkillsTreeAction(_) => (),
+            // @TODO: Currently we allow all inventory actions :shrug:
+            client::Message::InventoryAction(_) => Some(server::Message::OperationPermitted(
+                server::Operation::Inventory,
+            )),
+            client::Message::SkillsTreeAction(_) => todo!(),
 
-            LobbyClientMessage::InventoryAction(_) => {
-                let mut packet = Packet::new();
-                packet.push(lobby_server_message_types_enum::operation_permitted as u8);
-                packet.push(lobby_client_message_types_enum::inventory_action as u8);
+            client::Message::SignInInfo { session_id: _ } => panic!("Shouldn't receive"),
+            client::Message::PingServer { alive_seconds: _ } => None,
 
-                packet.send(stream);
-                println!("[writer] Wrote **permitted inventory action**");
-            }
-
-            LobbyClientMessage::ShopAction(ShopAction::Buy {
+            client::Message::ShopAction(client::ShopAction::Buy {
                 dict_id,
                 amount,
                 _unknown_1,
                 faction_id: _,
             }) => {
-                let condition_or_stack = amount as u32;
-
-                let mut packet = Packet::new();
-                packet.push(lobby_server_message_types_enum::operation_permitted as u8);
-                packet.push(lobby_client_message_types_enum::inventory_action as u8);
-                packet.push(1 as u8); // shop_events_enum_response
-
-                packet.extend(dict_id.to_le_bytes());
-                packet.extend(id.to_le_bytes());
-                packet.extend(condition_or_stack.to_le_bytes());
-
-                packet.send(stream);
-                println!("[writer] Wrote **permitted shop action**");
-
-                id += 1;
+                let op = server::Message::OperationPermitted(server::Operation::Shop(
+                    server::ShopOperation::ActionBought {
+                        dict_id,
+                        id: self.id,
+                        condition_or_stack: amount as u32,
+                    },
+                ));
+                self.id += 1;
+                Some(op)
             }
 
-            LobbyClientMessage::QueryClientStatus(status) => {
-                match status {
-                    QueryClientStatus::ClientState => {
-                        let m_status = 0_u8;
-
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_client_state as u8);
-                        packet.push(m_status);
-                        packet.push("last_status_message".len() as u8);
-                        packet.extend(b"last_status_message");
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **client_state**");
+            client::Message::QueryClientStatus(status) => {
+                let status = match status {
+                    client::QueryClientStatus::ClientState => server::ClientStatus::ClientState {
+                        status: 0,
+                        last_status_message: "last_status_message".to_string(),
+                    },
+                    client::QueryClientStatus::EnumerateProfiles => {
+                        server::ClientStatus::EnumerateProfiles(vec![
+                            server::Profile {
+                                profile_id: 200_000,
+                                name: "server_profile_1".to_string(),
+                            },
+                            server::Profile {
+                                profile_id: 400_000,
+                                name: "server_profile_2".to_string(),
+                            },
+                            server::Profile {
+                                profile_id: 600_000,
+                                name: "server_profile_3".to_string(),
+                            },
+                        ])
                     }
-                    QueryClientStatus::AccountMoney => {
-                        let generic_money = 1_000_000_u32;
-                        let premium_money = 100_000_u32;
-                        let skill_points = 70_u8;
 
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_account_money as u8);
-                        packet.extend(generic_money.to_le_bytes());
-                        packet.extend(premium_money.to_le_bytes());
-                        packet.push(skill_points);
-                        packet.push(ANSWER_NAME.len() as u8);
-                        packet.extend(ANSWER_NAME.as_bytes());
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **account_money**");
-                    }
-                    QueryClientStatus::PriceItems(faction) => {
-                        let dict_ids: &[u16] = match faction {
-                            FactionId::Loners => &[
-                                7, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35, 36, 37, 38, 39,
-                                40, 41, 42, 43, 44, 45, 46, 47,
-                            ],
-                            FactionId::Bandits => &[
-                                22, 24, 25, 27, 28, 29, 31, 32, 33, 48, 49, 50, 51, 52, 53, 55, 56,
-                                64, 65, 66, 67, 68, 70, 71, 72, 73,
-                            ],
-
-                            // Scopes and artefacts: 54, 57, 69
-
-                            // @NOTE: in 001b are not supported
-                            FactionId::Army => &[],
-                            FactionId::Forest => &[],
-                        };
-                        let idx_start = 0;
-                        let mut packet = Packet::new();
-                        let item_len = dict_ids.len() as u8;
-
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_price_items as u8);
-                        packet.push(faction as u8); // faction_id
-                        packet.extend((item_len as u16).to_le_bytes()); // item_len
-
-                        for i in idx_start..idx_start + item_len {
-                            let dict_id = dict_ids[i as usize];
-                            packet.extend((dict_id as u16).to_le_bytes()); // 1: item_dict_id
-                            packet.extend((dict_id as u16).to_le_bytes()); // 1: cost
-                            packet.extend(0_u8.to_le_bytes()); // 1: reputation_level
-                            packet.extend(0_u8.to_le_bytes()); // 1: padding
-                        }
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **price_items**");
-                    }
-                    QueryClientStatus::ServicePrices => {
-                        #[repr(C)]
-                        struct service_prices_ {
-                            reroll_cost: u32,
-                            add_profile_cost: u32,
-                            rename_account_cost: u32,
-                        }
-
-                        impl service_prices_ {
-                            pub fn serialize(&self) -> &[u8] {
-                                let ptr = self as *const _ as *const u8;
-                                let len = std::mem::size_of::<Self>();
-                                unsafe { std::slice::from_raw_parts(ptr, len) }
-                            }
-                        }
-
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_service_prices as u8);
-                        packet.extend(
-                            service_prices_ {
-                                reroll_cost: 100,
-                                add_profile_cost: 200,
-                                rename_account_cost: 300,
-                            }
-                            .serialize(),
-                        );
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **service_prices**");
+                    client::QueryClientStatus::ProfileContents { profile_id } => {
+                        server::ClientStatus::ProfileContents(player_profile::player_profile::new(
+                            100_000_u32,
+                            profile_id,
+                            match profile_id {
+                                200_000 => "server_profile_1",
+                                400_000 => "server_profile_2",
+                                600_000 => "server_profile_3",
+                                _ => unreachable!(),
+                            },
+                        ))
                     }
 
                     // @TODO
-                    QueryClientStatus::EnumerateInventory => {
+                    client::QueryClientStatus::EnumerateInventory => {
                         let i = |id, dict_id, condition_or_stack| {
                             player_profile::inventory_item_instance {
                                 condition_or_stack,
@@ -241,7 +129,7 @@ fn run_writer(mut stream: TcpStream, rx: mpsc::Receiver<LobbyClientMessage>) -> 
                                 dict_id,
                             }
                         };
-                        let items = [
+                        let items = vec![
                             i(1, 24, 10), // boots
                             i(2, 40, 20), // gloves
                             i(3, 46, 30), // legs
@@ -258,161 +146,15 @@ fn run_writer(mut stream: TcpStream, rx: mpsc::Receiver<LobbyClientMessage>) -> 
                             i(12, 55, 120), // uzi
                             i(13, 55, 130), // uzi
                         ];
-                        let items_len: u32 = items.len().try_into().unwrap();
 
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_enumerate_inventory as u8);
-
-                        packet.extend(items_len.to_le_bytes());
-
-                        for item in items {
-                            packet.extend(item.serialize());
-                        }
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **enumerate_inventory**");
-                    }
-
-                    QueryClientStatus::PlayerReputations => {
-                        #[repr(C)]
-                        struct survarium_player_reputation {
-                            faction_id: u8,
-                            reputation_points: u16,
-                        }
-
-                        impl survarium_player_reputation {
-                            pub fn serialize(&self) -> &[u8] {
-                                let ptr = self as *const _ as *const u8;
-                                let len = std::mem::size_of::<Self>();
-                                unsafe { std::slice::from_raw_parts(ptr, len) }
-                            }
-                        }
-
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_player_reputations as u8);
-
-                        packet.push(4_u8); // num of reputations
-                        for (faction_id, reputation_points) in
-                            [(1, 100), (2, 200), (3, 300), (4, 400)]
-                        {
-                            packet.extend(
-                                survarium_player_reputation {
-                                    faction_id,
-                                    reputation_points,
-                                }
-                                .serialize(),
-                            );
-                        }
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **player_reputations**");
-                    }
-
-                    QueryClientStatus::EnumerateProfiles => {
-                        let mut packet = Packet::new();
-
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_enumerate_profiles as u8);
-
-                        packet.push(3); // profiles_counts
-
-                        for (i, name) in
-                            ["server_profile_1", "server_profile_2", "server_profile_3"]
-                                .iter()
-                                .enumerate()
-                        {
-                            let i = 200_000_u32 * ((i + 1) as u32);
-                            packet.extend(i.to_le_bytes()); // profile_id
-                            packet.push(name.len() as u8); // profile_name_len
-                            packet.extend(name.as_bytes()); // profile_name_bytes
-                        }
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **enumerate_profiles**");
-                    }
-
-                    // Used to connect ammo and weapons
-                    QueryClientStatus::ItemsCompatibility => {
-                        #[repr(C)]
-                        struct items_compatibility {
-                            first_item_dict_id: u16,
-                            second_item_dict_id: u16,
-                        }
-
-                        impl items_compatibility {
-                            pub fn serialize(&self) -> &[u8] {
-                                let ptr = self as *const _ as *const u8;
-                                let len = std::mem::size_of::<Self>();
-                                unsafe { std::slice::from_raw_parts(ptr, len) }
-                            }
-                        }
-
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_items_compatibility as u8);
-
-                        let compats: &[(u16, u16)] = &[
-                            (12, 51),
-                            (12, 52),
-                            (13, 7),
-                            (14, 51),
-                            (14, 52),
-                            (15, 22),
-                            (15, 72),
-                            (16, 22),
-                            (16, 72),
-                            (17, 22),
-                            (17, 72),
-                            (18, 50),
-                            (19, 53),
-                            (19, 71),
-                            (55, 53),
-                            (55, 71),
-                            (56, 20),
-                            (64, 70),
-                        ];
-
-                        let compats_num: u32 = compats.len().try_into().unwrap();
-                        packet.extend(compats_num.to_le_bytes()); // num of compatibilities
-                        for (first_item_dict_id, second_item_dict_id) in compats.iter().copied() {
-                            packet.extend(
-                                items_compatibility {
-                                    first_item_dict_id,
-                                    second_item_dict_id,
-                                }
-                                .serialize(),
-                            );
-                        }
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **items_compatibility**");
+                        server::ClientStatus::EnumerateInventory(items)
                     }
 
                     // In which slot what type of weapon can be placed.
-                    QueryClientStatus::ProfileSlotsRestrictions => {
-                        #[repr(C)]
-                        struct profile_slot_restriction {
-                            slot_dict_id: u8,
-                            category_dict_id: u8,
-                        }
-
-                        impl profile_slot_restriction {
-                            pub fn serialize(&self) -> &[u8] {
-                                let ptr = self as *const _ as *const u8;
-                                let len = std::mem::size_of::<Self>();
-                                unsafe { std::slice::from_raw_parts(ptr, len) }
-                            }
-                        }
-
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_profile_slots_restrictions as u8);
-
+                    client::QueryClientStatus::ProfileSlotsRestrictions => {
                         // (category_id, profile_slot_id)
                         #[rustfmt::skip]
-                        let restricts: &[(u8, u8)] = &[
+                        let restricts: [(u8, u8); 49] = [
                             (1, 0),
                             (2, 1),
                             (3, 2),
@@ -439,124 +181,162 @@ fn run_writer(mut stream: TcpStream, rx: mpsc::Receiver<LobbyClientMessage>) -> 
                             (20, 13), (20, 14), (20, 15), (20, 16), (20, 17), (20, 18),
                         ];
 
-                        let restricts_num: u32 = restricts.len().try_into().unwrap();
-                        packet.extend(restricts_num.to_le_bytes()); // num of compatibilities
-                        for (category_dict_id, slot_dict_id) in restricts.iter().copied() {
-                            packet.extend(
-                                profile_slot_restriction {
-                                    slot_dict_id,
-                                    category_dict_id,
-                                }
-                                .serialize(),
-                            );
-                        }
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **profile_slot_restrictions**");
+                        server::ClientStatus::ProfileSlotsRestrictions(
+                            restricts
+                                .into_iter()
+                                .map(|(category_dict_id, slot_dict_id)| {
+                                    server::profile_slot_restriction {
+                                        slot_dict_id,
+                                        category_dict_id,
+                                    }
+                                })
+                                .collect(),
+                        )
                     }
 
-                    QueryClientStatus::PlayerSkills => {
-                        let mut packet = Packet::new();
+                    // Used to connect ammo and weapons
+                    client::QueryClientStatus::ItemsCompatibility => {
+                        let compats: [(u16, u16); 18] = [
+                            (12, 51),
+                            (12, 52),
+                            (13, 7),
+                            (14, 51),
+                            (14, 52),
+                            (15, 22),
+                            (15, 72),
+                            (16, 22),
+                            (16, 72),
+                            (17, 22),
+                            (17, 72),
+                            (18, 50),
+                            (19, 53),
+                            (19, 71),
+                            (55, 53),
+                            (55, 71),
+                            (56, 20),
+                            (64, 70),
+                        ];
 
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_player_skills as u8);
-
-                        packet.extend(1800_u32.to_le_bytes()); // total_experience
-                        packet.extend(3750_u32.to_le_bytes()); // next_level_experience
-                        packet.extend(1000_u32.to_le_bytes()); // prev_level_experience
-
-                        packet.push(5); // player_skills_count
-                        for (skill_id, skill_points) in [(1, 0), (2, 0), (3, 0), (4, 0), (5, 0)] {
-                            #[repr(C)]
-                            struct player_skill {
-                                skill_id: u8,
-                                skill_points: u8,
-                            }
-
-                            impl player_skill {
-                                pub fn serialize(&self) -> &[u8] {
-                                    let ptr = self as *const _ as *const u8;
-                                    let len = std::mem::size_of::<Self>();
-                                    unsafe { std::slice::from_raw_parts(ptr, len) }
-                                }
-                            }
-
-                            packet.extend(
-                                player_skill {
-                                    skill_id,
-                                    skill_points,
-                                }
-                                .serialize(),
-                            );
-                        }
-
-                        packet.push(0); // player_perks_count
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **player_skills**");
+                        server::ClientStatus::ItemsCompatibility(
+                            compats
+                                .into_iter()
+                                .map(|(first_item_dict_id, second_item_dict_id)| {
+                                    server::items_compatibility {
+                                        first_item_dict_id,
+                                        second_item_dict_id,
+                                    }
+                                })
+                                .collect(),
+                        )
                     }
 
-                    QueryClientStatus::PlayerSkillsTree => {
-                        let mut packet = Packet::new();
+                    client::QueryClientStatus::PriceItems(faction_id) => {
+                        let dict_ids: &[u16] = match faction_id {
+                            faction_id::scavengers => &[
+                                7, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35, 36, 37, 38, 39,
+                                40, 41, 42, 43, 44, 45, 46, 47,
+                            ],
+                            faction_id::black_market => &[
+                                22, 24, 25, 27, 28, 29, 31, 32, 33, 48, 49, 50, 51, 52, 53, 55, 56,
+                                64, 65, 66, 67, 68, 70, 71, 72, 73,
+                            ],
 
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_player_skills_tree as u8);
+                            // Scopes and artefacts: 54, 57, 69
 
+                            // @NOTE: in 001b are not supported
+                            faction_id::army => &[],
+                            faction_id::fringe_settlers => &[],
+                        };
+
+                        server::ClientStatus::PriceItems {
+                            faction_id,
+                            price_items: dict_ids
+                                .iter()
+                                .copied()
+                                .map(|dict_id| server::price_item {
+                                    item_dict_id: dict_id,
+                                    cost: dict_id,
+                                    reputation_level: 0,
+                                    padding: 0,
+                                })
+                                .collect(),
+                        }
+                    }
+
+                    client::QueryClientStatus::AccountMoney => server::ClientStatus::AccountMoney {
+                        generic_money: 1_000_000,
+                        premium_money: 100_000,
+                        skill_points: 75,
+                        name: ANSWER_NAME.to_string(),
+                    },
+
+                    client::QueryClientStatus::PlayerSkills => server::ClientStatus::PlayerSkills {
+                        total_experience: 1800,
+                        next_level_experience: 3750,
+                        prev_level_experience: 1000,
+                        player_skills: [
+                            server::player_skill {
+                                skill_id: 1,
+                                skill_points: 0,
+                            },
+                            server::player_skill {
+                                skill_id: 2,
+                                skill_points: 0,
+                            },
+                            server::player_skill {
+                                skill_id: 3,
+                                skill_points: 0,
+                            },
+                            server::player_skill {
+                                skill_id: 4,
+                                skill_points: 0,
+                            },
+                            server::player_skill {
+                                skill_id: 5,
+                                skill_points: 0,
+                            },
+                        ],
+                    },
+
+                    client::QueryClientStatus::PlayerSkillsTree => {
                         const SKILLS_TREE: &[u8] =
                             include_bytes!("../../../../resources/skills_tree.bin");
-                        packet.extend(SKILLS_TREE);
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **player_skills_tree**");
+                        server::ClientStatus::PlayerSkillsTree {
+                            skills_tree: SKILLS_TREE.to_vec(),
+                        }
                     }
 
-                    QueryClientStatus::ProfileContents { profile_id } => {
-                        let mut packet = Packet::new();
-                        packet.push(lobby_server_message_types_enum::client_status as u8);
-                        packet.push(query_info_types_enum::q_profile_contents as u8);
-
-                        packet.extend(
-                            player_profile::player_profile::new(
-                                100_000_u32,
-                                profile_id,
-                                match profile_id {
-                                    200_000 => "server_profile_1",
-                                    400_000 => "server_profile_2",
-                                    600_000 => "server_profile_3",
-                                    _ => unreachable!(),
-                                },
-                            )
-                            .deserialize(),
-                        );
-
-                        packet.send(stream);
-                        println!("[writer] Wrote **profile_contents**");
+                    client::QueryClientStatus::ServicePrices => {
+                        server::ClientStatus::ServicePrices {
+                            reroll_cost: 100,
+                            add_profile_cost: 200,
+                            rename_account_cost: 300,
+                        }
                     }
-                }
-            }
-        }
-    }
-}
 
-fn run_reader(mut stream: TcpStream, tx: mpsc::Sender<LobbyClientMessage>) -> ! {
-    let mut buffer = [0_u8; 1024];
+                    client::QueryClientStatus::PlayerReputations => {
+                        server::ClientStatus::PlayerReputations([
+                            server::player_reputation {
+                                faction_id: faction_id::scavengers,
+                                reputation_points: 100,
+                            },
+                            server::player_reputation {
+                                faction_id: faction_id::black_market,
+                                reputation_points: 200,
+                            },
+                            server::player_reputation {
+                                faction_id: faction_id::army,
+                                reputation_points: 300,
+                            },
+                            server::player_reputation {
+                                faction_id: faction_id::fringe_settlers,
+                                reputation_points: 400,
+                            },
+                        ])
+                    }
+                };
 
-    loop {
-        let bytes_read = stream.read(&mut buffer[0..]).unwrap();
-
-        let msgs_buffer = &mut buffer[0..bytes_read].as_ref();
-
-        while !msgs_buffer.is_empty() {
-            let client_message = LobbyClientMessage::deserialize(msgs_buffer);
-            match client_message {
-                Ok(LobbyClientMessage::SignInInfo { session_id: _ }) => (),
-                Ok(LobbyClientMessage::PingServer { alive_seconds: _ }) => (),
-                Ok(msg) => tx.send(msg).unwrap(),
-                Err(error) => {
-                    println!("{error:?}");
-                    println!("{msgs_buffer:?}");
-                    break;
-                }
+                Some(server::Message::ClientStatus(status))
             }
         }
     }

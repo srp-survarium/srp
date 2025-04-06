@@ -1,6 +1,3 @@
-use std::io::Write;
-use std::net::TcpStream;
-
 pub struct Packet {
     buffer: Vec<u8>,
 }
@@ -29,10 +26,17 @@ impl Packet {
         self.buffer.push(byte)
     }
 
-    pub fn send(mut self, tcp_stream: &mut TcpStream) {
+    pub fn clear(&mut self) {
+        self.buffer.clear();
+        self.buffer.push(0);
+        self.buffer.push(0);
+        self.buffer.push(0);
+    }
+
+    pub fn get_buffer(&mut self) -> &[u8] {
         let msg_len = self.buffer.len() - 3;
 
-        let buffer = if msg_len >= 0x100 {
+        if msg_len >= 0x100 {
             let msg_len: u16 = msg_len.try_into().expect("All messages must fit into u16");
             let msg_len = msg_len.to_le_bytes();
             self.buffer[1] = msg_len[0];
@@ -44,8 +48,6 @@ impl Packet {
             self.buffer[2] = msg_len;
 
             self.buffer[2..].as_ref()
-        };
-
-        tcp_stream.write_all(buffer).unwrap();
+        }
     }
 }

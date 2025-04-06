@@ -1,7 +1,7 @@
 #![expect(dead_code)]
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct player_profile {
     pub account_id: u32,
     pub profile_id: u32,
@@ -15,7 +15,7 @@ const _: () = assert!(std::mem::size_of::<player_profile>() == 0x1B8);
 
 #[expect(non_camel_case_types)]
 #[repr(u32)]
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum game_team_id {
     team_1 = 0x0,
     team_2 = 0x1,
@@ -25,7 +25,7 @@ pub enum game_team_id {
 }
 
 #[repr(C)]
-#[derive(Default, Copy, Clone)]
+#[derive(Default, Copy, Clone, Debug)]
 pub struct skill_booster {
     pub id: u8,
     pub value: f32,
@@ -33,7 +33,7 @@ pub struct skill_booster {
 const _: () = assert!(std::mem::size_of::<skill_booster>() == 8);
 
 #[repr(C)]
-#[derive(Default, Copy, Clone)]
+#[derive(Default, Copy, Clone, Debug)]
 pub struct inventory_item_instance {
     pub condition_or_stack: u32,
     pub amount_in_inventory: u32,
@@ -84,7 +84,7 @@ impl<T, const N: usize> std::ops::IndexMut<profile_slot_enum> for [T; N] {
 }
 
 impl player_profile {
-    pub fn new(account_id: u32, profile_id: u32, profile_name: &str) -> Self {
+    pub fn new(account_id: u32, profile_id: u32, profile_name: &str) -> Box<Self> {
         let i = |id, dict_id, condition_or_stack| inventory_item_instance {
             condition_or_stack,
             amount_in_inventory: 1,
@@ -123,7 +123,7 @@ impl player_profile {
             bytes
         };
 
-        Self {
+        Box::new(Self {
             account_id,
             profile_id,
             profile_name,
@@ -131,7 +131,7 @@ impl player_profile {
             slots,
             team: game_team_id::team_neutral,
             is_local: true,
-        }
+        })
     }
 
     pub fn deserialize(&self) -> &[u8] {

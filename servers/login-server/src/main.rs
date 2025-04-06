@@ -58,7 +58,7 @@ fn main() -> std::io::Result<()> {
     let addr = format!("{}:{}", login_server::ADDRESS, login_server::PORT);
     let listener = TcpListener::bind(&addr)?;
 
-    for (_, stream) in listener.incoming().enumerate() {
+    for stream in listener.incoming() {
         let stream = stream?;
         std::thread::spawn(move || {
             _ = std::panic::catch_unwind(|| {
