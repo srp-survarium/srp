@@ -1,87 +1,18 @@
-use crc32fast::Hasher;
+use crate::{BinaryConfig, BinaryType, BinaryValue, IdCrc};
+
 use encoding_rs::WINDOWS_1251;
 use num_traits::FromPrimitive;
 use std::ffi::CStr;
 
-/// Constraints:
-/// 1. The first `BinaryValue` should always be:
-/// ```ignore
-/// { data: 0x18, id: 0, id_crc: "", type_: t_table_named, count: 5 }
-/// ```
-/// 2. The data structure should be consistent with all offsets pointing inside it
-pub struct BinaryConfig(Vec<u8>);
-
-#[repr(C)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub struct BinaryValue {
-    /// Either a value or offset from root to a table
-    pub data: u64,
-    pub id: u64,
-    pub id_crc: IdCrc,
-    pub type_: BinaryType,
-    pub count: u16,
-}
-const _: () = assert!(std::mem::size_of::<BinaryValue>() == 0x18);
-const _: () = assert!(std::mem::align_of::<BinaryValue>() == 0x8);
-
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord, num_derive::FromPrimitive)]
-#[allow(non_camel_case_types)]
-#[repr(u16)]
-pub enum BinaryType {
-    t_boolean,
-    t_integer,
-    t_float,
-    t_table_named,
-    t_table_indexed,
-    t_string,
-    t_float2,
-    t_float3,
-    t_float4,
-}
-
-#[derive(Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord, Debug, Default)]
-#[repr(transparent)]
-pub struct IdCrc(u32);
-
-impl IdCrc {
-    pub fn get(self) -> u32 {
-        self.0
-    }
-
-    pub fn get_hash(name: &str) -> Self {
-        let mut hasher = Hasher::new();
-        hasher.update(name.as_bytes());
-        Self(hasher.finalize())
-    }
-}
-
 impl BinaryConfig {
-    pub fn new(binary: &[u8]) -> Self {
-        assert!(binary.len() >= 0x18);
-        Self(binary.to_vec())
-    }
-
-    pub fn as_bytes(&self) -> &[u8] {
-        self.0.as_ref()
-    }
-
     pub fn parse_n_print(&self) {
         let buffer = &self.0;
         let value = BinaryValue::parse(buffer);
         value.print_rec(self, 0, None);
     }
-
-    #[allow(dead_code)]
-    pub fn parse_n_print_str(&self) {
-        let buffer = &self.0;
-        let value = BinaryValue::parse(buffer);
-        value.print_str_rec(self);
-    }
 }
 
 impl BinaryValue {
-    pub const SIZE: usize = std::mem::size_of::<Self>();
-
     pub fn parse(buffer: &[u8]) -> Self {
         assert!(buffer.len() >= Self::SIZE);
 
@@ -124,7 +55,7 @@ impl BinaryValue {
         };
 
         match self.type_ {
-            BinaryType::t_table_named | BinaryType::t_table_indexed => {
+            BinaryType::TableNamed | BinaryType::TableIndexed => {
                 let offset = self.data as usize;
                 let len = self.count as usize;
 
@@ -135,8 +66,8 @@ impl BinaryValue {
                     let this = Self::parse(&buffer[offset + i * Self::SIZE..]);
 
                     let index = match self.type_ {
-                        BinaryType::t_table_named => None,
-                        BinaryType::t_table_indexed => Some(i),
+                        BinaryType::TableNamed => None,
+                        BinaryType::TableIndexed => Some(i),
                         _ => unreachable!(),
                     };
 
@@ -144,30 +75,29 @@ impl BinaryValue {
                 }
             }
 
-            BinaryType::t_boolean => {
+            BinaryType::Boolean => {
                 let value = self.data != 0;
                 println!("{prefix}: {value}");
             }
-            BinaryType::t_integer => {
+            BinaryType::Integer => {
                 let value = self.data as i32;
                 println!("{prefix}: {value}");
             }
-            BinaryType::t_float => {
+            BinaryType::Float => {
                 let value = f32::from_bits(self.data as u32);
                 println!("{prefix}: {value}");
             }
-            BinaryType::t_string => {
+            BinaryType::String => {
                 let offset = self.data as usize;
                 let len = self.count as usize;
                 let buffer = &tree.0[offset..offset + len - 1]; // '\0'
 
                 let (value, _, had_errors) = WINDOWS_1251.decode(buffer);
                 assert!(!had_errors);
-                // let value = String::from_utf8_lossy(buffer);
 
                 println!("{prefix}: \"{value}\"");
             }
-            BinaryType::t_float2 => {
+            BinaryType::Float2 => {
                 let offset = self.data as usize;
                 let buffer = tree.0[offset..offset + 4 * 2].try_into().unwrap();
 
@@ -176,7 +106,7 @@ impl BinaryValue {
                 let float_y = f32::from_le_bytes(*float_y);
                 println!("{prefix}: {float_x}|{float_y}");
             }
-            BinaryType::t_float3 => {
+            BinaryType::Float3 => {
                 let offset = self.data as usize;
                 let buffer = tree.0[offset..offset + 4 * 3].try_into().unwrap();
 
@@ -186,7 +116,7 @@ impl BinaryValue {
                 let float_z = f32::from_le_bytes(*float_z);
                 println!("{prefix}: {float_x}|{float_y}|{float_z}");
             }
-            BinaryType::t_float4 => {
+            BinaryType::Float4 => {
                 let offset = self.data as usize;
                 let buffer = tree.0[offset..offset + 4 * 4].try_into().unwrap();
 
@@ -199,42 +129,6 @@ impl BinaryValue {
                 println!("{prefix}: {float_x}|{float_y}|{float_z}|{float_w}");
             }
         }
-    }
-
-    fn print_str_rec(&self, tree: &BinaryConfig) {
-        match self.type_ {
-            BinaryType::t_table_named | BinaryType::t_table_indexed => {
-                let offset = self.data as usize;
-                let len = self.count as usize;
-
-                let buffer = &tree.0;
-                for i in 0..len {
-                    let this = Self::parse(&buffer[offset + i * Self::SIZE..]);
-                    Self::print_str_rec(&this, tree);
-                }
-            }
-
-            BinaryType::t_string => {
-                let offset = self.data as usize;
-                let len = self.count as usize;
-                let buffer = &tree.0[offset..offset + len - 1]; // '\0'
-
-                let (value, _, had_errors) = WINDOWS_1251.decode(buffer);
-                assert!(!had_errors);
-
-                println!("{value}");
-            }
-            BinaryType::t_boolean
-            | BinaryType::t_integer
-            | BinaryType::t_float
-            | BinaryType::t_float2
-            | BinaryType::t_float3
-            | BinaryType::t_float4 => {}
-        }
-    }
-
-    pub fn as_bytes(&self) -> &[u8] {
-        unsafe { std::slice::from_raw_parts(self as *const _ as *const u8, Self::SIZE) }
     }
 }
 

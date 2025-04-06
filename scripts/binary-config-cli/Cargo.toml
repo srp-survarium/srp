@@ -1,0 +1,14 @@
+[package]
+name = "binary-config-cli"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+binary-config-parser = { workspace = true }
+
+[lints]
+workspace = true

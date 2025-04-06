@@ -1,12 +1,13 @@
 [workspace]
 members = [
   "crates/foundation",
+  "crates/binary-config-parser",
 
   "servers/browser-server",
   "servers/lobby-server",
   "servers/login-server",
 
-  "scripts/binary-config-parser",
+  "scripts/binary-config-cli",
 ]
 exclude = []
 resolver = "3"
@@ -18,6 +19,7 @@ edition = "2024"
 [workspace.dependencies]
 actix-web = "4.10.2"
 arrayref = "0.3.9"
+clap = { version = "4.4", features = ["derive"] }
 crc32fast = "1.4.2"
 encoding_rs = "0.8.35"
 env_logger = "0.10"
@@ -27,8 +29,10 @@ num-traits = "0.2"
 openssl = "0.10"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = { version = "1.0.140", features = ["std"] }
+sqlx = { version = "0.8", features = [ "runtime-tokio" ] }
 thiserror = "2.0.12"
 
 foundation = { path = "crates/foundation" }
+binary-config-parser = { path = "crates/binary-config-parser" }
 
 [workspace.lints.clippy]
