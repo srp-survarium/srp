@@ -253,9 +253,9 @@ impl ConnectionState {
                             price_items: dict_ids
                                 .iter()
                                 .copied()
-                                .map(|dict_id| server::price_item {
-                                    item_dict_id: dict_id,
-                                    cost: dict_id,
+                                .map(|item_dict_id| server::price_item {
+                                    item_dict_id,
+                                    cost: item_dict_id,
                                     reputation_level: 0,
                                     padding: 0,
                                 })
