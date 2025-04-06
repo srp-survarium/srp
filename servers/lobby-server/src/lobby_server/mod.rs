@@ -27,7 +27,7 @@ pub fn run(_server_state: Arc<ServerState>, network_client: NetworkClient) -> ! 
 
     loop {
         let message = network_client.read::<client::Message>().unwrap();
-        let Some(response) = state.handle_message(message) else {
+        let Some(response) = state.handle_client_message(message) else {
             continue;
         };
         network_client.send(response).unwrap();
@@ -44,16 +44,17 @@ impl ConnectionState {
         Self { session_id, id: 0 }
     }
 
-    pub fn handle_message(&mut self, msg: client::Message) -> Option<server::Message> {
+    // @NOTE: This message should comes not from the client, but from another server
+    // CONNECT TO MATCH SERVER
+    // packet.push(1 + 1 + lobby_server::ADDRESS.len() as u8 + 4 + 4);
+    // packet.push(lobby_server_message_types_enum::connect_to_match_server as u8);
+    // packet.push(lobby_server::ADDRESS.len() as u8);
+    // packet.extend(lobby_server::ADDRESS.as_bytes());
+    // packet.extend(1_u32.to_le_bytes()); // match_id
+    // packet.extend(0_u32.to_le_bytes()); // team_id : survarium::game_team_id
+    pub fn handle_client_message(&mut self, msg: client::Message) -> Option<server::Message> {
         println!("[writer] Received {msg:?}");
 
-        // CONNECT TO MATCH SERVER
-        // packet.push(1 + 1 + lobby_server::ADDRESS.len() as u8 + 4 + 4);
-        // packet.push(lobby_server_message_types_enum::connect_to_match_server as u8);
-        // packet.push(lobby_server::ADDRESS.len() as u8);
-        // packet.extend(lobby_server::ADDRESS.as_bytes());
-        // packet.extend(1_u32.to_le_bytes()); // match_id
-        // packet.extend(0_u32.to_le_bytes()); // team_id : survarium::game_team_id
         match msg {
             client::Message::ReadyForMatch { profile_id: _ } => todo!(),
 
