@@ -10,10 +10,8 @@ use std::sync::Arc;
 const LOCAL_NAME: &str = "sheep";
 const ANSWER_NAME: &str = "hello";
 
-pub struct ServerState {}
-
 fn main() -> std::io::Result<()> {
-    let state = Arc::new(ServerState::new());
+    let state = Arc::new(lobby_server::ServerState::new_dummy());
 
     let addr = format!(
         "{}:{}",
@@ -28,7 +26,7 @@ fn main() -> std::io::Result<()> {
             let state = state.clone();
             move || {
                 _ = std::panic::catch_unwind(|| {
-                    state.handle_connection(stream);
+                    handle_connection(state, stream);
                 });
             }
         });
@@ -37,23 +35,17 @@ fn main() -> std::io::Result<()> {
     Ok(())
 }
 
-impl ServerState {
-    pub fn new() -> Self {
-        Self {}
-    }
-
-    pub fn handle_connection(self: Arc<Self>, stream: TcpStream) {
-        // @TODO: Write messaging server properly, should get rid of `try_clone`
-        let mut network_client = NetworkClient::new(stream.try_clone().unwrap());
-        match network_client.peek::<lobby_server::client::Message>() {
-            Ok(_) => lobby_server::run(self, network_client),
-            Err(NetworkClientError::DeserializeError(DeserializeError::UnknownMessageType(_))) => {
-                let buffer = network_client.get_read_buffer();
-                messaging_server::handle(stream, buffer)
-            }
-            Err(error) => {
-                panic!("{error}")
-            }
+pub fn handle_connection(lobby_server: Arc<lobby_server::ServerState>, stream: TcpStream) {
+    // @TODO: Write messaging server properly, should get rid of `try_clone`
+    let mut network_client = NetworkClient::new(stream.try_clone().unwrap());
+    match network_client.peek::<lobby_server::client::Message>() {
+        Ok(_) => lobby_server.run(network_client),
+        Err(NetworkClientError::DeserializeError(DeserializeError::UnknownMessageType(_))) => {
+            let buffer = network_client.get_read_buffer();
+            messaging_server::handle(stream, buffer)
+        }
+        Err(error) => {
+            panic!("{error}")
         }
     }
 }

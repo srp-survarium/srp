@@ -19,7 +19,9 @@ pub enum Message {
     OperationDenied(Operation),
     ClientStatus(ClientStatus),
     #[allow(dead_code)]
-    PingServerAnswer,
+    PingServerAnswer {
+        ping_value: u32,
+    },
 }
 
 #[derive(Debug, Clone)]
@@ -272,7 +274,9 @@ impl NetworkMessage for Message {
                 client_status.serialize(packet);
             }
 
-            Self::PingServerAnswer => todo!(),
+            Self::PingServerAnswer { ping_value } => {
+                packet.extend(ping_value.to_le_bytes());
+            }
         }
     }
 }

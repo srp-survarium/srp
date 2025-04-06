@@ -12,7 +12,7 @@ pub enum Message {
     SkillsTreeAction(SkillsTreeAction),
 
     SignInInfo { session_id: u32 },
-    PingServer { alive_seconds: u32 },
+    PingServer { alive_ms: u32 },
 }
 
 #[derive(Debug, PartialEq)]
@@ -467,8 +467,8 @@ impl NetworkMessage for Message {
             lobby_client_message_types_enum::discard_playing_order => todo!(),
             lobby_client_message_types_enum::ping_server => match buffer.len() {
                 4 => {
-                    let alive_seconds = u32::from_le_bytes(buffer[0..4].try_into().unwrap());
-                    Ok(Self::PingServer { alive_seconds })
+                    let alive_ms = u32::from_le_bytes(buffer[0..4].try_into().unwrap());
+                    Ok(Self::PingServer { alive_ms })
                 }
                 _ => Err(DeserializeError::NotEnoughInput),
             },
