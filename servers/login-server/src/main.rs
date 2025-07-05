@@ -15,7 +15,7 @@ const CERT_PATH: &str = "./certs/survarium_login_server.crt";
 const URL_PREFIX: &[u8] = b"/hello?unused=1";
 
 /// Hardcoded user session id
-const SESSION_ID: u32 = 0x3031;
+const SESSION_ID: u32 = 0xDD00;
 
 #[repr(u8)]
 #[rustfmt::skip]

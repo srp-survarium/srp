@@ -6,6 +6,7 @@ members = [
   "servers/browser-server",
   "servers/lobby-server",
   "servers/login-server",
+  "servers/match-server",
 
   "scripts/binary-config-cli",
 ]

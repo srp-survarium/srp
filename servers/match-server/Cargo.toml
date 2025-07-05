@@ -1,0 +1,19 @@
+[package]
+name = "match-server"
+version.workspace = true
+edition.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+
+[dependencies]
+arrayref = { workspace = true }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+openssl = { workspace = true }
+thiserror = { workspace = true }
+
+foundation = { workspace = true }

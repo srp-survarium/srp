@@ -168,14 +168,6 @@ impl ServerState {
         }
     }
 
-    // @NOTE: This message should comes not from the client, but from another server
-    // CONNECT TO MATCH SERVER
-    // packet.push(1 + 1 + lobby_server::ADDRESS.len() as u8 + 4 + 4);
-    // packet.push(lobby_server_message_types_enum::connect_to_match_server as u8);
-    // packet.push(lobby_server::ADDRESS.len() as u8);
-    // packet.extend(lobby_server::ADDRESS.as_bytes());
-    // packet.extend(1_u32.to_le_bytes()); // match_id
-    // packet.extend(0_u32.to_le_bytes()); // team_id : survarium::game_team_id
     pub fn handle_client_message(
         &self,
         connection_state: &mut ConnectionState,
@@ -184,7 +176,12 @@ impl ServerState {
         println!("[writer] Received {msg:?}");
 
         match msg {
-            client::Message::ReadyForMatch { profile_id: _ } => todo!(),
+            client::Message::ReadyForMatch { profile_id: _ } => {
+                Some(server::Message::ConnectToMatchServer {
+                    match_id: 0x123,
+                    team_id: 0x1,
+                })
+            }
 
             // @TODO: Currently we allow all inventory actions :shrug:
             client::Message::InventoryAction(client::InventoryAction::Null) => Some(
@@ -232,7 +229,8 @@ impl ServerState {
 
             client::Message::SignInInfo { session_id: _ } => panic!("Shouldn't receive"),
             client::Message::PingServer { alive_ms } => Some(server::Message::PingServerAnswer {
-                ping_value: alive_ms + 1_000,
+                // @TODO: Get alive from our side
+                ping_value: alive_ms + 80,
             }),
 
             client::Message::ShopAction(client::ShopAction::Buy {

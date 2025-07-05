@@ -8,16 +8,25 @@ use super::client::{faction_id, lobby_client_message_types_enum, query_info_type
 #[derive(Debug)]
 pub enum Message {
     ConnectionSuccessful,
+
     #[allow(dead_code)]
     InvalidSessionId,
+
     #[allow(dead_code)]
     InvalidPassword,
-    #[allow(dead_code)]
-    ConnectToMatchServer,
+
+    ConnectToMatchServer {
+        match_id: u32,
+        team_id: u8,
+    },
+
     OperationPermitted(Operation),
+
     #[allow(dead_code)]
     OperationDenied(Operation),
+
     ClientStatus(ClientStatus),
+
     #[allow(dead_code)]
     PingServerAnswer {
         ping_value: u32,
@@ -261,7 +270,15 @@ impl NetworkMessage for Message {
 
             Self::InvalidSessionId => todo!(),
             Self::InvalidPassword => todo!(),
-            Self::ConnectToMatchServer => todo!(),
+
+            Self::ConnectToMatchServer { match_id, team_id } => {
+                let len: u8 = foundation::match_server::ADDRESS.len().try_into().unwrap();
+                packet.push(len);
+                packet.extend(foundation::match_server::ADDRESS.as_bytes());
+                packet.extend(foundation::match_server::PORT.to_le_bytes());
+                packet.extend(match_id.to_le_bytes());
+                packet.push(team_id);
+            }
 
             Self::OperationPermitted(action) => {
                 action.serialize(packet);
