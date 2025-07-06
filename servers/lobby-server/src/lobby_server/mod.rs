@@ -70,42 +70,49 @@ impl ServerState {
             }
 
             // @TODO: Currently we allow all inventory actions :shrug:
-            client::Message::InventoryAction(client::InventoryAction::Null) => Some(
+            client::Message::InventoryAction(actions) if actions.is_empty() => Some(
                 server::Message::OperationDenied(server::Operation::Inventory),
             ),
 
-            client::Message::InventoryAction(client::InventoryAction::Equip {
-                profile_id,
-                id,
-                dict_id,
-                kind,
-                amount,
-            }) => {
-                let profile_contents = connection_state
-                    .profile_contents
-                    .iter_mut()
-                    .find(|profile| profile.profile_id == profile_id)
-                    .unwrap();
+            client::Message::InventoryAction(actions) => {
+                let mut profile_contents = connection_state.profile_contents.clone();
+                for action in actions {
+                    let client::InventoryAction::Equip {
+                        profile_id,
+                        id,
+                        dict_id,
+                        kind,
+                        amount,
+                    } = action;
 
-                match kind {
-                    client::EquipKind::Equip { to_slot } => {
-                        profile_contents.slots[to_slot] = player_profile::inventory_item_instance {
-                            condition_or_stack: amount as u32,
-                            amount_in_inventory: amount as u32,
-                            id,
-                            dict_id,
+                    let profile_contents = profile_contents
+                        .iter_mut()
+                        .find(|profile| profile.profile_id == profile_id)
+                        .unwrap();
+
+                    match kind {
+                        client::EquipKind::Equip { to_slot } => {
+                            profile_contents.slots[to_slot] =
+                                player_profile::inventory_item_instance {
+                                    condition_or_stack: amount as u32,
+                                    amount_in_inventory: amount as u32,
+                                    id,
+                                    dict_id,
+                                }
+                        }
+                        client::EquipKind::Unequip { from_slot } => {
+                            profile_contents.slots[from_slot] =
+                                player_profile::inventory_item_instance::default();
+                        }
+                        _ => {
+                            return Some(server::Message::OperationDenied(
+                                server::Operation::Inventory,
+                            ));
                         }
                     }
-                    client::EquipKind::Unequip { from_slot } => {
-                        profile_contents.slots[from_slot] =
-                            player_profile::inventory_item_instance::default();
-                    }
-                    _ => {
-                        return Some(server::Message::OperationDenied(
-                            server::Operation::Inventory,
-                        ));
-                    }
                 }
+
+                connection_state.profile_contents = profile_contents;
 
                 Some(server::Message::OperationPermitted(
                     server::Operation::Inventory,

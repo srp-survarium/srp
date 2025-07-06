@@ -8,7 +8,7 @@ use self::raw::*;
 pub enum Message {
     ReadyForMatch { profile_id: u32 },
     QueryClientStatus(QueryClientStatus),
-    InventoryAction(InventoryAction),
+    InventoryAction(Vec<InventoryAction>),
     ShopAction(ShopAction),
     SkillsTreeAction(SkillsTreeAction),
 
@@ -32,9 +32,8 @@ pub enum QueryClientStatus {
     PlayerReputations,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum InventoryAction {
-    Null,
     Equip {
         profile_id: u32,
         id: u32,
@@ -50,7 +49,7 @@ pub enum SkillsTreeAction {
     Reroll,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum EquipKind {
     Equip {
         to_slot: profile_slot_enum,
@@ -267,60 +266,48 @@ impl NetworkMessage for Message {
                 let action_type = advance_buffer::<inventory_events_enum>(buffer)?;
                 match action_type {
                     inventory_events_enum::item_moved_to_slot => {
-                        let action_result =
-                            advance_buffer::<item_moved_to_slot_action_enum>(buffer)?;
-                        match action_result {
-                            item_moved_to_slot_action_enum::failure => {
-                                Self::InventoryAction(InventoryAction::Null)
-                            }
-                            item_moved_to_slot_action_enum::success => {
-                                let profile_id = advance_buffer::<u32>(buffer)?;
-                                let id = advance_buffer::<u32>(buffer)?;
-                                let dict_id = advance_buffer::<u16>(buffer)?;
-                                advance_padding::<2>(buffer)?;
-                                let from_slot = advance_buffer::<u8>(buffer)?;
-                                advance_padding::<3>(buffer)?;
-                                let to_slot = advance_buffer::<u8>(buffer)?;
-                                advance_padding::<3>(buffer)?;
-                                let amount = advance_buffer::<u16>(buffer)?;
+                        let actions_len = advance_buffer::<u8>(buffer)?;
+                        let mut actions = vec![];
+                        for _ in 0..actions_len {
+                            let profile_id = advance_buffer::<u32>(buffer)?;
+                            let id = advance_buffer::<u32>(buffer)?;
+                            let dict_id = advance_buffer::<u16>(buffer)?;
+                            advance_padding::<2>(buffer)?;
+                            let from_slot = advance_buffer::<u8>(buffer)?;
+                            advance_padding::<3>(buffer)?;
+                            let to_slot = advance_buffer::<u8>(buffer)?;
+                            advance_padding::<3>(buffer)?;
+                            let amount = advance_buffer::<u16>(buffer)?;
 
-                                let kind = match (from_slot, to_slot) {
-                                    (100, to_slot) => {
-                                        let to_slot = bytemuck::checked::try_cast(to_slot)
-                                            .map_err(|x| {
-                                                DeserializeError::incorrect_input_from(x)
-                                            })?;
-                                        EquipKind::Equip { to_slot }
-                                    }
-                                    (from_slot, 100) => {
-                                        let from_slot = bytemuck::checked::try_cast(from_slot)
-                                            .map_err(|x| {
-                                                DeserializeError::incorrect_input_from(x)
-                                            })?;
-                                        EquipKind::Unequip { from_slot }
-                                    }
-                                    (from_slot, to_slot) => {
-                                        let from_slot = bytemuck::checked::try_cast(from_slot)
-                                            .map_err(|x| {
-                                                DeserializeError::incorrect_input_from(x)
-                                            })?;
-                                        let to_slot = bytemuck::checked::try_cast(to_slot)
-                                            .map_err(|x| {
-                                                DeserializeError::incorrect_input_from(x)
-                                            })?;
-                                        EquipKind::Move { from_slot, to_slot }
-                                    }
-                                };
+                            let kind = match (from_slot, to_slot) {
+                                (100, to_slot) => {
+                                    let to_slot = bytemuck::checked::try_cast(to_slot)
+                                        .map_err(|x| DeserializeError::incorrect_input_from(x))?;
+                                    EquipKind::Equip { to_slot }
+                                }
+                                (from_slot, 100) => {
+                                    let from_slot = bytemuck::checked::try_cast(from_slot)
+                                        .map_err(|x| DeserializeError::incorrect_input_from(x))?;
+                                    EquipKind::Unequip { from_slot }
+                                }
+                                (from_slot, to_slot) => {
+                                    let from_slot = bytemuck::checked::try_cast(from_slot)
+                                        .map_err(|x| DeserializeError::incorrect_input_from(x))?;
+                                    let to_slot = bytemuck::checked::try_cast(to_slot)
+                                        .map_err(|x| DeserializeError::incorrect_input_from(x))?;
+                                    EquipKind::Move { from_slot, to_slot }
+                                }
+                            };
 
-                                Self::InventoryAction(InventoryAction::Equip {
-                                    profile_id,
-                                    id,
-                                    dict_id,
-                                    kind,
-                                    amount,
-                                })
-                            }
+                            actions.push(InventoryAction::Equip {
+                                profile_id,
+                                id,
+                                dict_id,
+                                kind,
+                                amount,
+                            })
                         }
+                        Self::InventoryAction(actions)
                     }
                 }
             }
@@ -491,7 +478,7 @@ mod test {
         // Move something into an incorrect slot
         let buffer: &[u8] = &[3, 35, 0, 0];
         let defacto = Message::deserialize(&mut buffer.as_ref()).unwrap();
-        let dejure = Message::InventoryAction(InventoryAction::Null);
+        let dejure = Message::InventoryAction(vec![]);
         assert_eq!(defacto, dejure);
 
         // Move medkit (x9) from inventory to profile:
@@ -499,7 +486,7 @@ mod test {
             25, 35, 0, 1, 64, 13, 3, 0, 10, 0, 0, 0, 67, 0, 0, 0, 100, 0, 0, 0, 13, 0, 0, 0, 9, 0,
         ];
         let defacto = Message::deserialize(&mut buffer.as_ref()).unwrap();
-        let dejure = Message::InventoryAction(InventoryAction::Equip {
+        let dejure = Message::InventoryAction(vec![InventoryAction::Equip {
             profile_id: 200_000,
             id: 10,
             dict_id: 67,
@@ -507,7 +494,7 @@ mod test {
                 to_slot: profile_slot_enum::quick_slot1,
             },
             amount: 9,
-        });
+        }]);
         assert_eq!(defacto, dejure);
 
         // Move UZI from profile to inventory (from second profile):
@@ -515,7 +502,7 @@ mod test {
             25, 35, 0, 1, 128, 26, 6, 0, 12, 0, 0, 0, 55, 0, 0, 0, 7, 0, 0, 0, 100, 0, 0, 0, 1, 0,
         ];
         let defacto = Message::deserialize(&mut buffer.as_ref()).unwrap();
-        let dejure = Message::InventoryAction(InventoryAction::Equip {
+        let dejure = Message::InventoryAction(vec![InventoryAction::Equip {
             profile_id: 400_000,
             id: 12,
             dict_id: 55,
@@ -523,19 +510,23 @@ mod test {
                 from_slot: profile_slot_enum::weapon1_slot,
             },
             amount: 1,
-        });
+        }]);
         assert_eq!(defacto, dejure);
+    }
 
-        #[rustfmt::ignore]
+    // Unequips UZI and ammo
+    #[test]
+    fn parses_multiple_inventory_actions() {
         let buffer: &[u8] = &[
             69, /* tcp_msg_len */
             35, /* inventory_action */
             0,  /* item_moved_to_slot */
-            3,  /* action_result */
-            64, 13, 3, 0, 12, 0, 0, 0, 55, 0, 0, 0, 7, 0, 0, 0, 100, 0, 0, 0, 1, 0, 64, 13, 3, 0,
-            33, 0, 0, 0, 53, 0, 0, 0, 8, 0, 0, 0, 100, 0, 0, 0, 244, 1, 64, 13, 3, 0, 33, 0, 0, 0,
-            53, 0, 0, 0, 9, 0, 0, 0, 100, 0, 0, 0, 244, 1,
+            3,  /* action_len */
+            64, 13, 3, 0, 12, 0, 0, 0, 55, 0, 0, 0, 7, 0, 0, 0, 100, 0, 0, 0, 1, 0, /* 1 */
+            64, 13, 3, 0, 33, 0, 0, 0, 53, 0, 0, 0, 8, 0, 0, 0, 100, 0, 0, 0, 244, 1, /* 2 */
+            64, 13, 3, 0, 33, 0, 0, 0, 53, 0, 0, 0, 9, 0, 0, 0, 100, 0, 0, 0, 244, 1, /* 3 */
         ];
+        let _defacto = Message::deserialize(&mut buffer.as_ref()).unwrap();
     }
 
     #[test]
