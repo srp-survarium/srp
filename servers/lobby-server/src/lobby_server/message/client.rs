@@ -1,6 +1,6 @@
 use crate::lobby_server::message::{advance_buffer, advance_by, advance_padding};
-use crate::lobby_server::player_profile::profile_slot_enum;
-use crate::network_client::{DeserializeError, NetworkMessage, Packet};
+use crate::lobby_server::player_profile::raw::profile_slot_enum;
+use crate::network_client::{Deserialize, DeserializeError, NetworkRequest};
 
 use self::raw::*;
 
@@ -154,7 +154,9 @@ pub mod raw {
 //
 //
 
-impl NetworkMessage for Message {
+impl NetworkRequest for Message {}
+
+impl Deserialize for Message {
     /// Process a single message in the array of serialized messages.
     /// Advances `out_buffer` to the next message
     fn deserialize(out_buffer: &mut &[u8]) -> Result<Self, DeserializeError> {
@@ -412,10 +414,6 @@ impl NetworkMessage for Message {
 
         *out_buffer = &out_buffer[tcp_msg_len + 1..];
         Ok(msg)
-    }
-
-    fn serialize(self, _packet: &mut Packet) {
-        unimplemented!()
     }
 }
 

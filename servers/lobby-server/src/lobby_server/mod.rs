@@ -12,9 +12,9 @@ use std::ffi::CStr;
 use std::sync::Arc;
 
 pub struct ServerState {
-    restricts: Vec<server::profile_slot_restriction>,
-    compats: Vec<server::items_compatibility>,
-    price_items: [(faction_id, Vec<server::price_item>); 4],
+    restricts: Vec<server::raw::profile_slot_restriction>,
+    compats: Vec<server::raw::items_compatibility>,
+    price_items: [(faction_id, Vec<server::raw::price_item>); 4],
     skills_tree: Vec<u8>,
 
     reroll_cost: u32,
@@ -93,16 +93,17 @@ impl ServerState {
                     match kind {
                         client::EquipKind::Equip { to_slot } => {
                             profile_contents.slots[to_slot] =
-                                player_profile::inventory_item_instance {
+                                player_profile::raw::inventory_item_instance {
                                     condition_or_stack: amount as u32,
                                     amount_in_inventory: amount as u32,
                                     id,
                                     dict_id,
+                                    padding: Default::default(),
                                 }
                         }
                         client::EquipKind::Unequip { from_slot } => {
                             profile_contents.slots[from_slot] =
-                                player_profile::inventory_item_instance::default();
+                                player_profile::raw::inventory_item_instance::default();
                         }
                         _ => {
                             return Some(server::Message::OperationDenied(
@@ -279,7 +280,7 @@ impl ServerState {
                 restricts
                     .into_iter()
                     .map(
-                        |(category_dict_id, slot_dict_id)| server::profile_slot_restriction {
+                        |(category_dict_id, slot_dict_id)| server::raw::profile_slot_restriction {
                             slot_dict_id,
                             category_dict_id,
                         },
@@ -310,23 +311,23 @@ impl ServerState {
 
                 compats
                     .into_iter()
-                    .map(
-                        |(first_item_dict_id, second_item_dict_id)| server::items_compatibility {
+                    .map(|(first_item_dict_id, second_item_dict_id)| {
+                        server::raw::items_compatibility {
                             first_item_dict_id,
                             second_item_dict_id,
-                        },
-                    )
+                        }
+                    })
                     .collect()
             },
             price_items: {
                 let ids = |ids: &[u16]| {
                     ids.iter()
                         .cloned()
-                        .map(|item_dict_id| server::price_item {
+                        .map(|item_dict_id| server::raw::price_item {
                             item_dict_id,
                             cost: item_dict_id,
                             reputation_level: 0,
-                            padding: 0,
+                            padding: Default::default(),
                         })
                         .collect()
                 };

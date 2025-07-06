@@ -22,8 +22,13 @@ pub enum NetworkClientError {
     NetworkError(#[from] std::io::Error),
 }
 
-pub trait NetworkMessage: Sized {
+pub trait NetworkRequest: Deserialize {}
+pub trait Deserialize: Sized {
     fn deserialize(buffer: &mut &[u8]) -> Result<Self, DeserializeError>;
+}
+
+pub trait NetworkResponse: Serialize {}
+pub trait Serialize: Sized {
     fn serialize(self, packet: &mut Packet);
 }
 
@@ -56,17 +61,17 @@ impl NetworkClient {
         &self.read_buffer[self.read_buffer_idx..self.read_buffer_len]
     }
 
-    pub fn read<T: NetworkMessage>(&mut self) -> Result<T, NetworkClientError> {
+    pub fn read<T: NetworkRequest>(&mut self) -> Result<T, NetworkClientError> {
         let (msg, read_buffer_idx) = self.peek_impl()?;
         self.read_buffer_idx = read_buffer_idx;
         Ok(msg)
     }
 
-    pub fn peek<T: NetworkMessage>(&mut self) -> Result<T, NetworkClientError> {
+    pub fn peek<T: NetworkRequest>(&mut self) -> Result<T, NetworkClientError> {
         self.peek_impl().map(|(msg, _)| msg)
     }
 
-    fn peek_impl<T: NetworkMessage>(&mut self) -> Result<(T, usize), NetworkClientError> {
+    fn peek_impl<T: NetworkRequest>(&mut self) -> Result<(T, usize), NetworkClientError> {
         if self.read_buffer_len == self.read_buffer_idx {
             self.read_buffer_len = self.stream.read(&mut self.read_buffer)?;
             self.read_buffer_idx = 0;
@@ -87,7 +92,7 @@ impl NetworkClient {
         }
     }
 
-    pub fn send<T: NetworkMessage>(&mut self, message: T) -> Result<(), NetworkClientError> {
+    pub fn send<T: NetworkResponse>(&mut self, message: T) -> Result<(), NetworkClientError> {
         message.serialize(&mut self.write_packet);
         self.stream.write_all(self.write_packet.get_buffer())?;
         self.write_packet.clear();
