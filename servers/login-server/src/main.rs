@@ -1,3 +1,5 @@
+#![expect(clippy::unused_io_amount)]
+
 use openssl::ssl::{Ssl, SslContext, SslFiletype, SslMethod};
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
@@ -19,8 +21,8 @@ const SESSION_ID: u32 = 0xDD00;
 
 #[repr(u8)]
 #[rustfmt::skip]
-#[allow(non_camel_case_types)]
-#[allow(dead_code)]
+#[expect(non_camel_case_types)]
+#[expect(dead_code)]
 enum login_server_message_types_enum {
     servers_connection_info_message_type           = 0x8,  // + | logged in | client doesn't start required servers
     password_request_message_type                  = 0x9,  // connection error
@@ -40,8 +42,8 @@ enum login_server_message_types_enum {
 
 #[repr(u8)]
 #[rustfmt::skip]
-#[allow(non_camel_case_types)]
-#[allow(dead_code)]
+#[expect(non_camel_case_types)]
+#[expect(dead_code)]
 enum login_client_message_types_enum {
     sign_up_message_type              = 0x0, // not used by the client
     sign_in_message_type              = 0x1,

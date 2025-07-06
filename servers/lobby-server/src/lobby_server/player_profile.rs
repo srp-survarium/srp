@@ -119,7 +119,7 @@ impl<T, const N: usize> std::ops::IndexMut<profile_slot_enum> for [T; N] {
 }
 
 impl player_profile {
-    pub fn new_dummy(account_id: u32, profile_id: u32, profile_name: &str) -> Box<Self> {
+    pub fn new_dummy(account_id: u32, profile_id: u32, profile_name: &str) -> Self {
         let i = |id, dict_id, condition_or_stack| inventory_item_instance {
             condition_or_stack,
             amount_in_inventory: 1,
@@ -160,7 +160,7 @@ impl player_profile {
             bytes
         };
 
-        Box::new(Self {
+        Self {
             account_id,
             profile_id,
             profile_name,
@@ -169,6 +169,6 @@ impl player_profile {
             team: game_team_id::team_neutral,
             is_local: true,
             padding: Default::default(),
-        })
+        }
     }
 }

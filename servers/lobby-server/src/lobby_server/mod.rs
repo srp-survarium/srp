@@ -167,14 +167,13 @@ impl ServerState {
                     }
 
                     client::QueryClientStatus::ProfileContents { profile_id } => {
-                        server::ClientStatus::ProfileContents(
-                            connection_state
+                        server::ClientStatus::ProfileContents(Box::new(
+                            *connection_state
                                 .profile_contents
                                 .iter()
                                 .find(|profile| profile.profile_id == profile_id)
-                                .unwrap()
-                                .clone(),
-                        )
+                                .unwrap(),
+                        ))
                     }
 
                     // @TODO
@@ -216,7 +215,7 @@ impl ServerState {
                         total_experience: connection_state.total_experience,
                         next_level_experience: connection_state.next_level_experience,
                         prev_level_experience: connection_state.prev_level_experience,
-                        player_skills: connection_state.player_skills.clone(),
+                        player_skills: connection_state.player_skills,
                     },
 
                     client::QueryClientStatus::PlayerSkillsTree => {
@@ -234,7 +233,7 @@ impl ServerState {
                     }
 
                     client::QueryClientStatus::PlayerReputations => {
-                        server::ClientStatus::PlayerReputations(connection_state.reps.clone())
+                        server::ClientStatus::PlayerReputations(connection_state.reps)
                     }
                 };
 

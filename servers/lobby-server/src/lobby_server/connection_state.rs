@@ -2,7 +2,6 @@ use super::client::raw::faction_id;
 use super::{player_profile, server};
 
 pub struct ConnectionState {
-    #[allow(dead_code)]
     pub session_id: u32,
     pub id: u32,
     pub name: String,
@@ -16,8 +15,8 @@ pub struct ConnectionState {
     pub prev_level_experience: u32,
 
     pub player_skills: [server::raw::player_skill; 5],
-    pub profile_contents: Vec<Box<player_profile::raw::player_profile>>, // 1..4
-    pub inventory: Vec<player_profile::raw::inventory_item_instance>,    // 0..
+    pub profile_contents: Vec<player_profile::raw::player_profile>, // 1..4
+    pub inventory: Vec<player_profile::raw::inventory_item_instance>, // 0..
     pub reps: [server::raw::player_reputation; 4],
 }
 

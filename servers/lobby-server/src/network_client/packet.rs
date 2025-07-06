@@ -1,6 +1,7 @@
 pub struct Packet {
     buffer: Vec<u8>,
 }
+
 impl Extend<u8> for Packet {
     fn extend<T: IntoIterator<Item = u8>>(&mut self, iter: T) {
         self.buffer.extend(iter)
@@ -10,6 +11,12 @@ impl Extend<u8> for Packet {
 impl<'a> Extend<&'a u8> for Packet {
     fn extend<T: IntoIterator<Item = &'a u8>>(&mut self, iter: T) {
         self.buffer.extend(iter)
+    }
+}
+
+impl Default for Packet {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

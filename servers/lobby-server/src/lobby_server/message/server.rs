@@ -9,36 +9,19 @@ use self::raw::*;
 #[derive(Debug)]
 pub enum Message {
     ConnectionSuccessful,
-
-    #[allow(dead_code)]
     InvalidSessionId,
-
-    #[allow(dead_code)]
     InvalidPassword,
-
-    ConnectToMatchServer {
-        match_id: u32,
-        team_id: u8,
-    },
-
+    ConnectToMatchServer { match_id: u32, team_id: u8 },
     OperationPermitted(Operation),
-
-    #[allow(dead_code)]
     OperationDenied(Operation),
-
     ClientStatus(ClientStatus),
-
-    #[allow(dead_code)]
-    PingServerAnswer {
-        ping_value: u32,
-    },
+    PingServerAnswer { ping_value: u32 },
 }
 
 #[derive(Debug, Clone)]
 pub enum Operation {
     Inventory,
     Shop(ShopOperation),
-    #[allow(dead_code)]
     SkillsTree,
 }
 
@@ -123,6 +106,7 @@ pub mod raw {
         operation_denied                  = 0x35,
         client_status                     = 0x36,
         ping_server_answer                = 0x37,
+        #[expect(dead_code)]
         lobby_server_invalid_message_type = 0x3F,
     }
 
@@ -300,7 +284,7 @@ impl Serialize for ClientStatus {
             }
 
             Self::EnumerateProfiles(profiles) => {
-                assert!(1 <= profiles.len() && profiles.len() < 4);
+                debug_assert!(profiles.len() < 4);
 
                 let profiles_len: u8 = profiles.len().try_into().unwrap();
                 packet.write(profiles_len);

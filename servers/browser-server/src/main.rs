@@ -5,7 +5,7 @@ use actix_web::{
 use foundation::{browser_server, lobby_server};
 
 #[derive(serde::Deserialize, Debug)]
-#[allow(dead_code)]
+#[expect(dead_code)]
 struct QueryParams {
     unused: Option<String>,
     r#type: Option<u8>,
