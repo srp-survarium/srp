@@ -1,5 +1,4 @@
-use std::io::Read;
-use std::net::{TcpListener, TcpStream, UdpSocket};
+use std::net::UdpSocket;
 
 fn main() -> std::io::Result<()> {
     let addr = format!(
@@ -15,6 +14,4 @@ fn main() -> std::io::Result<()> {
         let bytes_read = socket.recv(&mut buffer)?;
         println!("{:02x?}", &buffer[0..bytes_read]);
     }
-
-    Ok(())
 }

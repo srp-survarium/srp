@@ -1,6 +1,7 @@
 pub struct Packet {
     buffer: Vec<u8>,
 }
+
 impl Extend<u8> for Packet {
     fn extend<T: IntoIterator<Item = u8>>(&mut self, iter: T) {
         self.buffer.extend(iter)
@@ -10,6 +11,12 @@ impl Extend<u8> for Packet {
 impl<'a> Extend<&'a u8> for Packet {
     fn extend<T: IntoIterator<Item = &'a u8>>(&mut self, iter: T) {
         self.buffer.extend(iter)
+    }
+}
+
+impl Default for Packet {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -32,6 +39,54 @@ impl Packet {
         self.buffer.push(0);
         self.buffer.push(0);
     }
+
+    //
+    //
+    //
+
+    pub fn write<T: bytemuck::NoUninit>(&mut self, value: T) {
+        self.extend(bytemuck::bytes_of(&value))
+    }
+
+    pub fn write_ref<T: bytemuck::NoUninit>(&mut self, value: &T) {
+        self.extend(bytemuck::bytes_of(value))
+    }
+
+    pub fn write_vec<L, E, T>(&mut self, values: Vec<T>)
+    where
+        L: TryFrom<usize, Error = E> + bytemuck::NoUninit,
+        E: std::fmt::Debug,
+        T: bytemuck::NoUninit,
+    {
+        let len: L = values.len().try_into().unwrap();
+        self.write(len);
+        for value in values {
+            self.write(value)
+        }
+    }
+
+    pub fn write_slice<L, E, T>(&mut self, values: &[T])
+    where
+        L: TryFrom<usize, Error = E> + bytemuck::NoUninit,
+        E: std::fmt::Debug,
+        T: bytemuck::NoUninit,
+    {
+        let len: L = values.len().try_into().unwrap();
+        self.write(len);
+        for value in values {
+            self.write_ref(value)
+        }
+    }
+
+    pub fn write_str(&mut self, value: &str) {
+        let len: u8 = value.len().try_into().unwrap();
+        self.push(len);
+        self.extend(value.as_bytes());
+    }
+
+    //
+    //
+    //
 
     pub fn get_buffer(&mut self) -> &[u8] {
         let msg_len = self.buffer.len() - 3;

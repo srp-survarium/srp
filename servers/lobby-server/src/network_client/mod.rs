@@ -1,5 +1,6 @@
 use std::io::{Read, Write};
 use std::net::TcpStream;
+use std::panic::Location;
 
 mod packet;
 pub use self::packet::Packet;
@@ -21,8 +22,13 @@ pub enum NetworkClientError {
     NetworkError(#[from] std::io::Error),
 }
 
-pub trait NetworkMessage: Sized {
+pub trait NetworkRequest: Deserialize {}
+pub trait Deserialize: Sized {
     fn deserialize(buffer: &mut &[u8]) -> Result<Self, DeserializeError>;
+}
+
+pub trait NetworkResponse: Serialize {}
+pub trait Serialize: Sized {
     fn serialize(self, packet: &mut Packet);
 }
 
@@ -32,8 +38,11 @@ pub enum DeserializeError {
     NotEnoughInput,
     #[error("UnknownMessageType: {0}")]
     UnknownMessageType(u8),
-    #[error("IncorrectInput")] // @TODO: Add message here
-    IncorrectInput,
+    #[error("IncorrectInput: \"{msg}\" at '{location}'")]
+    IncorrectInput {
+        location: &'static std::panic::Location<'static>,
+        msg: String,
+    },
 }
 
 impl NetworkClient {
@@ -52,17 +61,17 @@ impl NetworkClient {
         &self.read_buffer[self.read_buffer_idx..self.read_buffer_len]
     }
 
-    pub fn read<T: NetworkMessage>(&mut self) -> Result<T, NetworkClientError> {
+    pub fn read<T: NetworkRequest>(&mut self) -> Result<T, NetworkClientError> {
         let (msg, read_buffer_idx) = self.peek_impl()?;
         self.read_buffer_idx = read_buffer_idx;
         Ok(msg)
     }
 
-    pub fn peek<T: NetworkMessage>(&mut self) -> Result<T, NetworkClientError> {
+    pub fn peek<T: NetworkRequest>(&mut self) -> Result<T, NetworkClientError> {
         self.peek_impl().map(|(msg, _)| msg)
     }
 
-    fn peek_impl<T: NetworkMessage>(&mut self) -> Result<(T, usize), NetworkClientError> {
+    fn peek_impl<T: NetworkRequest>(&mut self) -> Result<(T, usize), NetworkClientError> {
         if self.read_buffer_len == self.read_buffer_idx {
             self.read_buffer_len = self.stream.read(&mut self.read_buffer)?;
             self.read_buffer_idx = 0;
@@ -83,11 +92,42 @@ impl NetworkClient {
         }
     }
 
-    pub fn send<T: NetworkMessage>(&mut self, message: T) -> Result<(), NetworkClientError> {
+    pub fn send<T: NetworkResponse>(&mut self, message: T) -> Result<(), NetworkClientError> {
         message.serialize(&mut self.write_packet);
         self.stream.write_all(self.write_packet.get_buffer())?;
         self.write_packet.clear();
 
         Ok(())
+    }
+}
+
+impl DeserializeError {
+    #[track_caller]
+    pub fn incorrect_input() -> Self {
+        Self::IncorrectInput {
+            location: Location::caller(),
+            msg: String::new(),
+        }
+    }
+
+    /// Don't use it pointless style with this function,
+    /// as it will return incorrect location
+    /// ```ignore
+    /// let to_slot = bytemuck::checked::try_cast(to_slot)
+    ///     .map_err(DeserializeError::incorrect_input_from)?
+    /// // Location { file: "../library/core/src/ops//function.rs", ... }
+    /// ```
+    ///
+    /// Fully expand arguments instead:
+    /// ```ignore
+    /// let to_slot = bytemuck::checked::try_cast(to_slot)
+    ///     .map_err(|x| DeserializeError::incorrect_input_from(x))?
+    /// // Location { file: "../lobby_server/message/client.rs", ... }
+    #[track_caller]
+    pub fn incorrect_input_from(msg: impl ToString) -> Self {
+        Self::IncorrectInput {
+            location: Location::caller(),
+            msg: msg.to_string(),
+        }
     }
 }

@@ -10,6 +10,15 @@ use std::sync::Arc;
 const LOCAL_NAME: &str = "sheep";
 const ANSWER_NAME: &str = "hello";
 
+const _: () = {
+    // `bytemuck` is used for serializing and deserializing messages.
+    // And all messages are expected to use little endian.
+    assert!(
+        cfg!(target_endian = "little"),
+        "This code only supports little-endian systems"
+    );
+};
+
 fn main() -> std::io::Result<()> {
     let state = Arc::new(lobby_server::ServerState::new_dummy());
 

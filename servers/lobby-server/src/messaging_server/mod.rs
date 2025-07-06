@@ -5,8 +5,8 @@ use std::net::TcpStream;
 
 #[repr(u8)]
 #[rustfmt::skip]
-#[allow(non_camel_case_types)]
-#[allow(dead_code)]
+#[expect(non_camel_case_types)]
+#[expect(dead_code)]
 enum messaging_server_message_types_enum {
     messaging_server_connection_successful = 0xC8, // 1
     messaging_server_message               = 0xC9,
@@ -17,11 +17,11 @@ enum messaging_server_message_types_enum {
 
 #[repr(u8)]
 #[rustfmt::skip]
-#[allow(non_camel_case_types)]
-#[allow(dead_code)]
+#[expect(non_camel_case_types)]
+#[expect(dead_code)]
 enum messaging_client_message_types_enum {
     messaging_client_message              = 0xC1,       // 193
-    messaging_client_sign_in_info         = 0xC3, // 1
+    messaging_client_sign_in_info         = 0xC3, // 1  // 195
     messaging_friendship_action           = 0xC4,       // 196
     messaging_client_subscription         = 0xC5, // 2  // 197
     messaging_client_invalid_message_type = 0xC7,
@@ -29,8 +29,8 @@ enum messaging_client_message_types_enum {
 
 #[repr(u8)]
 #[rustfmt::skip]
-#[allow(non_camel_case_types)]
-#[allow(dead_code)]
+#[expect(non_camel_case_types)]
+#[expect(dead_code)]
 enum messaging_client_type_enum {
     unknown_client_type                = 0x0,
     login_server_client_type           = 0x1,
@@ -45,8 +45,8 @@ enum messaging_client_type_enum {
 
 #[repr(u8)]
 #[rustfmt::skip]
-#[allow(non_camel_case_types)]
-#[allow(dead_code)]
+#[expect(non_camel_case_types)]
+#[expect(dead_code)]
 enum messaging_message_channel_enum {
     server_message_channel = 0x0,
     player_general_channel = 0x1,
@@ -62,8 +62,8 @@ enum messaging_message_channel_enum {
 
 #[repr(u8)]
 #[rustfmt::skip]
-#[allow(non_camel_case_types)]
-#[allow(dead_code)]
+#[expect(non_camel_case_types)]
+#[expect(dead_code)]
 enum friendship_actions_enum {
     add_friend            = 0x0,
     remove_friend         = 0x1,
@@ -82,7 +82,7 @@ pub fn handle(stream: TcpStream, buffer: &[u8]) -> ! {
     assert_eq!(msg_len, 6);
 
     if msg_type != messaging_client_message_types_enum::messaging_client_sign_in_info as u8 {
-        panic!("{:?}", buffer);
+        panic!("{buffer:?}");
     }
 
     let buffer = &buffer[2..];
