@@ -21,7 +21,7 @@ enum messaging_server_message_types_enum {
 #[allow(dead_code)]
 enum messaging_client_message_types_enum {
     messaging_client_message              = 0xC1,       // 193
-    messaging_client_sign_in_info         = 0xC3, // 1
+    messaging_client_sign_in_info         = 0xC3, // 1  // 195
     messaging_friendship_action           = 0xC4,       // 196
     messaging_client_subscription         = 0xC5, // 2  // 197
     messaging_client_invalid_message_type = 0xC7,

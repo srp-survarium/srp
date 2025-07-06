@@ -1,7 +1,8 @@
+use crate::lobby_server::message::{advance_buffer, advance_by, advance_padding};
 use crate::lobby_server::player_profile::profile_slot_enum;
 use crate::network_client::{DeserializeError, NetworkMessage, Packet};
 
-use num_traits::FromPrimitive;
+use self::raw::*;
 
 #[derive(Debug, PartialEq)]
 pub enum Message {
@@ -74,202 +75,179 @@ pub enum ShopAction {
 }
 
 //
+// Raw types received from the wire
+//
+
+#[rustfmt::skip]
+pub mod raw {
+    #![expect(non_camel_case_types)]
+    #![expect(dead_code)]
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum lobby_client_message_types_enum {
+        set_status_ready_for_match        = 0x20,
+        query_client_status               = 0x21,
+        inventory_action                  = 0x23,
+        shop_action                       = 0x24,
+        skills_tree_action                = 0x25,
+        lobby_client_sign_in_info         = 0x26,
+        discard_playing_order             = 0x27,
+        ping_server                       = 0x28,
+        lobby_client_invalid_message_type = 0x2F,
+    }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum query_info_types_enum {
+        q_client_state               = 0x0,
+        q_enumerate_profiles         = 0x1,
+        q_profile_contents           = 0x2,
+        q_enumerate_inventory        = 0x3,
+        q_profile_slots_restrictions = 0x4,
+        q_items_compatibility        = 0x5,
+        q_price_items                = 0x6,
+        q_account_money              = 0x7,
+        q_player_skills              = 0x8,
+        q_player_skills_tree         = 0x9,
+        q_service_prices             = 0xA,
+        q_player_reputations         = 0xB,
+    }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum inventory_events_enum {
+        item_moved_to_slot = 0x0,
+    }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum shop_events_enum {
+        item_bought = 0x0,
+    }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum skills_tree_events_enum {
+        player_skills_changed = 0x0,
+        reroll_skills         = 0x1,
+        player_perks_changed  = 0x2,
+    }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum faction_id {
+        scavengers      = 0x1,
+        black_market    = 0x2,
+        army            = 0x3,
+        fringe_settlers = 0x4,
+    }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    pub enum item_moved_to_slot_action_enum {
+        failure = 0x0,
+        success = 0x1,
+    }
+}
+
 //
 //
-
-#[rustfmt::skip]
-#[derive(num_derive::FromPrimitive, Debug, PartialEq)]
-#[expect(non_camel_case_types)]
-#[repr(u8)]
-pub enum lobby_client_message_types_enum {
-    set_status_ready_for_match        = 0x20,
-    query_client_status               = 0x21, // 33
-    inventory_action                  = 0x23,
-    shop_action                       = 0x24, // 36
-    skills_tree_action                = 0x25, // 37
-    lobby_client_sign_in_info         = 0x26,
-    discard_playing_order             = 0x27,
-    ping_server                       = 0x28,
-    lobby_client_invalid_message_type = 0x2F,
-}
-
-#[rustfmt::skip]
-#[derive(num_derive::FromPrimitive, Debug, PartialEq)]
-#[expect(non_camel_case_types)]
-#[repr(u8)]
-pub enum query_info_types_enum {
-    q_client_state               = 0x0, //
-    q_enumerate_profiles         = 0x1,
-    q_profile_contents           = 0x2,
-    q_enumerate_inventory        = 0x3,
-    q_profile_slots_restrictions = 0x4, // ? (check debugger)
-    q_items_compatibility        = 0x5, // ?
-    q_price_items                = 0x6, // +
-    q_account_money              = 0x7,
-    q_player_skills              = 0x8,
-    q_player_skills_tree         = 0x9, // ?
-    q_service_prices             = 0xA, // +
-    q_player_reputations         = 0xB,
-}
-
-#[rustfmt::skip]
-#[derive(num_derive::FromPrimitive, Debug, PartialEq)]
-#[expect(non_camel_case_types)]
-#[repr(u8)]
-pub enum inventory_events_enum {
-    item_moved_to_slot = 0x0,
-}
-
-#[rustfmt::skip]
-#[derive(num_derive::FromPrimitive, Debug, PartialEq)]
-#[expect(non_camel_case_types)]
-#[repr(u8)]
-pub enum shop_events_enum {
-    item_bought = 0x0,
-}
-
-#[rustfmt::skip]
-#[derive(num_derive::FromPrimitive, Debug, PartialEq)]
-#[expect(non_camel_case_types)]
-#[repr(u8)]
-pub enum skills_tree_events_enum {
-    player_skills_changed = 0x0,
-    reroll_skills         = 0x1,
-    player_perks_changed  = 0x2,
-}
-
-#[rustfmt::skip]
-#[derive(num_derive::FromPrimitive, Debug, PartialEq, Copy, Clone)]
-#[expect(non_camel_case_types)]
-#[repr(u8)]
-pub enum faction_id {
-    scavengers      = 0x1,
-    black_market    = 0x2,
-    army            = 0x3,
-    fringe_settlers = 0x4,
-}
+//
 
 impl NetworkMessage for Message {
+    /// Process a single message in the array of serialized messages.
+    /// Advances `out_buffer` to the next message
     fn deserialize(out_buffer: &mut &[u8]) -> Result<Self, DeserializeError> {
-        if out_buffer.is_empty() {
-            return Err(DeserializeError::NotEnoughInput);
-        }
+        //
+        // [ len | msg_type | ...... ][ len2 | msg_type2 | ...... ]...
+        // 0     1          2      1 + len
+        //       |<------ len ------>|
+        //
 
-        let tcp_msg_len = out_buffer[0] as usize;
-        // tcp_msg_len doesn't include itself
-        if out_buffer.len() < tcp_msg_len + 1 {
-            return Err(DeserializeError::NotEnoughInput);
-        }
+        // Don't advance actual `out_buffer` until the message was successfully built.
+        let mut tcp_buffer = *out_buffer;
+        let tcp_buffer = &mut tcp_buffer;
+        let tcp_msg_len = advance_buffer::<u8>(tcp_buffer)? as usize;
 
-        let msg_type = out_buffer[1];
-        let Some(msg_type) = lobby_client_message_types_enum::from_u8(msg_type) else {
-            return Err(DeserializeError::UnknownMessageType(msg_type));
-        };
+        let buffer = *tcp_buffer;
+        let buffer = &mut &buffer[..tcp_msg_len];
 
-        // [len | msg_type | ...... ]
-        // 0    1          2       1 + len
-        //      |------- len -------|
-        //                 | buffer |
-        let buffer = &out_buffer[2..tcp_msg_len + 1];
+        let msg_type = advance_buffer::<u8>(buffer)?;
+        let msg_type = bytemuck::checked::try_cast(msg_type)
+            .map_err(|_| DeserializeError::UnknownMessageType(msg_type))?;
 
-        let result = match msg_type {
+        let msg = match msg_type {
             lobby_client_message_types_enum::set_status_ready_for_match => {
-                if buffer.len() != 4 {
-                    return Err(DeserializeError::IncorrectInput);
-                }
-                let profile_id = u32::from_le_bytes(buffer[0..4].try_into().unwrap());
-                Ok(Self::ReadyForMatch { profile_id })
+                let profile_id = advance_buffer::<u32>(buffer)?;
+                Self::ReadyForMatch { profile_id }
             }
 
-            // [len | msg_type | query_type | ... ]
-            // 0    1          2            3     1 + len
             lobby_client_message_types_enum::query_client_status => {
-                let query_info_type = buffer[0];
-                let query_info_type = query_info_types_enum::from_u8(query_info_type)
-                    .ok_or(DeserializeError::IncorrectInput)?;
-
-                let buffer = &buffer[1..];
-
+                let query_info_type = advance_buffer::<query_info_types_enum>(buffer)?;
                 let query_client_status = match query_info_type {
-                    query_info_types_enum::q_client_state => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        QueryClientStatus::ClientState
-                    }
-                    query_info_types_enum::q_enumerate_profiles => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        QueryClientStatus::EnumerateProfiles
-                    }
                     query_info_types_enum::q_profile_contents => {
-                        if buffer.len() != 4 {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        let profile_id = u32::from_le_bytes(buffer[0..4].try_into().unwrap());
+                        let profile_id = advance_buffer::<u32>(buffer)?;
                         QueryClientStatus::ProfileContents { profile_id }
                     }
-                    query_info_types_enum::q_enumerate_inventory => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        QueryClientStatus::EnumerateInventory
-                    }
-                    query_info_types_enum::q_profile_slots_restrictions => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        QueryClientStatus::ProfileSlotsRestrictions
-                    }
-                    query_info_types_enum::q_items_compatibility => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        QueryClientStatus::ItemsCompatibility
-                    }
+
                     query_info_types_enum::q_price_items => {
-                        if buffer.len() != 1 {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        let faction_id = buffer[0];
-                        let faction_id = faction_id::from_u8(faction_id)
-                            .ok_or(DeserializeError::IncorrectInput)?;
+                        let faction_id = advance_buffer::<faction_id>(buffer)?;
                         QueryClientStatus::PriceItems(faction_id)
                     }
+
+                    query_info_types_enum::q_client_state => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::ClientState
+                    }
+
+                    query_info_types_enum::q_enumerate_profiles => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::EnumerateProfiles
+                    }
+
+                    query_info_types_enum::q_enumerate_inventory => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::EnumerateInventory
+                    }
+
+                    query_info_types_enum::q_profile_slots_restrictions => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::ProfileSlotsRestrictions
+                    }
+
+                    query_info_types_enum::q_items_compatibility => {
+                        advance_padding::<3>(buffer)?;
+                        QueryClientStatus::ItemsCompatibility
+                    }
+
                     query_info_types_enum::q_account_money => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
+                        advance_padding::<3>(buffer)?;
                         QueryClientStatus::AccountMoney
                     }
+
                     query_info_types_enum::q_player_skills => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
+                        advance_padding::<3>(buffer)?;
                         QueryClientStatus::PlayerSkills
                     }
+
                     query_info_types_enum::q_player_skills_tree => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
+                        advance_padding::<3>(buffer)?;
                         QueryClientStatus::PlayerSkillsTree
                     }
+
                     query_info_types_enum::q_service_prices => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
+                        advance_padding::<3>(buffer)?;
                         QueryClientStatus::ServicePrices
                     }
+
                     query_info_types_enum::q_player_reputations => {
-                        if buffer != &[0, 0, 0] {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
+                        advance_padding::<3>(buffer)?;
                         QueryClientStatus::PlayerReputations
                     }
                 };
 
-                Ok(Self::QueryClientStatus(query_client_status))
+                Self::QueryClientStatus(query_client_status)
             }
 
             // @NOTE: Currently this does only simple checks, but the result would need
@@ -286,122 +264,91 @@ impl NetworkMessage for Message {
             // `profile_id`, `id` and `dict_id` to their own types as well, so maybe no need to
             // check for kind here?
             lobby_client_message_types_enum::inventory_action => {
-                let action_type = buffer.get(0).ok_or(DeserializeError::IncorrectInput)?;
-                let action_type = inventory_events_enum::from_u8(*action_type)
-                    .ok_or(DeserializeError::IncorrectInput)?;
-
-                let buffer = &buffer[1..];
-
+                let action_type = advance_buffer::<inventory_events_enum>(buffer)?;
                 match action_type {
-                    inventory_events_enum::item_moved_to_slot => match buffer {
-                        [0] => Ok(Self::InventoryAction(InventoryAction::Null)),
-                        _ => {
-                            let Ok(buffer) = buffer.try_into() else {
-                                return Err(DeserializeError::IncorrectInput);
-                            };
-                            let buffer: &[u8; 23] = buffer;
-                            let (
-                                _unknown_1, // always equals 1
-                                profile_id,
-                                id,
-                                dict_id,
-                                from_slot,
-                                to_slot,
-                                amount,
-                            ) = arrayref::array_refs![buffer, 1, 4, 4, 4, 4, 4, 2];
-
-                            if _unknown_1 != &[1] {
-                                return Err(DeserializeError::IncorrectInput);
+                    inventory_events_enum::item_moved_to_slot => {
+                        let action_result =
+                            advance_buffer::<item_moved_to_slot_action_enum>(buffer)?;
+                        match action_result {
+                            item_moved_to_slot_action_enum::failure => {
+                                Self::InventoryAction(InventoryAction::Null)
                             }
+                            item_moved_to_slot_action_enum::success => {
+                                let profile_id = advance_buffer::<u32>(buffer)?;
+                                let id = advance_buffer::<u32>(buffer)?;
+                                let dict_id = advance_buffer::<u16>(buffer)?;
+                                advance_padding::<2>(buffer)?;
+                                let from_slot = advance_buffer::<u8>(buffer)?;
+                                advance_padding::<3>(buffer)?;
+                                let to_slot = advance_buffer::<u8>(buffer)?;
+                                advance_padding::<3>(buffer)?;
+                                let amount = advance_buffer::<u16>(buffer)?;
 
-                            let profile_id = u32::from_le_bytes(*profile_id);
-                            let id = u32::from_le_bytes(*id);
-                            let dict_id = u32::from_le_bytes(*dict_id);
-                            let from_slot = u32::from_le_bytes(*from_slot);
-                            let to_slot = u32::from_le_bytes(*to_slot);
-                            let amount = u16::from_le_bytes(*amount);
+                                let kind = match (from_slot, to_slot) {
+                                    (100, to_slot) => {
+                                        let to_slot = bytemuck::checked::try_cast(to_slot)
+                                            .map_err(|x| {
+                                                DeserializeError::incorrect_input_from(x)
+                                            })?;
+                                        EquipKind::Equip { to_slot }
+                                    }
+                                    (from_slot, 100) => {
+                                        let from_slot = bytemuck::checked::try_cast(from_slot)
+                                            .map_err(|x| {
+                                                DeserializeError::incorrect_input_from(x)
+                                            })?;
+                                        EquipKind::Unequip { from_slot }
+                                    }
+                                    (from_slot, to_slot) => {
+                                        let from_slot = bytemuck::checked::try_cast(from_slot)
+                                            .map_err(|x| {
+                                                DeserializeError::incorrect_input_from(x)
+                                            })?;
+                                        let to_slot = bytemuck::checked::try_cast(to_slot)
+                                            .map_err(|x| {
+                                                DeserializeError::incorrect_input_from(x)
+                                            })?;
+                                        EquipKind::Move { from_slot, to_slot }
+                                    }
+                                };
 
-                            let dict_id: u16 = dict_id
-                                .try_into()
-                                .map_err(|_| DeserializeError::IncorrectInput)?;
-                            let kind = match (from_slot, to_slot) {
-                                (100, to_slot) => {
-                                    let to_slot = profile_slot_enum::from_u32(to_slot)
-                                        .ok_or(DeserializeError::IncorrectInput)?;
-                                    EquipKind::Equip { to_slot }
-                                }
-                                (from_slot, 100) => {
-                                    let from_slot = profile_slot_enum::from_u32(from_slot)
-                                        .ok_or(DeserializeError::IncorrectInput)?;
-                                    EquipKind::Unequip { from_slot }
-                                }
-                                (from_slot, to_slot) => {
-                                    let to_slot = profile_slot_enum::from_u32(to_slot)
-                                        .ok_or(DeserializeError::IncorrectInput)?;
-                                    let from_slot = profile_slot_enum::from_u32(from_slot)
-                                        .ok_or(DeserializeError::IncorrectInput)?;
-                                    EquipKind::Move { from_slot, to_slot }
-                                }
-                            };
-
-                            Ok(Self::InventoryAction(InventoryAction::Equip {
-                                profile_id,
-                                id,
-                                dict_id,
-                                kind,
-                                amount,
-                            }))
+                                Self::InventoryAction(InventoryAction::Equip {
+                                    profile_id,
+                                    id,
+                                    dict_id,
+                                    kind,
+                                    amount,
+                                })
+                            }
                         }
-                    },
+                    }
                 }
             }
 
             lobby_client_message_types_enum::shop_action => {
-                let action_type = buffer.get(0).ok_or(DeserializeError::IncorrectInput)?;
-                let action_type = shop_events_enum::from_u8(*action_type)
-                    .ok_or(DeserializeError::IncorrectInput)?;
-
-                let buffer = &buffer[1..];
-
+                let action_type = advance_buffer::<shop_events_enum>(buffer)?;
                 match action_type {
                     shop_events_enum::item_bought => {
-                        let Ok(buffer) = buffer.try_into() else {
-                            return Err(DeserializeError::IncorrectInput);
-                        };
-                        let buffer: &[u8; 8] = buffer;
-                        let (dict_id, amount, _idk, faction_id) =
-                            arrayref::array_refs![buffer, 2, 2, 2, 2];
+                        let dict_id = advance_buffer::<u16>(buffer)?;
+                        let amount = advance_buffer::<u16>(buffer)?;
+                        let _unknown_1 = advance_buffer::<u16>(buffer)?;
+                        let faction_id = advance_buffer::<faction_id>(buffer)?;
+                        advance_padding::<1>(buffer)?;
 
-                        let dict_id = u16::from_le_bytes(*dict_id);
-                        let amount = u16::from_le_bytes(*amount);
-                        let _unknown_1 = u16::from_le_bytes(*_idk);
-                        let faction_id = u16::from_le_bytes(*faction_id);
-
-                        let faction_id = faction_id::from_u16(faction_id)
-                            .ok_or(DeserializeError::IncorrectInput)?;
-
-                        Ok(Self::ShopAction(ShopAction::Buy {
+                        Self::ShopAction(ShopAction::Buy {
                             dict_id,
                             amount,
                             _unknown_1,
                             faction_id,
-                        }))
+                        })
                     }
                 }
             }
+
             lobby_client_message_types_enum::skills_tree_action => {
-                let action_type = buffer.get(0).ok_or(DeserializeError::IncorrectInput)?;
-                let action_type = skills_tree_events_enum::from_u8(*action_type)
-                    .ok_or(DeserializeError::IncorrectInput)?;
-
-                let buffer = &buffer[1..];
-
+                let action_type = advance_buffer::<skills_tree_events_enum>(buffer)?;
                 match action_type {
                     skills_tree_events_enum::player_skills_changed => {
-                        if buffer.len() < 12 {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-
                         let [
                             skills_len,
                             skill_1_id,
@@ -415,7 +362,7 @@ impl NetworkMessage for Message {
                             skill_5_id,
                             skill_5_points,
                             perks_len,
-                        ]: [u8; 12] = buffer[0..12].try_into().unwrap();
+                        ]: [u8; 12] = advance_buffer::<[u8; 12]>(buffer)?;
 
                         if skills_len != 5
                             || skill_1_id != 1
@@ -429,15 +376,12 @@ impl NetworkMessage for Message {
                             || skill_4_points > 20
                             || skill_5_points > 20
                         {
-                            return Err(DeserializeError::IncorrectInput);
+                            return Err(DeserializeError::incorrect_input());
                         }
 
-                        let buffer = &buffer[12..];
-                        if buffer.len() != perks_len as usize {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
+                        let perks = advance_by::<u8>(perks_len as usize, buffer)?;
 
-                        Ok(Self::SkillsTreeAction(SkillsTreeAction::Apply {
+                        Self::SkillsTreeAction(SkillsTreeAction::Apply {
                             skills: [
                                 skill_1_points,
                                 skill_2_points,
@@ -445,41 +389,42 @@ impl NetworkMessage for Message {
                                 skill_4_points,
                                 skill_5_points,
                             ],
-                            perks: buffer.to_vec(),
-                        }))
+                            perks: perks.to_vec(),
+                        })
                     }
+
                     skills_tree_events_enum::reroll_skills => {
-                        if !buffer.is_empty() {
-                            return Err(DeserializeError::IncorrectInput);
-                        }
-                        Ok(Self::SkillsTreeAction(SkillsTreeAction::Reroll))
+                        Self::SkillsTreeAction(SkillsTreeAction::Reroll)
                     }
+
                     skills_tree_events_enum::player_perks_changed => todo!(),
                 }
             }
-            lobby_client_message_types_enum::lobby_client_sign_in_info => match buffer.len() {
-                4 => {
-                    let session_id = u32::from_le_bytes(buffer[0..4].try_into().unwrap());
-                    Ok(Self::SignInInfo { session_id })
-                }
-                _ => Err(DeserializeError::NotEnoughInput),
-            },
+
+            lobby_client_message_types_enum::lobby_client_sign_in_info => {
+                let session_id = advance_buffer::<u32>(buffer)?;
+                Self::SignInInfo { session_id }
+            }
+
             lobby_client_message_types_enum::discard_playing_order => todo!(),
-            lobby_client_message_types_enum::ping_server => match buffer.len() {
-                4 => {
-                    let alive_ms = u32::from_le_bytes(buffer[0..4].try_into().unwrap());
-                    Ok(Self::PingServer { alive_ms })
-                }
-                _ => Err(DeserializeError::NotEnoughInput),
-            },
+
+            lobby_client_message_types_enum::ping_server => {
+                let alive_ms = advance_buffer::<u32>(buffer)?;
+                Self::PingServer { alive_ms }
+            }
+
             lobby_client_message_types_enum::lobby_client_invalid_message_type => {
                 todo!()
             }
         };
-        if result.is_ok() {
-            *out_buffer = &out_buffer[tcp_msg_len + 1..];
+
+        // Unaccounted for trailing bytes.
+        if !buffer.is_empty() {
+            return Err(DeserializeError::incorrect_input());
         }
-        result
+
+        *out_buffer = &out_buffer[tcp_msg_len + 1..];
+        Ok(msg)
     }
 
     fn serialize(self, _packet: &mut Packet) {
@@ -502,16 +447,16 @@ mod test {
     #[test]
     fn parses_multiple_query_client_msg() {
         #[rustfmt::skip]
-    let buffer: &[u8] = &[
-        5, 33, 5, 0, 0, 0,
-        5, 33, 9, 0, 0, 0,
-        5, 33, 10, 0, 0, 0,
-        3, 33, 6, 1,
-        3, 33, 6, 2,
-        3, 33, 6, 3,
-        3, 33, 6, 4,
-        5, 33, 0, 0, 0, 0,
-    ];
+        let buffer: &[u8] = &[
+            5, 33, 5, 0, 0, 0,
+            5, 33, 9, 0, 0, 0,
+            5, 33, 10, 0, 0, 0,
+            3, 33, 6, 1,
+            3, 33, 6, 2,
+            3, 33, 6, 3,
+            3, 33, 6, 4,
+            5, 33, 0, 0, 0, 0,
+        ];
         let buffer = &mut buffer.as_ref();
 
         let msg_num_dejure = 8;
@@ -580,6 +525,17 @@ mod test {
             amount: 1,
         });
         assert_eq!(defacto, dejure);
+
+        #[rustfmt::ignore]
+        let buffer: &[u8] = &[
+            69, /* tcp_msg_len */
+            35, /* inventory_action */
+            0,  /* item_moved_to_slot */
+            3,  /* action_result */
+            64, 13, 3, 0, 12, 0, 0, 0, 55, 0, 0, 0, 7, 0, 0, 0, 100, 0, 0, 0, 1, 0, 64, 13, 3, 0,
+            33, 0, 0, 0, 53, 0, 0, 0, 8, 0, 0, 0, 100, 0, 0, 0, 244, 1, 64, 13, 3, 0, 33, 0, 0, 0,
+            53, 0, 0, 0, 9, 0, 0, 0, 100, 0, 0, 0, 244, 1,
+        ];
     }
 
     #[test]

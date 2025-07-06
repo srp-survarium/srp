@@ -3,7 +3,7 @@ use crate::{
     network_client::{DeserializeError, NetworkMessage, Packet},
 };
 
-use super::client::{faction_id, lobby_client_message_types_enum, query_info_types_enum};
+use super::client::raw::{faction_id, lobby_client_message_types_enum, query_info_types_enum};
 
 #[derive(Debug)]
 pub enum Message {

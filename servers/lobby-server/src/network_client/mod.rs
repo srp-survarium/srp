@@ -1,5 +1,6 @@
 use std::io::{Read, Write};
 use std::net::TcpStream;
+use std::panic::Location;
 
 mod packet;
 pub use self::packet::Packet;
@@ -32,8 +33,11 @@ pub enum DeserializeError {
     NotEnoughInput,
     #[error("UnknownMessageType: {0}")]
     UnknownMessageType(u8),
-    #[error("IncorrectInput")] // @TODO: Add message here
-    IncorrectInput,
+    #[error("IncorrectInput: \"{msg}\" at '{location}'")]
+    IncorrectInput {
+        location: &'static std::panic::Location<'static>,
+        msg: String,
+    },
 }
 
 impl NetworkClient {
@@ -89,5 +93,36 @@ impl NetworkClient {
         self.write_packet.clear();
 
         Ok(())
+    }
+}
+
+impl DeserializeError {
+    #[track_caller]
+    pub fn incorrect_input() -> Self {
+        Self::IncorrectInput {
+            location: Location::caller(),
+            msg: String::new(),
+        }
+    }
+
+    /// Don't use it pointless style with this function,
+    /// as it will return incorrect location
+    /// ```ignore
+    /// let to_slot = bytemuck::checked::try_cast(to_slot)
+    ///     .map_err(DeserializeError::incorrect_input_from)?
+    /// // Location { file: "../library/core/src/ops//function.rs", ... }
+    /// ```
+    ///
+    /// Fully expand arguments instead:
+    /// ```ignore
+    /// let to_slot = bytemuck::checked::try_cast(to_slot)
+    ///     .map_err(|x| DeserializeError::incorrect_input_from(x))?
+    /// // Location { file: "../lobby_server/message/client.rs", ... }
+    #[track_caller]
+    pub fn incorrect_input_from(msg: impl ToString) -> Self {
+        Self::IncorrectInput {
+            location: Location::caller(),
+            msg: msg.to_string(),
+        }
     }
 }

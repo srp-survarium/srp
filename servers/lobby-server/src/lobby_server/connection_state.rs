@@ -1,4 +1,4 @@
-use super::client::faction_id;
+use super::client::raw::faction_id;
 use super::{player_profile, server};
 
 pub struct ConnectionState {

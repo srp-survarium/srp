@@ -41,7 +41,7 @@ pub struct inventory_item_instance {
 const _: () = assert!(std::mem::size_of::<inventory_item_instance>() == 0x10);
 
 #[rustfmt::skip]
-#[derive(num_derive::FromPrimitive, Debug, PartialEq)]
+#[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Clone, Copy, num_derive::FromPrimitive, Debug, PartialEq)]
 #[expect(non_camel_case_types)]
 #[repr(u8)]
 pub enum profile_slot_enum {

@@ -3,7 +3,7 @@ mod message;
 mod player_profile;
 
 use self::connection_state::ConnectionState;
-pub use self::message::client::faction_id;
+pub use self::message::client::raw::faction_id;
 pub use self::message::{client, server};
 
 use crate::network_client::NetworkClient;
@@ -23,124 +23,6 @@ pub struct ServerState {
 }
 
 impl ServerState {
-    pub fn new_dummy() -> Self {
-        Self {
-            restricts: {
-                #[rustfmt::skip]
-                let restricts: [(u8, u8); 49] = [
-                    // (category_id, profile_slot_id)
-                    (1, 0),
-                    (2, 1),
-                    (3, 2),
-                    (4, 3),
-                    (5, 4),
-                    (6, 5),
-                    (7, 6),
-                    //
-                    (9, 8),
-                    (9, 9),
-                    (9, 11),
-                    (9, 12),
-                    //
-                    (10, 13), (10, 14), (10, 15), (10, 16), (10, 17), (10, 18),
-                    (11, 13), (11, 14), (11, 15), (11, 16), (11, 17), (11, 18),
-                    //
-                    (13, 7), (13, 10),
-                    (14, 7), (14, 10),
-                    (15, 7), (15, 10),
-                    (17, 7), (17, 10),
-                    //
-                    (18, 13), (18, 14), (18, 15), (18, 16), (18, 17), (18, 18),
-                    (19, 13), (19, 14), (19, 15), (19, 16), (19, 17), (19, 18),
-                    (20, 13), (20, 14), (20, 15), (20, 16), (20, 17), (20, 18),
-                ];
-
-                restricts
-                    .into_iter()
-                    .map(
-                        |(category_dict_id, slot_dict_id)| server::profile_slot_restriction {
-                            slot_dict_id,
-                            category_dict_id,
-                        },
-                    )
-                    .collect()
-            },
-            compats: {
-                let compats: [(u16, u16); 18] = [
-                    (12, 51),
-                    (12, 52),
-                    (13, 7),
-                    (14, 51),
-                    (14, 52),
-                    (15, 22),
-                    (15, 72),
-                    (16, 22),
-                    (16, 72),
-                    (17, 22),
-                    (17, 72),
-                    (18, 50),
-                    (19, 53),
-                    (19, 71),
-                    (55, 53),
-                    (55, 71),
-                    (56, 20),
-                    (64, 70),
-                ];
-
-                compats
-                    .into_iter()
-                    .map(
-                        |(first_item_dict_id, second_item_dict_id)| server::items_compatibility {
-                            first_item_dict_id,
-                            second_item_dict_id,
-                        },
-                    )
-                    .collect()
-            },
-            price_items: {
-                let ids = |ids: &[u16]| {
-                    ids.iter()
-                        .cloned()
-                        .map(|item_dict_id| server::price_item {
-                            item_dict_id,
-                            cost: item_dict_id,
-                            reputation_level: 0,
-                            padding: 0,
-                        })
-                        .collect()
-                };
-
-                [
-                    (
-                        faction_id::scavengers,
-                        ids(&[
-                            7, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35, 36, 37, 38, 39, 40,
-                            41, 42, 43, 44, 45, 46, 47,
-                        ]),
-                    ),
-                    (
-                        faction_id::black_market,
-                        ids(&[
-                            22, 24, 25, 27, 28, 29, 31, 32, 33, 48, 49, 50, 51, 52, 53, 55, 56, 64,
-                            65, 66, 67, 68, 70, 71, 72, 73,
-                        ]),
-                    ),
-                    // @NOTE: in 001b are not supported
-                    (faction_id::army, ids(&[])),
-                    (faction_id::fringe_settlers, ids(&[])),
-                    // Scopes and artefacts: 54, 57, 69
-                ]
-            },
-            skills_tree: include_bytes!("../../../../resources/skills_tree.bin").to_vec(),
-
-            reroll_cost: 100,
-            add_profile_cost: 200,
-            rename_account_cost: 300,
-        }
-    }
-}
-
-impl ServerState {
     pub fn run(self: Arc<Self>, network_client: NetworkClient) -> ! {
         let mut network_client = network_client;
 
@@ -157,9 +39,13 @@ impl ServerState {
         let mut state = ConnectionState::new_dummy(session_id);
 
         loop {
-            let Ok(message) = network_client.read::<client::Message>() else {
-                dbg!(network_client.get_read_buffer());
-                panic!();
+            let message = match network_client.read::<client::Message>() {
+                Ok(message) => message,
+                Err(error) => {
+                    println!("{error}");
+                    println!("{:?}", network_client.get_read_buffer());
+                    panic!()
+                }
             };
             let Some(response) = self.handle_client_message(&mut state, message) else {
                 continue;
@@ -346,6 +232,124 @@ impl ServerState {
 
                 Some(server::Message::ClientStatus(status))
             }
+        }
+    }
+}
+
+impl ServerState {
+    pub fn new_dummy() -> Self {
+        Self {
+            restricts: {
+                #[rustfmt::skip]
+                let restricts: [(u8, u8); 49] = [
+                    // (category_id, profile_slot_id)
+                    (1, 0),
+                    (2, 1),
+                    (3, 2),
+                    (4, 3),
+                    (5, 4),
+                    (6, 5),
+                    (7, 6),
+                    //
+                    (9, 8),
+                    (9, 9),
+                    (9, 11),
+                    (9, 12),
+                    //
+                    (10, 13), (10, 14), (10, 15), (10, 16), (10, 17), (10, 18),
+                    (11, 13), (11, 14), (11, 15), (11, 16), (11, 17), (11, 18),
+                    //
+                    (13, 7), (13, 10),
+                    (14, 7), (14, 10),
+                    (15, 7), (15, 10),
+                    (17, 7), (17, 10),
+                    //
+                    (18, 13), (18, 14), (18, 15), (18, 16), (18, 17), (18, 18),
+                    (19, 13), (19, 14), (19, 15), (19, 16), (19, 17), (19, 18),
+                    (20, 13), (20, 14), (20, 15), (20, 16), (20, 17), (20, 18),
+                ];
+
+                restricts
+                    .into_iter()
+                    .map(
+                        |(category_dict_id, slot_dict_id)| server::profile_slot_restriction {
+                            slot_dict_id,
+                            category_dict_id,
+                        },
+                    )
+                    .collect()
+            },
+            compats: {
+                let compats: [(u16, u16); 18] = [
+                    (12, 51),
+                    (12, 52),
+                    (13, 7),
+                    (14, 51),
+                    (14, 52),
+                    (15, 22),
+                    (15, 72),
+                    (16, 22),
+                    (16, 72),
+                    (17, 22),
+                    (17, 72),
+                    (18, 50),
+                    (19, 53),
+                    (19, 71),
+                    (55, 53),
+                    (55, 71),
+                    (56, 20),
+                    (64, 70),
+                ];
+
+                compats
+                    .into_iter()
+                    .map(
+                        |(first_item_dict_id, second_item_dict_id)| server::items_compatibility {
+                            first_item_dict_id,
+                            second_item_dict_id,
+                        },
+                    )
+                    .collect()
+            },
+            price_items: {
+                let ids = |ids: &[u16]| {
+                    ids.iter()
+                        .cloned()
+                        .map(|item_dict_id| server::price_item {
+                            item_dict_id,
+                            cost: item_dict_id,
+                            reputation_level: 0,
+                            padding: 0,
+                        })
+                        .collect()
+                };
+
+                [
+                    (
+                        faction_id::scavengers,
+                        ids(&[
+                            7, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35, 36, 37, 38, 39, 40,
+                            41, 42, 43, 44, 45, 46, 47,
+                        ]),
+                    ),
+                    (
+                        faction_id::black_market,
+                        ids(&[
+                            22, 24, 25, 27, 28, 29, 31, 32, 33, 48, 49, 50, 51, 52, 53, 55, 56, 64,
+                            65, 66, 67, 68, 70, 71, 72, 73,
+                        ]),
+                    ),
+                    // @NOTE: in 001b are not supported
+                    (faction_id::army, ids(&[])),
+                    (faction_id::fringe_settlers, ids(&[])),
+                    // Scopes and artefacts: 54, 57, 69
+                ]
+            },
+            skills_tree: include_bytes!("../../../../resources/skills_tree.bin").to_vec(),
+
+            reroll_cost: 100,
+            add_profile_cost: 200,
+            rename_account_cost: 300,
         }
     }
 }
