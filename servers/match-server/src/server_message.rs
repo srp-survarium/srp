@@ -3,18 +3,23 @@ use foundation::network_packet::Packet;
 use foundation::serde::Serialize;
 
 use self::raw::*;
+use crate::client_message::raw::udp_match_packets_count_enum;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub struct ServerMessage {
     pub remote_sequence_id: u16,
     pub local_sequence_id: u16,
-    pub bits: u16,
+    pub local_ack_bits: u16,
+    pub match_packets_count: udp_match_packets_count_enum,
     pub kind: ServerMessageKind,
 }
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum ServerMessageKind {
-    ConnectionSuccessful,
+    ConnectionSuccessful {
+        // Is processed, when bigger than `received_order_id`, which is 0xFF at the beginning?
+        order_id: u16,
+    },
 }
 
 impl ServerMessageKind {
@@ -75,11 +80,11 @@ impl Serialize for ServerMessage {
     fn serialize(self, packet: &mut impl Packet) {
         packet.write(self.remote_sequence_id);
         packet.write(self.local_sequence_id);
-        packet.write(self.bits);
+        packet.write(self.local_ack_bits << 1 | (self.match_packets_count as u16));
         packet.write(self.kind.tag());
 
         match self.kind {
-            ServerMessageKind::ConnectionSuccessful => (),
+            ServerMessageKind::ConnectionSuccessful { order_id } => packet.write(order_id),
         }
     }
 }

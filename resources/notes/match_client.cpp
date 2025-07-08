@@ -53,6 +53,10 @@ send_packets_list:
     -> vostok::network_core::udp_match_connection::fill_packet_header(thisa, packets_list);
     -> vostok::network_core::udp_match_connection::send(thisa, packets_list);
 
+
+// The first callback set for UDP socket in boost
+void __thiscall vostok::network_core::udp_match_client::handle_receive
+
 */
 
 /*
