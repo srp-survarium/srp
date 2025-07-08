@@ -1,8 +1,9 @@
 mod lobby_server;
 mod messaging_server;
-mod network_client;
 
-use network_client::{DeserializeError, NetworkClient, NetworkClientError};
+use foundation::config;
+use foundation::network_client::{NetworkError, TcpClient};
+use foundation::serde::DeserializeError;
 
 use std::net::{TcpListener, TcpStream};
 use std::sync::Arc;
@@ -24,8 +25,8 @@ fn main() -> std::io::Result<()> {
 
     let addr = format!(
         "{}:{}",
-        foundation::lobby_server::ADDRESS,
-        foundation::lobby_server::PORT
+        config::lobby_server::ADDRESS,
+        config::lobby_server::PORT
     );
     let listener = TcpListener::bind(&addr)?;
 
@@ -46,11 +47,11 @@ fn main() -> std::io::Result<()> {
 
 pub fn handle_connection(lobby_server: Arc<lobby_server::ServerState>, stream: TcpStream) {
     // @TODO: Write messaging server properly, should get rid of `try_clone`
-    let mut network_client = NetworkClient::new(stream.try_clone().unwrap());
-    match network_client.peek::<lobby_server::client::Message>() {
-        Ok(_) => lobby_server.run(network_client),
-        Err(NetworkClientError::DeserializeError(DeserializeError::UnknownMessageType(_))) => {
-            let buffer = network_client.get_read_buffer();
+    let mut tcp_client = TcpClient::new(stream.try_clone().unwrap());
+    match tcp_client.peek::<lobby_server::client::Message>() {
+        Ok(_) => lobby_server.run(tcp_client),
+        Err(NetworkError::DeserializeError(DeserializeError::UnknownMessageType(_))) => {
+            let buffer = tcp_client.get_read_buffer();
             messaging_server::handle(stream, buffer)
         }
         Err(error) => {

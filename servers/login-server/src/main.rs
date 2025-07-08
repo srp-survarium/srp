@@ -4,7 +4,7 @@ use openssl::ssl::{Ssl, SslContext, SslFiletype, SslMethod};
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 
-use foundation::{browser_server, login_server};
+use foundation::config;
 
 const PKEY_PATH: &str = "./certs/survarium_login_server.key";
 const CERT_PATH: &str = "./certs/survarium_login_server.crt";
@@ -17,7 +17,7 @@ const CERT_PATH: &str = "./certs/survarium_login_server.crt";
 const URL_PREFIX: &[u8] = b"/hello?unused=1";
 
 /// Hardcoded user session id
-const SESSION_ID: u32 = 0xDD00;
+const SESSION_ID: u32 = 0x00_00_DD_00;
 
 #[repr(u8)]
 #[rustfmt::skip]
@@ -57,7 +57,11 @@ enum login_client_message_types_enum {
 /// * Have a database for different users and their session ids
 /// * ...many more things
 fn main() -> std::io::Result<()> {
-    let addr = format!("{}:{}", login_server::ADDRESS, login_server::PORT);
+    let addr = format!(
+        "{}:{}",
+        config::login_server::ADDRESS,
+        config::login_server::PORT
+    );
     let listener = TcpListener::bind(&addr)?;
 
     for stream in listener.incoming() {
@@ -136,8 +140,8 @@ fn handle_sign_in(mut stream: TcpStream) {
             buffer
                 .push(login_server_message_types_enum::servers_connection_info_message_type as u8);
 
-            buffer.push(browser_server::ADDRESS.len() as u8);
-            buffer.extend(browser_server::ADDRESS.as_bytes());
+            buffer.push(config::browser_server::ADDRESS.len() as u8);
+            buffer.extend(config::browser_server::ADDRESS.as_bytes());
             buffer.push(URL_PREFIX.len() as u8);
             buffer.extend(URL_PREFIX);
             buffer.extend(SESSION_ID.to_le_bytes());

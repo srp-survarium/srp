@@ -2,7 +2,10 @@ use crate::lobby_server::message::client::raw::{
     faction_id, lobby_client_message_types_enum, query_info_types_enum,
 };
 use crate::lobby_server::player_profile;
-use crate::network_client::{NetworkResponse, Packet, Serialize};
+use foundation::config;
+use foundation::network_client::NetworkResponse;
+use foundation::network_packet::Packet;
+use foundation::serde::Serialize;
 
 use self::raw::*;
 
@@ -215,7 +218,7 @@ impl ClientStatus {
 
 impl NetworkResponse for Message {}
 impl Serialize for Message {
-    fn serialize(self, packet: &mut Packet) {
+    fn serialize(self, packet: &mut impl Packet) {
         packet.write(self.tag());
         match self {
             // @TODO: Why is this skipped?
@@ -224,8 +227,8 @@ impl Serialize for Message {
             Self::InvalidSessionId | Self::InvalidPassword => todo!(),
 
             Self::ConnectToMatchServer { match_id, team_id } => {
-                packet.write_str(foundation::match_server::ADDRESS);
-                packet.write(foundation::match_server::PORT);
+                packet.write_str(config::match_server::ADDRESS);
+                packet.write(config::match_server::PORT);
                 packet.write(match_id);
                 packet.write(team_id);
             }
@@ -250,7 +253,7 @@ impl Serialize for Message {
 }
 
 impl Serialize for Operation {
-    fn serialize(self, packet: &mut Packet) {
+    fn serialize(self, packet: &mut impl Packet) {
         packet.write(self.tag());
 
         match self {
@@ -272,7 +275,7 @@ impl Serialize for Operation {
 }
 
 impl Serialize for ClientStatus {
-    fn serialize(self, packet: &mut Packet) {
+    fn serialize(self, packet: &mut impl Packet) {
         packet.write(self.tag());
         match self {
             Self::ClientState {
@@ -342,7 +345,7 @@ impl Serialize for ClientStatus {
                 packet.write(0_u8); // player_perks_len
             }
 
-            Self::PlayerSkillsTree { skills_tree } => packet.extend(skills_tree.as_slice()),
+            Self::PlayerSkillsTree { skills_tree } => packet.append_bytes(skills_tree.as_slice()),
 
             Self::ServicePrices {
                 reroll_cost,

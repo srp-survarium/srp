@@ -2,7 +2,7 @@ use actix_web::{
     get, middleware::Logger, web, App, HttpRequest, HttpResponse, HttpServer, Responder,
 };
 
-use foundation::{browser_server, lobby_server};
+use foundation::config;
 
 #[derive(serde::Deserialize, Debug)]
 #[expect(dead_code)]
@@ -20,7 +20,11 @@ async fn handle_request_lobby_server(
 ) -> impl Responder {
     log::error!("Received: {query:#?}");
 
-    HttpResponse::Ok().body(format!("{}:{}", lobby_server::ADDRESS, lobby_server::PORT))
+    HttpResponse::Ok().body(format!(
+        "{}:{}",
+        config::lobby_server::ADDRESS,
+        config::lobby_server::PORT
+    ))
 }
 
 #[actix_web::main]
@@ -34,8 +38,8 @@ async fn main() -> std::io::Result<()> {
     })
     .bind(format!(
         "{}:{}",
-        browser_server::ADDRESS,
-        browser_server::PORT
+        config::browser_server::ADDRESS,
+        config::browser_server::PORT
     ))?
     .run()
     .await

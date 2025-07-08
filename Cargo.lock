@@ -642,6 +642,10 @@ dependencies = [
 [[package]]
 name = "foundation"
 version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "thiserror",
+]
 
 [[package]]
 name = "futures-core"
@@ -977,11 +981,8 @@ checksum = "23fb14cb19457329c82206317a5663005a4d404783dc74f4252769b0d5f42856"
 name = "lobby-server"
 version = "0.1.0"
 dependencies = [
- "arrayref",
  "bytemuck",
  "foundation",
- "num-derive",
- "num-traits",
  "openssl",
  "thiserror",
 ]
@@ -1031,12 +1032,8 @@ dependencies = [
 name = "match-server"
 version = "0.1.0"
 dependencies = [
- "arrayref",
+ "bytemuck",
  "foundation",
- "num-derive",
- "num-traits",
- "openssl",
- "thiserror",
 ]
 
 [[package]]

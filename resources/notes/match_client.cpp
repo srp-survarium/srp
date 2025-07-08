@@ -1,105 +1,64 @@
-Survarium client 1: { w w w } -> server
-Survarium server  : <everything except for renderer> <identical to client logic>
-Survarium client 2: server -> { w w w }
-
-Survarium client 3: server -> { w w w }
+/*
+ * Different notes on how match client is implemented.
+ */
 
 
-file.exe => file.o
-
-file.cpp => file.o =>
-file.h
-
-<profile1><profile2><profile3>
-
-on_lobby_packet_received(
-                                    | 256
-[0e, 00, ff, ff, 01, 00, 0b00000001, 02]
-|  id  |   ?   | t | ? |   ^^|     | ? |
-
-[0f, 00, ff, ff, 00, 00, 40, 00, 00, 00, dd, 00, 00]
-|  id  |   ?   | t | ? | ? |   session_id  |  ?    |
-
-```cpp
-00000000 struct __cppobj __declspec(align(2)) vostok::network_core::udp_match_packet : vostok::network_core::packet<vostok::network_core::udp_match_packet> // sizeof=0x12C
-00000000 {                                       // XREF: udp_match_packet/r
-00000008     boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none> set_member_hook;
-00000018     vostok::network_core::udp_match_client_session *client_session;
-0000001C     vostok::network_core::udp_match_packet *next;
-00000020     unsigned int last_send_time_in_ms;
-00000024     vostok::network_core::sequence_number<unsigned short> sequence_id;
-00000026     vostok::network_core::sequence_number<unsigned short> order_id;
-00000028     unsigned __int8 message_type;
-00000029     unsigned __int8 send_count;
-0000002A.0   unsigned __int8 channel_id : 6;
-0000002A.6   unsigned __int8 is_reliable : 1;
-0000002A.7   unsigned __int8 is_ordered : 1;
-0000002B     boost::array<unsigned char,256> m_buffer;
-0000012B     // padding byte
-0000012C };
-```
+/*
+survarium::match_client
+    -> vostok::network::match_client                + survarium::match_options  + survarium::game_mode_type
+    -> vostok::network::match_client_impl           + m_on_connected            + m_on_packet_received
+    -> vostok::network_core::udp_match_client       + m_on_connected            + m_on_packet_received          + vostok::network::match_client_impl::state
+    -> vostok::network_core::udp_match_connection   + m_packets_to_send         + m_outgoing_packets            + vostok::network_core::udp_match_connection::state
+    -* vostok::network_core::udp_match_packet
 
 
-match_client::connect -> match_client::on_connected
-                            -> creates functor_response
-                            -> initializes it to vtable thios->on_response
-                            -> pushes it to the network_world::add_response
-
-on_lobby_packet_received -> switch_to_level_loadingG
-
-
-void __thiscall vostok::network_core::udp_match_client::handle_receive(
-
-
-packet 1 2 3 4 5
-
-server 1 2 _ 4 5 .... 10 <-
-client 1 2 3 4 5
-
-
-
-void __usercall survarium::match_client::enqueue
+survarium::match_client::enqueue
     -> vostok::network::match_client::enqueue
-    -> void __cdecl enqueue_impl
+    -> enqueue_impl
     -> vostok::network_core::udp_match_client::enqueue
     -> vostok::network_core::udp_match_connection::enqueue
-    -> void __thiscall vostok::network_core::udp_match_connection::enqueue_impl
++   -> vostok::network_core::udp_match_connection::enqueue_impl
 
 
+survarium::match_client::send_queued_packets
+    -> match_client::send_queued_packets
+    -> match_client_impl::send_queued_packets
+    -> udp_match_client::send_queued_packets
+    -> udp_match_connection::send_queued_packets
+    -> udp_match_connection::send_packets_list
+    -> udp_match_connection::send
 
 
+survarium::match_client::connect
+    -> vostok::network::match_client::connect                   + vostok::network::match_client::on_connected
+    -> vostok::network::match_client_impl::connect                                                              | called at network_world::process_orders
+    -> vostok::network_core::udp_match_client::connect          + vostok::network_core::udp_match_connection::send_queued_packets
+    -> vostok::network_core::udp_match_connection::connect
+    -> vostok::network_core::udp_match_connection::enqueue_impl
 
-struct __cppobj __declspec(align(2)) vostok::network_core::udp_match_packet : vostok::network_core::packet<vostok::network_core::udp_match_packet>
-{
-  boost::intrusive::set_member_hook<boost::intrusive::none,boost::intrusive::none,boost::intrusive::none,boost::intrusive::none> set_member_hook;
-  vostok::network_core::udp_match_client_session *client_session;
-  vostok::network_core::udp_match_packet *next;
-  unsigned int last_send_time_in_ms;
-  vostok::network_core::sequence_number<unsigned short> sequence_id; // ???
-  vostok::network_core::sequence_number<unsigned short> order_id;    // ???
-  unsigned __int8 message_type;
-  unsigned __int8 send_count;
-  unsigned __int8 channel_id : 6;
-  unsigned __int8 is_reliable : 1;
-  unsigned __int8 is_ordered : 1;
-  boost::array<unsigned char,256> m_buffer;
-};
+survarium::match_client::disconnect
+    -> vostok::network::match_client::disconnect
+    -> vostok::network::match_client_impl::disconnect
+    -> vostok::network_core::udp_match_client::disconnect
+    -> vostok::network_core::udp_match_connection::disconnect
 
 
-construct_packet | all packets are is_reliable and is_ordered, all packets are appended??
+void __thiscall vostok::network_core::udp_match_connection::send_queued_packets(
+    // THERE IS SOME LOGIC WHEN PACKET BEING SENT HAS ID SMALLER THEN PACKET ALREADY RECEIVED
+    -> if ( vostok::network_core::sequence_number<unsigned short>::operator<=(&test, &thisa->m_received_local_sequence_id) )
+    -> v16 = vostok::network_core::udp_match_packet::header_size(packets_list);
+    -> vostok::network_core::udp_match_connection::send_packets_list(thisa, packets_list, v73);
 
+send_packets_list:
+    -> vostok::network_core::udp_match_connection::fill_packet_header(thisa, packets_list);
+    -> vostok::network_core::udp_match_connection::send(thisa, packets_list);
+
+*/
 
 /*
  *
  *
  */
-survarium::match_client
-    -> vostok::network::match_client
-    -> vostok::network::match_client_impl
-    -> vostok::network_core::udp_match_client
-    -> vostok::network_core::udp_match_connection
-
-```cpp
 survarium::match_client
 {
     vostok::network::match_client                       m_client;
@@ -275,6 +234,7 @@ struct __cppobj vostok::network_core::udp_match_client : boost::noncopyable_::no
     vostok::network_core::handler_allocator                 m_handler_allocator;
 };
 
+
 /*
  *
  *
@@ -368,18 +328,74 @@ struct __cppobj vostok::network_core::udp_match_connection : boost::noncopyable_
                                 confirming_disconnection = 0x2,
                                 disconnected             = 0x3,
                             };
-```
+
+
+/*
+ *
+ *
+ */
+struct __cppobj __declspec(align(2)) vostok::network_core::udp_match_packet
+    : vostok::network_core::packet<vostok::network_core::udp_match_packet>
+{
+    boost::intrusive::set_member_hook<
+        boost::intrusive::none,
+        boost::intrusive::none,
+        boost::intrusive::none,
+        boost::intrusive::none
+    >                                                   set_member_hook;
+
+    vostok::network_core::udp_match_client_session      *client_session;
+    vostok::network_core::udp_match_packet              *next;
+    unsigned int                                        last_send_time_in_ms;
+
+    vostok::network_core::sequence_number<
+        unsigned short
+    >                                                   sequence_id;
+
+    vostok::network_core::sequence_number<
+        unsigned short
+    >                                                   order_id;
+
+    unsigned __int8                                     message_type;
+    unsigned __int8                                     send_count;
+
+    unsigned __int8                                     channel_id   : 6;
+    unsigned __int8                                     is_reliable  : 1;
+    unsigned __int8                                     is_ordered   : 1;
+
+    boost::array<unsigned char,256>                     m_buffer;
+};
 
 
 
+//
+// Functions
+//
 
 
+/*
+ * Enqueues a UDP match packet for sending.
+ * - If the packet is ordered, assigns and writes its order ID.
+ * - If the packet is reliable, increments the unacknowledged counter.
+ * - Pushes the packet to the send queue (does not track if it's the first).
+ */
 
-survarium::match_client::send_queued_packets
-match_client::send_queued_packets
-    -> match_client_impl::send_queued_packets
-    -> udp_match_client::send_queued_packets
-    -> udp_match_connection::send_queued_packets
-    -> udp_match_connection::send_packets_list
-    -> udp_match_connection::send
+void __thiscall vostok::network_core::udp_match_connection::enqueue_impl(
+    vostok::network_core::udp_match_connection *this,
+    vostok::network_core::udp_match_packet *packet)
+{
+    if (packet->is_ordered) {
+        auto &sent_order_id = this->m_channels.elems[packet->channel_id].sent_order_id;
+        packet->order_id = sent_order_id;
 
+        *reinterpret_cast<vostok::network_core::sequence_number<unsigned short> *>(
+            packet->m_buffer.data() + 1) = sent_order_id;
+
+        ++sent_order_id.m_number;
+    }
+
+    if (packet->is_reliable)
+        ++this->m_stats.unacknowledged_packets;
+
+    this->m_packets_to_send.push_back(packet, nullptr);
+}

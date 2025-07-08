@@ -6,7 +6,7 @@ use self::connection_state::ConnectionState;
 pub use self::message::client::raw::faction_id;
 pub use self::message::{client, server};
 
-use crate::network_client::NetworkClient;
+use foundation::network_client::TcpClient;
 
 use std::ffi::CStr;
 use std::sync::Arc;
@@ -23,15 +23,15 @@ pub struct ServerState {
 }
 
 impl ServerState {
-    pub fn run(self: Arc<Self>, network_client: NetworkClient) -> ! {
-        let mut network_client = network_client;
+    pub fn run(self: Arc<Self>, tcp_client: TcpClient) -> ! {
+        let mut tcp_client = tcp_client;
 
-        let message = network_client.read::<client::Message>().unwrap();
+        let message = tcp_client.read::<client::Message>().unwrap();
         let client::Message::SignInInfo { session_id } = message else {
             panic!("First message must be 'SignInInfo'")
         };
 
-        network_client
+        tcp_client
             .send(server::Message::ConnectionSuccessful)
             .unwrap();
         println!("Connected to client: {session_id}");
@@ -39,18 +39,18 @@ impl ServerState {
         let mut state = ConnectionState::new_dummy(session_id);
 
         loop {
-            let message = match network_client.read::<client::Message>() {
+            let message = match tcp_client.read::<client::Message>() {
                 Ok(message) => message,
                 Err(error) => {
                     println!("{error}");
-                    println!("{:?}", network_client.get_read_buffer());
+                    println!("{:?}", tcp_client.get_read_buffer());
                     panic!()
                 }
             };
             let Some(response) = self.handle_client_message(&mut state, message) else {
                 continue;
             };
-            network_client.send(response).unwrap();
+            tcp_client.send(response).unwrap();
         }
     }
 
@@ -318,6 +318,7 @@ impl ServerState {
                     })
                     .collect()
             },
+            // @TODO: Not displayed in game at all
             price_items: {
                 let ids = |ids: &[u16]| {
                     ids.iter()

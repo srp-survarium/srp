@@ -10,10 +10,6 @@ workspace = true
 default = []
 
 [dependencies]
-arrayref = { workspace = true }
-num-derive = { workspace = true }
-num-traits = { workspace = true }
-openssl = { workspace = true }
-thiserror = { workspace = true }
+bytemuck = { workspace = true }
 
 foundation = { workspace = true }
