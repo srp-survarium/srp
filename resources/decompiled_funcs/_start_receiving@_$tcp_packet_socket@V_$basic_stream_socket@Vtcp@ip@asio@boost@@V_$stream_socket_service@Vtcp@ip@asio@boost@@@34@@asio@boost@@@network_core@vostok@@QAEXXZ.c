@@ -1,0 +1,18 @@
+void __thiscall vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>>::start_receiving(
+        vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > > *this)
+{
+  boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > >,boost::system::error_code const &,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > > *>,boost::arg<1>,boost::arg<2> > > v2; // [esp+D8h] [ebp-24h]
+  boost::asio::mutable_buffers_1 buffers; // [esp+E0h] [ebp-1Ch] BYREF
+  vostok::network_core::custom_alloc_handler<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > >,boost::system::error_code const &,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > > *>,boost::arg<1>,boost::arg<2> > > > handler; // [esp+E8h] [ebp-14h] BYREF
+  boost::_bi::bind_t<void,boost::_mfi::mf0<void,vostok::sound::sound_debug_stats>,boost::_bi::list1<boost::_bi::value<vostok::sound::sound_debug_stats *> > > result; // [esp+F4h] [ebp-8h] BYREF
+
+  v2 = *(boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > >,boost::system::error_code const &,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp> > > *>,boost::arg<1>,boost::arg<2> > > *)boost::bind<void,vostok::sound::sound_debug_stats,vostok::sound::sound_debug_stats *>((boost::_bi::bind_t<void,boost::_mfi::mf1<void,vostok::ai::working_memory,vostok::ai::game_object const &>,boost::_bi::list2<boost::_bi::value<vostok::ai::working_memory *>,boost::arg<1> > > *)&result, (void (__thiscall *)(vostok::sound::sound_debug_stats *))vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>>::on_packet_size_received<unsigned char>, (vostok::sound::sound_debug_stats *)this);
+  handler.m_allocator = &this->m_allocator;
+  handler.handler_ = v2;
+  buffers.data_ = &this->m_header_buffer;
+  buffers.size_ = 1;
+  boost::asio::async_read<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>,boost::asio::mutable_buffers_1,vostok::network_core::custom_alloc_handler<boost::_bi::bind_t<void,boost::_mfi::mf2<void,vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>>,boost::system::error_code const &,unsigned int>,boost::_bi::list3<boost::_bi::value<vostok::network_core::tcp_packet_socket<boost::asio::basic_stream_socket<boost::asio::ip::tcp,boost::asio::stream_socket_service<boost::asio::ip::tcp>>> *>,boost::arg<1>,boost::arg<2>>>>>(
+    this->m_socket,
+    &buffers,
+    &handler);
+}

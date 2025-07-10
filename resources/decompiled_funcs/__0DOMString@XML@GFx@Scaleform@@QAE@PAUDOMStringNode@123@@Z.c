@@ -1,0 +1,7 @@
+void __thiscall Scaleform::GFx::XML::DOMString::DOMString(
+        Scaleform::GFx::XML::DOMString *this,
+        Scaleform::GFx::XML::DOMStringNode *pnode)
+{
+  this->pNode = pnode;
+  ++pnode->RefCount;
+}

@@ -1,0 +1,15 @@
+int __cdecl vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::get()
+{
+  if ( !vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::s_id )
+  {
+    while ( _InterlockedExchange(
+              &vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::s_lock,
+              1) )
+      ;
+    if ( !vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::s_id )
+      vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::s_id = _InterlockedIncrement(&vostok::detail::global_type_id_holder<int>::s_next_type_id.m_reference_count)
+                                                                                         - 1;
+    _InterlockedExchange(&vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::s_lock, 0);
+  }
+  return vostok::detail::type_to_int<vostok::render::static_model_instance_user_data>::s_id;
+}

@@ -1,0 +1,22 @@
+void __thiscall stlp_std::priv::_Impl_list<vostok::fs_new::virtual_path_string,vostok::ai::std_allocator<vostok::fs_new::virtual_path_string>>::push_back(
+        stlp_std::priv::_Impl_list<vostok::fs_new::virtual_path_string,vostok::ai::std_allocator<vostok::fs_new::virtual_path_string> > *this,
+        const vostok::fs_new::virtual_path_string *__x)
+{
+  stlp_std::priv::_Impl_list<vostok::fs_new::virtual_path_string,vostok::ai::std_allocator<vostok::fs_new::virtual_path_string> > *v2; // [esp+4h] [ebp-44h] BYREF
+  stlp_std::priv::_List_node_base *node; // [esp+30h] [ebp-18h]
+  stlp_std::priv::_Impl_list<vostok::fs_new::virtual_path_string,vostok::ai::std_allocator<vostok::fs_new::virtual_path_string> > *v4; // [esp+34h] [ebp-14h]
+  stlp_std::priv::_List_node_base *M_prev; // [esp+38h] [ebp-10h]
+  stlp_std::priv::_Impl_list<vostok::fs_new::virtual_path_string,vostok::ai::std_allocator<vostok::fs_new::virtual_path_string> > **v6; // [esp+3Ch] [ebp-Ch]
+
+  v6 = &v2;
+  v2 = this;
+  node = stlp_std::priv::_Impl_list<vostok::fs_new::virtual_path_string,vostok::ai::std_allocator<vostok::fs_new::virtual_path_string>>::_M_create_node(
+           this,
+           __x);
+  v4 = v2;
+  M_prev = v2->_M_node._M_data._M_prev;
+  node->_M_next = (stlp_std::priv::_List_node_base *)v2;
+  node->_M_prev = M_prev;
+  M_prev->_M_next = node;
+  v4->_M_node._M_data._M_prev = node;
+}

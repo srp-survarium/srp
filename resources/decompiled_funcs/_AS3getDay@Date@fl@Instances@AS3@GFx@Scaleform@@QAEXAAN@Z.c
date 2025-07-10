@@ -1,0 +1,21 @@
+void __thiscall Scaleform::GFx::AS3::Instances::fl::Date::AS3getDay(
+        Scaleform::GFx::AS3::Instances::fl::Date *this,
+        long double *result)
+{
+  int LocalTZA; // eax
+  int v4; // eax
+  double TimeValue; // [esp+Ch] [ebp-8h]
+
+  TimeValue = this->TimeValue;
+  if ( (HIDWORD(TimeValue) & 0x7FF00000) == 0x7FF00000
+    && (unsigned int)&loc_FFFFF & HIDWORD(TimeValue) | LODWORD(TimeValue) )
+  {
+    *result = this->TimeValue;
+  }
+  else
+  {
+    LocalTZA = Scaleform::GFx::AS3::Instances::fl::Date::GetLocalTZA(this);
+    v4 = (int)fmod(floor(((double)LocalTZA + this->TimeValue) / 86400000.0) + 4.0, 7.0);
+    *result = (double)(v4 + (v4 < 0 ? 7 : 0));
+  }
+}

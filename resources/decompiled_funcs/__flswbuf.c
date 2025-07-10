@@ -1,0 +1,89 @@
+int __usercall _flswbuf@<eax>(unsigned int a1@<ebx>, unsigned int a2@<edi>, stlp_std::ioinfo **ch, _iobuf *str)
+{
+  int flag; // eax
+  int v7; // eax
+  unsigned int v8; // eax
+  char *base; // eax
+  char *ptr; // edi
+  signed int v11; // edi
+  ioinfo *v12; // eax
+  int v13; // eax
+  int v14; // edx
+  unsigned __int16 v15; // bx
+  char mbc[4]; // [esp+4h] [ebp-4h] BYREF
+  int fh; // [esp+14h] [ebp+Ch]
+
+  fh = _fileno(a1, a2, str);
+  flag = str->_flag;
+  if ( (flag & 0x82) == 0 )
+  {
+    *_errno() = 9;
+LABEL_3:
+    str->_flag |= 0x20u;
+    return 0xFFFF;
+  }
+  if ( (flag & 0x40) != 0 )
+  {
+    *_errno() = 34;
+    goto LABEL_3;
+  }
+  if ( (flag & 1) != 0 )
+  {
+    str->_cnt = 0;
+    if ( (flag & 0x10) == 0 )
+    {
+      str->_flag = flag | 0x20;
+      return 0xFFFF;
+    }
+    str->_ptr = str->_base;
+    str->_flag = flag & 0xFFFFFFFE;
+  }
+  v7 = str->_flag;
+  str->_cnt = 0;
+  *(_DWORD *)mbc = 0;
+  v8 = v7 & 0xFFFFFFED | 2;
+  str->_flag = v8;
+  if ( (v8 & 0x10C) == 0 && (str != &__iob_func()[1] && str != &__iob_func()[2] || !_isatty(2u, a2, fh)) )
+    _getbuf(str);
+  if ( (str->_flag & 0x108) != 0 )
+  {
+    base = str->_base;
+    ptr = str->_ptr;
+    str->_ptr = base + 2;
+    v11 = ptr - base;
+    str->_cnt = str->_bufsiz - 2;
+    if ( v11 <= 0 )
+    {
+      if ( fh == -1 || fh == -2 )
+        v12 = &__badioinfo;
+      else
+        v12 = (ioinfo *)((char *)__pioinfo[fh >> 5] + 64 * (fh & 0x1F));
+      if ( (v12->osfile & 0x20) != 0 )
+      {
+        v13 = _lseeki64(2u, fh, 0, 2u);
+        if ( (v14 & v13) == 0xFFFFFFFF )
+          goto LABEL_28;
+      }
+    }
+    else
+    {
+      *(_DWORD *)mbc = _write((stlp_std::ioinfo **)2, (unsigned int)str, fh, base, v11);
+    }
+    v15 = (unsigned __int16)ch;
+    *(_WORD *)str->_base = (_WORD)ch;
+  }
+  else
+  {
+    v11 = 2;
+    v15 = (unsigned __int16)ch;
+    *(_WORD *)mbc = (_WORD)ch;
+    *(_DWORD *)mbc = _write(ch, (unsigned int)str, fh, mbc, 2u);
+  }
+  if ( *(_DWORD *)mbc != v11 )
+  {
+LABEL_28:
+    str->_flag |= 0x20u;
+    return 0xFFFF;
+  }
+  return v15;
+}

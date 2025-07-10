@@ -1,0 +1,11 @@
+void __thiscall Scaleform::GFx::AS3::InstanceTraits::Function::ForEachChild_GC(
+        Scaleform::GFx::AS3::InstanceTraits::Function *this,
+        Scaleform::GFx::AS3::RefCountCollector<328> *prcc,
+        void (__cdecl *op)(Scaleform::GFx::AS3::RefCountCollector<328> *, const Scaleform::GFx::AS3::RefCountBaseGC<328> **))
+{
+  Scaleform::GFx::AS3::InstanceTraits::Traits::ForEachChild_GC(this, prcc, op);
+  if ( this->File.pObject )
+    op(prcc, (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)&this->File.pObject);
+  if ( this->GOS.pObject )
+    op(prcc, (const Scaleform::GFx::AS3::RefCountBaseGC<328> **)&this->GOS.pObject);
+}

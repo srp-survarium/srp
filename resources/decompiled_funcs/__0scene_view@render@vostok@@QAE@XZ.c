@@ -1,0 +1,73 @@
+void __usercall vostok::render::scene_view::scene_view(vostok::render::scene_view *this@<ecx>, int a2@<esi>)
+{
+  vostok::render::post_process_parameters *v2; // ecx
+  vostok::render::grass_render_model *m_object; // eax
+
+  vostok::resources::unmanaged_resource::unmanaged_resource((vostok::resources::unmanaged_resource *)a2, 1u);
+  *(_DWORD *)a2 = &vostok::render::base_scene_view::`vftable';
+  *(_DWORD *)(a2 + 264) = 0;
+  *(_DWORD *)(a2 + 268) = 0;
+  *(_DWORD *)(a2 + 272) = 0;
+  *(_DWORD *)(a2 + 276) = 0;
+  *(_DWORD *)a2 = &vostok::render::scene_view::`vftable';
+  vostok::render::post_process_parameters::post_process_parameters(v2);
+  vostok::math::float4x4::identity((vostok::math::float4x4 *)(a2 + 1012));
+  vostok::math::float4x4::identity((vostok::math::float4x4 *)(a2 + 1076));
+  vostok::math::float4x4::identity((vostok::math::float4x4 *)(a2 + 1140));
+  *(_DWORD *)(a2 + 1204) = 3;
+  *(_DWORD *)(a2 + 1208) = 0;
+  *(_BYTE *)(a2 + 1212) = 1;
+  *(_DWORD *)(a2 + 1216) = 0;
+  *(_DWORD *)(a2 + 1316) = 0;
+  *(_DWORD *)(a2 + 1320) = 0;
+  *(_DWORD *)(a2 + 1324) = 0;
+  *(_DWORD *)(a2 + 1328) = 0;
+  *(_DWORD *)(a2 + 1332) = 0;
+  *(_DWORD *)(a2 + 1336) = 0;
+  *(_DWORD *)(a2 + 1340) = 0;
+  *(_DWORD *)(a2 + 1344) = 0;
+  *(_DWORD *)(a2 + 1348) = 0;
+  *(_DWORD *)(a2 + 1352) = 0;
+  *(_DWORD *)(a2 + 1356) = 0;
+  *(_DWORD *)(a2 + 1360) = 0;
+  *(_DWORD *)(a2 + 1364) = 0;
+  *(_DWORD *)(a2 + 1368) = 0;
+  *(_DWORD *)(a2 + 1372) = 0;
+  *(_DWORD *)(a2 + 1376) = 0;
+  *(_DWORD *)(a2 + 1380) = 0;
+  *(_DWORD *)(a2 + 1384) = 0;
+  m_object = vostok::render::g_allocator.m_object;
+  *(_DWORD *)(a2 + 1388) = 0;
+  *(_DWORD *)(a2 + 1392) = 0;
+  *(_DWORD *)(a2 + 1396) = m_object;
+  *(_DWORD *)(a2 + 1400) = 0;
+  *(_DWORD *)(a2 + 1404) = 0;
+  *(_DWORD *)(a2 + 1408) = 0;
+  *(_DWORD *)(a2 + 1412) = 0;
+  *(_DWORD *)(a2 + 1416) = 0;
+  *(_DWORD *)(a2 + 1420) = 0;
+  *(_DWORD *)(a2 + 1424) = 0;
+  *(_DWORD *)(a2 + 1428) = 0;
+  *(_DWORD *)(a2 + 1432) = 0;
+  *(_DWORD *)(a2 + 1436) = 0;
+  *(_QWORD *)(a2 + 1236) = 0;
+  *(_DWORD *)(a2 + 1440) = 0;
+  *(_DWORD *)(a2 + 1492) = 0;
+  *(_BYTE *)(a2 + 1008) = 1;
+  *(_DWORD *)(a2 + 1500) = -1;
+  *(_DWORD *)(a2 + 1004) = 0;
+  *(_DWORD *)(a2 + 1444) = 0;
+  *(_DWORD *)(a2 + 1448) = 0;
+  *(_DWORD *)(a2 + 1452) = 0;
+  *(_DWORD *)(a2 + 1456) = 0;
+  *(_DWORD *)(a2 + 1460) = 0;
+  *(_DWORD *)(a2 + 1464) = 0;
+  *(_DWORD *)(a2 + 1468) = 0;
+  *(_DWORD *)(a2 + 1472) = 0;
+  *(_DWORD *)(a2 + 1476) = 0;
+  *(_DWORD *)(a2 + 1480) = 0;
+  *(_QWORD *)(a2 + 1244) = 0;
+  *(_QWORD *)(a2 + 1220) = 0;
+  *(_QWORD *)(a2 + 1228) = 0;
+  memset(a2 + 1252, 0, 0x40u);
+}

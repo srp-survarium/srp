@@ -1,0 +1,4 @@
+vostok::vfs::base_node<1> *__cdecl vostok::vfs::cast_node<1>(vostok::vfs::physical_folder_mount_root_node<1> *node)
+{
+  return &node->folder.folder.base;
+}

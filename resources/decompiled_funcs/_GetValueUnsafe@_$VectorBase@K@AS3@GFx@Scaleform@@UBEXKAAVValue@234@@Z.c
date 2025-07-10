@@ -1,0 +1,13 @@
+void __thiscall Scaleform::GFx::AS3::VectorBase<unsigned long>::GetValueUnsafe(
+        Scaleform::GFx::AS3::VectorBase<unsigned long> *this,
+        unsigned int ind,
+        Scaleform::GFx::AS3::Value *v)
+{
+  unsigned int v3; // edx
+  Scaleform::GFx::AS3::Value::V2U v4; // [esp+4h] [ebp-4h]
+
+  v3 = v->Flags & 0xFFFFFFE3;
+  v->value.VS._1.VInt = this->ValueA.Data.Data[ind];
+  v->Flags = v3 | 3;
+  v->value.VS._2 = v4;
+}

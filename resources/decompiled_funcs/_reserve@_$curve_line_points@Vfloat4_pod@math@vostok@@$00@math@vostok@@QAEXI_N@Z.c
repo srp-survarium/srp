@@ -1,0 +1,22 @@
+void __thiscall vostok::math::curve_line_points<vostok::math::float4_pod,1>::reserve(
+        vostok::math::curve_line_points<vostok::math::float4_pod,1> *this,
+        unsigned int num,
+        bool __formal)
+{
+  vostok::math::curve_point<vostok::math::float4_pod> *pointer; // eax
+
+  if ( this->num_points )
+  {
+    pointer = this->points.pointer;
+    if ( pointer )
+      pt3free(pointer);
+    this->points.pointer = 0;
+    this->num_points = 0;
+  }
+  this->num_points = num;
+  if ( num )
+  {
+    this->points.pointer = (vostok::math::curve_point<vostok::math::float4_pod> *)pt3malloc(72 * num);
+    vostok::math::curve_line_points<vostok::math::float4_pod,1>::recalculate_ranges(this);
+  }
+}

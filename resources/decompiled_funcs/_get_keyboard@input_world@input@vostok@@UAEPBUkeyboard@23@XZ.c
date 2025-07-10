@@ -1,0 +1,5 @@
+vostok::input::receiver::keyboard *__thiscall vostok::input::input_world::get_keyboard(
+        vostok::input::input_world *this)
+{
+  return this->m_keyboard;
+}

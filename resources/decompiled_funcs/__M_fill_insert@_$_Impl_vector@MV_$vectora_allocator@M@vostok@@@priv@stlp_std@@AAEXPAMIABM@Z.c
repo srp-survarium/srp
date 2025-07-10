@@ -1,0 +1,34 @@
+void __thiscall stlp_std::priv::_Impl_vector<float,vostok::vectora_allocator<float>>::_M_fill_insert(
+        stlp_std::priv::_Impl_vector<float,vostok::vectora_allocator<float> > *this,
+        float *__pos,
+        unsigned int __n,
+        const float *__x)
+{
+  stlp_std::__true_type v4; // [esp+6h] [ebp-2h] BYREF
+  stlp_std::__false_type __formal; // [esp+7h] [ebp-1h] BYREF
+
+  if ( __n )
+  {
+    if ( this->_M_end_of_storage._M_data - this->_M_finish < __n )
+    {
+      v4 = 0;
+      stlp_std::priv::_Impl_vector<float,vostok::vectora_allocator<float>>::_M_insert_overflow(
+        this,
+        __pos,
+        __x,
+        &v4,
+        __n,
+        0);
+    }
+    else
+    {
+      __formal = 0;
+      stlp_std::priv::_Impl_vector<float,vostok::vectora_allocator<float>>::_M_fill_insert_aux(
+        this,
+        __pos,
+        __n,
+        __x,
+        &__formal);
+    }
+  }
+}

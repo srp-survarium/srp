@@ -1,0 +1,6 @@
+bool __cdecl vostok::math::curve_line_points_vostok::math::float3_pod_0_::sort_points_by_time_::_5_::predicate::compare_1(
+        const vostok::math::curve_point<vostok::math::float3_pod> *left,
+        const vostok::math::curve_point<vostok::math::float3_pod> *right)
+{
+  return right->time > left->time;
+}

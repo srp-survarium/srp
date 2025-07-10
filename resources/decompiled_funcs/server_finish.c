@@ -1,0 +1,24 @@
+int __usercall server_finish@<eax>(ssl_st *s@<esi>)
+{
+  char *data; // eax
+  ssl_session_st *session; // ecx
+  ssl_session_st *v4; // ecx
+
+  if ( s->state == 8288 )
+  {
+    data = s->init_buf->data;
+    *data = 6;
+    session = s->session;
+    if ( session->session_id_length > 0x20 )
+    {
+      ERR_put_error(0x14u, 239, 68, ".\\ssl\\s2_srvr.c", 904);
+      return -1;
+    }
+    memcpy((unsigned __int8 *)data + 1, session->session_id, session->session_id_length);
+    v4 = s->session;
+    s->state = 8289;
+    s->init_num = v4->session_id_length + 1;
+    s->init_off = 0;
+  }
+  return ssl2_do_write(s);
+}

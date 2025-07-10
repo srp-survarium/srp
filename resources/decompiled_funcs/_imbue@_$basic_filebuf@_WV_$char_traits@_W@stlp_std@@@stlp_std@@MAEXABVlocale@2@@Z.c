@@ -1,0 +1,7 @@
+void __thiscall stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::imbue(
+        stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t> > *this,
+        stlp_std::locale *__loc)
+{
+  if ( !this->_M_in_input_mode && !this->_M_in_output_mode && !this->_M_in_error_mode )
+    stlp_std::basic_filebuf<wchar_t,stlp_std::char_traits<wchar_t>>::_M_setup_codecvt(this, __loc, 1);
+}

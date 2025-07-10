@@ -1,0 +1,104 @@
+Scaleform::GFx::AS2::Object *__thiscall Scaleform::GFx::AS2::Value::ToObject(
+        Scaleform::GFx::AS2::Value *this,
+        Scaleform::GFx::AS2::Environment *penv)
+{
+  unsigned __int8 Type; // cl
+  Scaleform::GFx::AS2::Object *result; // eax
+  Scaleform::GFx::AS2::Object *v5; // esi
+  char v6; // bl
+  int v7; // eax
+  Scaleform::GFx::AS2::RefCountBaseGC<323> *v8; // ecx
+  Scaleform::GFx::ASStringNode *pStringNode; // ecx
+  int v10; // eax
+  Scaleform::GFx::ASStringNode *v11; // ecx
+  int v12; // eax
+  Scaleform::GFx::InteractiveObject *AvmTarget; // eax
+  Scaleform::GFx::AS2::Object *v14; // esi
+  Scaleform::GFx::AS2::Value val; // [esp+Ch] [ebp-10h] BYREF
+
+  Type = this->T.Type;
+  switch ( Type )
+  {
+    case 6u:
+      result = this->V.pObjectValue;
+      break;
+    case 8u:
+      result = this->V.pObjectValue;
+      if ( !result )
+        goto LABEL_26;
+      break;
+    case 9u:
+      if ( Type != 9 )
+        goto LABEL_26;
+      AvmTarget = Scaleform::GFx::AS2::Environment::GetAvmTarget(penv);
+      if ( !AvmTarget )
+        goto LABEL_26;
+      val.T.Type = 0;
+      if ( !Scaleform::GFx::AS2::Value::GetPropertyValue(
+              this,
+              penv,
+              (Scaleform::GFx::AS2::ObjectInterface *)&AvmTarget->RefCount,
+              &val) )
+      {
+        if ( val.T.Type >= 5u )
+          Scaleform::GFx::AS2::Value::DropRefs(&val);
+        goto LABEL_26;
+      }
+      v14 = Scaleform::GFx::AS2::Value::ToObject(&val, penv);
+      if ( val.T.Type >= 5u )
+        Scaleform::GFx::AS2::Value::DropRefs(&val);
+      result = v14;
+      break;
+    case 0xBu:
+      Scaleform::GFx::AS2::Value::ResolveFunctionName(this, (Scaleform::GFx::AS2::FunctionRef *)&val, penv);
+      v5 = *(Scaleform::GFx::AS2::Object **)&val.T.Type;
+      if ( *(_DWORD *)&val.T.Type )
+      {
+        v6 = BYTE4(val.NV.NumberValue);
+        if ( (BYTE4(val.NV.NumberValue) & 2) == 0 )
+        {
+          v7 = *(_DWORD *)(*(_DWORD *)&val.T.Type + 12);
+          if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v7) != 0 )
+          {
+            v8 = *(Scaleform::GFx::AS2::RefCountBaseGC<323> **)&val.T.Type;
+            *(_DWORD *)(*(_DWORD *)&val.T.Type + 12) = v7 - 1;
+            Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal(v8);
+          }
+        }
+        if ( (v6 & 1) == 0 )
+        {
+          pStringNode = val.V.pStringNode;
+          if ( val.NV.Int32Value )
+          {
+            v10 = *(_DWORD *)(val.NV.Int32Value + 12);
+            if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v10) != 0 )
+            {
+              *(_DWORD *)(val.NV.Int32Value + 12) = v10 - 1;
+              Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)pStringNode);
+            }
+          }
+        }
+        result = v5;
+      }
+      else
+      {
+        if ( (BYTE4(val.NV.NumberValue) & 1) != 0 )
+          goto LABEL_26;
+        v11 = val.V.pStringNode;
+        if ( !val.NV.Int32Value )
+          goto LABEL_26;
+        v12 = *(_DWORD *)(val.NV.Int32Value + 12);
+        if ( ((unsigned int)&vostok::memory::s_CRT_arena[55905847] & v12) == 0 )
+          goto LABEL_26;
+        *(_DWORD *)(val.NV.Int32Value + 12) = v12 - 1;
+        Scaleform::GFx::AS2::RefCountBaseGC<323>::ReleaseInternal((Scaleform::GFx::AS2::RefCountBaseGC<323> *)v11);
+        result = 0;
+      }
+      break;
+    default:
+LABEL_26:
+      result = 0;
+      break;
+  }
+  return result;
+}

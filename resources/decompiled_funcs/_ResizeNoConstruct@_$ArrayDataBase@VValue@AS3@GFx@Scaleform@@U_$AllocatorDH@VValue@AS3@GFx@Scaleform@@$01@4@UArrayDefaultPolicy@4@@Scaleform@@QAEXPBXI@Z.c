@@ -1,0 +1,31 @@
+void __thiscall Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy>::ResizeNoConstruct(
+        Scaleform::ArrayDataBase<Scaleform::GFx::AS3::Value,Scaleform::AllocatorDH<Scaleform::GFx::AS3::Value,2>,Scaleform::ArrayDefaultPolicy> *this,
+        const void *pheapAddr,
+        unsigned int newSize)
+{
+  unsigned int Size; // eax
+
+  Size = this->Size;
+  if ( newSize >= Size )
+  {
+    if ( newSize >= this->Policy.Capacity )
+      Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+        (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)this,
+        pheapAddr,
+        newSize + (newSize >> 2));
+  }
+  else
+  {
+    Scaleform::ConstructorMov<Scaleform::GFx::AS3::Value>::DestructArray(&this->Data[newSize], Size - newSize);
+    if ( newSize < this->Policy.Capacity >> 1 )
+    {
+      Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy>::Reserve(
+        (Scaleform::ArrayDataBase<Scaleform::Pair<double,unsigned long>,Scaleform::AllocatorDH<Scaleform::Pair<double,unsigned long>,2>,Scaleform::ArrayDefaultPolicy> *)this,
+        pheapAddr,
+        newSize);
+      this->Size = newSize;
+      return;
+    }
+  }
+  this->Size = newSize;
+}

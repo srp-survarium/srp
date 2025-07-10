@@ -1,0 +1,30 @@
+Scaleform::GFx::AS3::Instances::fl::AttrGetFirst *__thiscall Scaleform::GFx::AS3::Instances::fl::AttrGetFirst::`scalar deleting destructor'(
+        Scaleform::GFx::AS3::Instances::fl::AttrGetFirst *this,
+        char a2)
+{
+  Scaleform::GFx::AS3::Instances::fl::XML *pObject; // ecx
+  unsigned int RefCount; // eax
+
+  this->__vftable = (Scaleform::GFx::AS3::Instances::fl::AttrGetFirst_vtbl *)&Scaleform::GFx::AS3::Instances::fl::AttrGetFirst::`vftable';
+  pObject = this->First.pObject;
+  if ( pObject )
+  {
+    if ( ((unsigned __int8)pObject & 1) != 0 )
+    {
+      this->First.pObject = (Scaleform::GFx::AS3::Instances::fl::XML *)((char *)pObject - 1);
+    }
+    else
+    {
+      RefCount = pObject->RefCount;
+      if ( ((unsigned int)&byte_3FFFFF & RefCount) != 0 )
+      {
+        pObject->RefCount = RefCount - 1;
+        Scaleform::GFx::AS3::RefCountBaseGC<328>::ReleaseInternal(pObject);
+      }
+    }
+  }
+  this->__vftable = (Scaleform::GFx::AS3::Instances::fl::AttrGetFirst_vtbl *)&Scaleform::GFx::AS3::VectorBase<unsigned long>::ArrayFunc::`vftable';
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}

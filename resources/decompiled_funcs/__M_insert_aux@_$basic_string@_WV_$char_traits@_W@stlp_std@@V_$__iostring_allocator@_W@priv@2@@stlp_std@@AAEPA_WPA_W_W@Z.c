@@ -1,0 +1,59 @@
+wchar_t *__thiscall stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t>>::_M_insert_aux(
+        stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *this,
+        wchar_t *__p,
+        wchar_t __c)
+{
+  wchar_t *M_finish; // ecx
+  unsigned int v6; // eax
+  wchar_t *result; // eax
+  unsigned int size; // eax
+  wchar_t *M_static_buf; // ebp
+  wchar_t *v10; // edi
+  wchar_t *v11; // ebx
+  wchar_t *M_data; // eax
+  unsigned int __pa; // [esp+Ch] [ebp+4h]
+
+  M_finish = this->_M_finish;
+  if ( (stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t> > *)this->_M_start_of_storage._M_data == this )
+    v6 = 16 - (((char *)M_finish - (char *)this) >> 1);
+  else
+    v6 = this->_M_buffers._M_end_of_storage - M_finish;
+  if ( v6 <= 1 )
+  {
+    size = stlp_std::basic_string<wchar_t,stlp_std::char_traits<wchar_t>,stlp_std::priv::__iostring_allocator<wchar_t>>::_M_compute_next_size(
+             this,
+             1u);
+    __pa = size;
+    if ( size <= 0x101 )
+      M_static_buf = this->_M_start_of_storage._M_static_buf;
+    else
+      M_static_buf = (wchar_t *)stlp_std::allocator<wchar_t>::allocate(&this->_M_start_of_storage, size, 0);
+    v10 = stlp_std::priv::__ucopy<wchar_t const *,wchar_t *,int>(this->_M_start_of_storage._M_data, __p, M_static_buf);
+    *v10 = __c;
+    v11 = stlp_std::priv::__ucopy<wchar_t const *,wchar_t *,int>(__p, this->_M_finish, v10 + 1);
+    *v11 = 0;
+    M_data = this->_M_start_of_storage._M_data;
+    if ( M_data != (wchar_t *)this && M_data && M_data != (wchar_t *)&this->_M_start_of_storage )
+    {
+      if ( (unsigned int)(2 * (this->_M_buffers._M_end_of_storage - M_data)) <= 0x80 )
+        stlp_std::__node_alloc::_M_deallocate(
+          (_STLP_atomic_freelist::item *)M_data,
+          2 * (this->_M_buffers._M_end_of_storage - M_data));
+      else
+        operator delete(this->_M_start_of_storage._M_data);
+    }
+    result = v10;
+    this->_M_start_of_storage._M_data = M_static_buf;
+    this->_M_finish = v11;
+    this->_M_buffers._M_end_of_storage = &M_static_buf[__pa];
+  }
+  else
+  {
+    M_finish[1] = 0;
+    memmove((unsigned __int8 *)__p + 2, (unsigned __int8 *)__p, 2 * (this->_M_finish - __p));
+    *__p = __c;
+    ++this->_M_finish;
+    return __p;
+  }
+  return result;
+}

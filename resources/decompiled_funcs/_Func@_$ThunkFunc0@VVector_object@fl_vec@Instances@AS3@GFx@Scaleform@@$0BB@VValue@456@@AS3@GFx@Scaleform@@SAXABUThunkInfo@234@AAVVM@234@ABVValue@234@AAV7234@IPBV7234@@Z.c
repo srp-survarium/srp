@@ -1,0 +1,10 @@
+void __cdecl Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object,17,Scaleform::GFx::AS3::Value>::Func(
+        const Scaleform::GFx::AS3::ThunkInfo *__formal,
+        Scaleform::GFx::AS3::VM *vm,
+        const Scaleform::GFx::AS3::Value *obj,
+        Scaleform::GFx::AS3::Value *result)
+{
+  ((void (__thiscall *)(Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *, Scaleform::GFx::AS3::Value *))Scaleform::GFx::AS3::ThunkFunc0<Scaleform::GFx::AS3::Instances::fl_vec::Vector_object,17,Scaleform::GFx::AS3::Value>::Method)(
+    (Scaleform::GFx::AS3::Instances::fl_vec::Vector_object *)(dword_AAF164 + obj->value.VS._1.VInt),
+    result);
+}
