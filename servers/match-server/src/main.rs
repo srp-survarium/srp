@@ -32,11 +32,11 @@ fn main() {
     .unwrap();
 
     let (addr, message) = client.recv_from::<ClientMessage>().unwrap();
+    println!("recv: {message:?}");
 
     if message.kinds.len() != 1 {
         panic!("Unknown message!");
     }
-    println!("recv: {message:?}");
     let ClientMessageKind::ConnectionRequest {
         sent_order_id: _,
         session_id: _,
@@ -47,6 +47,7 @@ fn main() {
 
     client.connect(addr).unwrap();
 
+    println!("Sending connection successful - START");
     client
         .send(ServerMessage {
             remote_sequence_id: 0,
@@ -56,13 +57,35 @@ fn main() {
             kind: server_message::ServerMessageKind::ConnectionSuccessful { order_id: 0 },
         })
         .unwrap();
+    println!("Sending connection successful - DONE");
 
+    let mut i = 0;
     loop {
-        let message = client.recv_raw().unwrap();
-        let result = ClientMessage::deserialize(&mut message.as_slice());
-        match result {
-            Ok(message) => println!("recv: {message:?}"),
-            Err(error) => println!("recv: {error:?} {message:?}"),
+        i += 1;
+        let message = client.recv::<ClientMessage>().unwrap();
+        println!("recv: {message:?}");
+
+        if i == 1 {
+            println!("Sending match options - START");
+            client
+                .send(ServerMessage {
+                    remote_sequence_id: 1,
+                    local_sequence_id: 1, // ?
+                    local_ack_bits: 0,
+                    match_packets_count:
+                        client_message::raw::udp_match_packets_count_enum::single_packet,
+                    kind: server_message::ServerMessageKind::MatchOptions {
+                        map_id: 0,
+                        map_name: "radar".to_string(),
+                        match_mode: server_message::raw::game_mode_type::gather_victory_items,
+                        player_count: 1,
+                        victory_item_count: 10,
+                        respawn_time: 10,
+                        match_time: 15 * 60,
+                    },
+                })
+                .unwrap();
+            println!("Sending match options - DONE");
         }
     }
 }

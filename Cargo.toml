@@ -9,6 +9,8 @@ members = [
   "servers/match-server",
 
   "scripts/binary-config-cli",
+  "scripts/build-engine-structure",
+  "scripts/nasm-decompiler",
 ]
 exclude = []
 resolver = "3"

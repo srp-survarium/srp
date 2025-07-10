@@ -5,7 +5,7 @@ use foundation::serde::Serialize;
 use self::raw::*;
 use crate::client_message::raw::udp_match_packets_count_enum;
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct ServerMessage {
     pub remote_sequence_id: u16,
     pub local_sequence_id: u16,
@@ -14,11 +14,24 @@ pub struct ServerMessage {
     pub kind: ServerMessageKind,
 }
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum ServerMessageKind {
     ConnectionSuccessful {
         // Is processed, when bigger than `received_order_id`, which is 0xFF at the beginning?
         order_id: u16,
+    },
+    MatchOptions {
+        map_id: u8,
+        // 32 chars max
+        map_name: String,
+        match_mode: game_mode_type,
+        player_count: u8,
+        victory_item_count: u8,
+        respawn_time: u8,
+        match_time: u16,
+    },
+    MatchTimeChanged {
+        match_time: u32,
     },
 }
 
@@ -27,6 +40,8 @@ impl ServerMessageKind {
     fn tag(&self) -> match_server_message_types_enum {
         match self {
             Self::ConnectionSuccessful { .. } => match_server_message_types_enum::match_server_connection_successful,
+            Self::MatchOptions { .. }         => match_server_message_types_enum::match_options_message_type,
+            Self::MatchTimeChanged { .. }     => match_server_message_types_enum::match_time_changed,
         }
     }
 }
@@ -72,6 +87,16 @@ pub mod raw {
         damage_model_state                 = 0x9E,
         match_server_invalid_message_type  = 0xC0,
     }
+
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    #[rustfmt::skip]
+    pub enum game_mode_type {
+        capture_enemy_base   = 0x0,
+        capture_neutral_base = 0x1,
+        gather_victory_items = 0x2,
+        invalid_game_mode    = 0xFF,
+    }
 }
 
 impl NetworkResponse for ServerMessage {}
@@ -85,6 +110,27 @@ impl Serialize for ServerMessage {
 
         match self.kind {
             ServerMessageKind::ConnectionSuccessful { order_id } => packet.write(order_id),
+            ServerMessageKind::MatchOptions {
+                map_id,
+                map_name,
+                match_mode,
+                player_count,
+                victory_item_count,
+                respawn_time,
+                match_time,
+            } => {
+                packet.write(map_id);
+                assert!(map_name.len() < 30);
+                packet.write_str(&map_name);
+                packet.write(match_mode);
+                packet.write(player_count);
+                packet.write(victory_item_count);
+                packet.write(respawn_time);
+                packet.write(match_time);
+            }
+            ServerMessageKind::MatchTimeChanged { match_time } => {
+                packet.write(match_time);
+            }
         }
     }
 }

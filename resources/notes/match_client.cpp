@@ -55,7 +55,133 @@ send_packets_list:
 
 
 // The first callback set for UDP socket in boost
-void __thiscall vostok::network_core::udp_match_client::handle_receive
+vostok::network_core::udp_match_client::handle_receive
+    -> vostok::network_core::udp_match_client::process_incoming_packet
+    -> vostok::network_core::udp_match_connection::process_incoming_packet
+            // Is called for all newer packets, which have remote_sequence_id higher
+            -> void __thiscall vostok::network_core::udp_match_connection::update_acknowledgements(
+
+
+
+vostok::network_core::new_udp_match_packet | somebody made order on 41, clone didn't help find it
+
+survarium::network_client::on_connected_to_match
+
+void __thiscall vostok::network::match_client::on_connected(
+
+
+1. I wrote a second message to the client 
+2. It didn't call into on_packet_received!
+3. Figure out where the call goes by following packet creation or packet r::<T> functions
+
+0x0FFFFFFFu
+
+void __thiscall survarium::network_client::on_match_packet_received
+
+
+void __thiscall survarium::network_client::on_connected_to_match(
+    ...
+    vostok::lobby_server_message_types_enum message_type
+) {
+switch ( handshaking_error )
+    case successfully_handshaked:
+        switch ( message_type )
+          case connection_successful:
+            v25 = vostok::network::match_client::new_packet(&p_m_match_client->m_client, 0x41u);
+            vostok::network::match_client::enqueue(&p_m_match_client->m_client, v25);
+}
+
+
+decompiled_funcs\_send_player_inputs@network_client@survarium@@AAEXXZ.c
+      v6 = vostok::network::match_client::new_packet(p_m_client, 0x43u);
+
+decompiled_funcs\_send_local_player_input@network_client@survarium@@UAEXABUplayer_input@2@IABVfloat4x4@math@vostok@@M@Z.c
+decompiled_funcs\_serialize@client_player_update@survarium@@QBEXAAVudp_match_packet@network_core@vostok@@@Z.c
+
+
+
+decompiled_funcs\_send_player_inputs@network_client@survarium@@AAEXXZ.c
+6:  survarium::client_player_update *m_begin; // esi
+7:  survarium::client_player_update *m_end; // ebx
+20:      survarium::client_player_update::serialize(m_begin, v6);
+
+decompiled_funcs\_send_local_player_input@network_client@survarium@@UAEXABUplayer_input@2@IABVfloat4x4@math@vostok@@M@Z.c
+8:  survarium::client_player_update *m_end; // eax
+9:  survarium::client_player_update *v7; // eax
+10:  vostok::buffer_vector<survarium::client_player_update> v8; // [esp+10h] [ebp-64h] BYREF
+19:    vostok::buffer_vector<survarium::client_player_update>::erase(&v8, &this->m_player_inputs, &v8.m_end, &v8.m_begin);
+
+decompiled_funcs\_serialize@client_player_update@survarium@@QBEXAAVudp_match_packet@network_core@vostok@@@Z.c
+1:void __thiscall survarium::client_player_update::serialize(
+2:        survarium::client_player_update *this,
+
+decompiled_funcs\__0network_client@survarium@@QAE@AAVgame@1@_N@Z.c
+61:  g->m_player_inputs.m_begin = (survarium::client_player_update *)g->m_player_inputs.m_buffer;
+62:  g->m_player_inputs.m_end = (survarium::client_player_update *)g->m_player_inputs.m_buffer;
+
+
+
+
+
+
+
+
+
+//
+// Current work
+//
+
+vostok::network::match_client::connect
+
+//
+// When `lobby_client` received `message_type::connected_to_match`
+//
+survarium::network_client::on_lobby_packet_received
+    > calls     : survarium::match_client::connect(on_connected_to_match)
+
+    > calls     : vostok::network::match_client::connect(on_connected_to_match) 
+        > sets clbk: this->m_on_connected(on_connected_to_match);                   | confirmed with memory breakpoint
+
+    > adds_order: vostok::network::match_client_impl::connect(vostok::network::match_client::on_connected)
+        > sets clbk: this->m_on_connected = vostok::network::match_client::on_connected
+
+//
+// When server sent the first response
+//
+vostok::network_core::udp_match_client::process_incoming_packet
+    > creates: predicate
+    > calls          : vostok::network_core::udp_match_connection::process_incoming_packet
+    > calls          : vostok::network_core::udp_match_connection::call_predicate<vostok::network_core::process_packet_predicate>(predicate)
+    > pops of        : message_type
+    > calls predicate: vostok::network::match_client->on_packet_received()
+    > calls          : match_client_impl->m_on_connected
+    > equal to       : vostok::network::match_client::on_connected()
+
+
+
+
+    vostok::network::match_client->on_packet_received == on_match_packet_received
+
+
+
+
+
+//
+// Notes
+//
+* `func_ptr` in boost::function points to an actual function
+* survarium has network emulator
+
+
+# Goals
+0. vostok::network::match_client has `on_packet_received` callback.
+Which is set to `on_match_packet_received` on initialization of `network_client`
+THEORY: Called inside `call_predicate`. `block_consumer`.
+
+
+
+1. Figure out why packet created in `on_connected_to_match` sets its bits
+
 
 */
 
