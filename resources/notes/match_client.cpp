@@ -156,10 +156,14 @@ vostok::network_core::udp_match_client::process_incoming_packet
     > calls predicate: vostok::network::match_client->on_packet_received()
     > calls          : match_client_impl->m_on_connected
     > equal to       : vostok::network::match_client::on_connected()
+    > creates resp   : &thisa->m_on_connected,
+    > equal to       : survarium::network_client::on_connected_to_match
+    > on next tick   : survarium::network_client::on_connected_to_match
 
 
 
-
+    // ???
+    // Why is it not in chain
     vostok::network::match_client->on_packet_received == on_match_packet_received
 
 
