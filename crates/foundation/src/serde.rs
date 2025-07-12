@@ -82,12 +82,13 @@ pub fn advance_buffer<T: bytemuck::CheckedBitPattern>(
     }
 
     // `map_err` breaks `track_caller`
-    let result = match bytemuck::checked::try_pod_read_unaligned(&buffer[0..size]) {
-        Ok(value) => Ok(value),
+    match bytemuck::checked::try_pod_read_unaligned(&buffer[0..size]) {
+        Ok(value) => {
+            *buffer = &buffer[size..];
+            Ok(value)
+        }
         Err(error) => Err(DeserializeError::incorrect_input_from(error)),
-    };
-    *buffer = &buffer[size..];
-    result
+    }
 }
 
 /// Requires alignment to be matched
@@ -104,10 +105,11 @@ pub fn advance_by<'a, T: bytemuck::CheckedBitPattern>(
     }
 
     // `map_err` breaks `track_caller`
-    let result = match bytemuck::checked::try_cast_slice::<_, T>(&buffer[0..size]) {
-        Ok(value) => Ok(value),
+    match bytemuck::checked::try_cast_slice::<_, T>(&buffer[0..size]) {
+        Ok(value) => {
+            *buffer = &buffer[size..];
+            Ok(value)
+        }
         Err(error) => Err(DeserializeError::incorrect_input_from(error)),
-    };
-    *buffer = &buffer[size..];
-    result
+    }
 }

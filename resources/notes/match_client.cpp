@@ -70,7 +70,7 @@ survarium::network_client::on_connected_to_match
 void __thiscall vostok::network::match_client::on_connected(
 
 
-1. I wrote a second message to the client 
+1. I wrote a second message to the client
 2. It didn't call into on_packet_received!
 3. Figure out where the call goes by following packet creation or packet r::<T> functions
 
@@ -92,54 +92,21 @@ switch ( handshaking_error )
 }
 
 
-decompiled_funcs\_send_player_inputs@network_client@survarium@@AAEXXZ.c
-      v6 = vostok::network::match_client::new_packet(p_m_client, 0x43u);
-
-decompiled_funcs\_send_local_player_input@network_client@survarium@@UAEXABUplayer_input@2@IABVfloat4x4@math@vostok@@M@Z.c
-decompiled_funcs\_serialize@client_player_update@survarium@@QBEXAAVudp_match_packet@network_core@vostok@@@Z.c
-
-
-
-decompiled_funcs\_send_player_inputs@network_client@survarium@@AAEXXZ.c
-6:  survarium::client_player_update *m_begin; // esi
-7:  survarium::client_player_update *m_end; // ebx
-20:      survarium::client_player_update::serialize(m_begin, v6);
-
-decompiled_funcs\_send_local_player_input@network_client@survarium@@UAEXABUplayer_input@2@IABVfloat4x4@math@vostok@@M@Z.c
-8:  survarium::client_player_update *m_end; // eax
-9:  survarium::client_player_update *v7; // eax
-10:  vostok::buffer_vector<survarium::client_player_update> v8; // [esp+10h] [ebp-64h] BYREF
-19:    vostok::buffer_vector<survarium::client_player_update>::erase(&v8, &this->m_player_inputs, &v8.m_end, &v8.m_begin);
-
-decompiled_funcs\_serialize@client_player_update@survarium@@QBEXAAVudp_match_packet@network_core@vostok@@@Z.c
-1:void __thiscall survarium::client_player_update::serialize(
-2:        survarium::client_player_update *this,
-
-decompiled_funcs\__0network_client@survarium@@QAE@AAVgame@1@_N@Z.c
-61:  g->m_player_inputs.m_begin = (survarium::client_player_update *)g->m_player_inputs.m_buffer;
-62:  g->m_player_inputs.m_end = (survarium::client_player_update *)g->m_player_inputs.m_buffer;
-
-
-
-
-
-
-
-
 
 //
 // Current work
 //
 
-vostok::network::match_client::connect
+
 
 //
 // When `lobby_client` received `message_type::connected_to_match`
 //
-survarium::network_client::on_lobby_packet_received
-    > calls     : survarium::match_client::connect(on_connected_to_match)
 
-    > calls     : vostok::network::match_client::connect(on_connected_to_match) 
+survarium::network_client::on_lobby_packet_received()
+> calls          : survarium::match_client::connect(on_connected_to_match)
+
+    > calls     : vostok::network::match_client::connect(on_connected_to_match)
         > sets clbk: this->m_on_connected(on_connected_to_match);                   | confirmed with memory breakpoint
 
     > adds_order: vostok::network::match_client_impl::connect(vostok::network::match_client::on_connected)
@@ -148,44 +115,61 @@ survarium::network_client::on_lobby_packet_received
 //
 // When server sent the first response
 //
-vostok::network_core::udp_match_client::process_incoming_packet
+
+00.                : vostok::network_core::udp_match_client::process_incoming_packet()
     > creates: predicate
-    > calls          : vostok::network_core::udp_match_connection::process_incoming_packet
-    > calls          : vostok::network_core::udp_match_connection::call_predicate<vostok::network_core::process_packet_predicate>(predicate)
-    > pops of        : message_type
-    > calls predicate: vostok::network::match_client->on_packet_received()
-    > calls          : match_client_impl->m_on_connected
-    > equal to       : vostok::network::match_client::on_connected()
-    > creates resp   : &thisa->m_on_connected,
-    > equal to       : survarium::network_client::on_connected_to_match
-    > on next tick   : survarium::network_client::on_connected_to_match
+01. calls          : vostok::network_core::udp_match_connection::process_incoming_packet()
+02. calls          : vostok::network_core::udp_match_connection::call_predicate<vostok::network_core::process_packet_predicate>(predicate)
+03. calls          : vostok::network_core::udp_match_client this;             this->m_on_packet_received()    ; set at: vostok::network::match_client_impl::match_client_impl !!
+04. which is       : vostok::network::match_client_impl::on_packet_received()
+05. calls          : vostok::network::match_client_impl     this;             this->m_on_packet_received()    ; set at: vostok::network::match_client::create_client() -> vostok::network::match_client_impl::set_on_packet_received()
+06. which is       : vostok::network::match_client_impl::on_packet_received()
+    > overrides  : {
+        vostok::network::match_client_impl this;
+        vostok::network_core::udp_match_client lower;
+        lower->m_on_packet_received = this->m_on_packet_received                                            ; which is vostok::network::match_client::on_packet_received()
+    }                                                                                                       ; now 03 will resolve differently
+07. calls          : vostok::network::match_client_impl     this;             this->m_on_connected()
+08. which is       : vostok::network::match_client::on_connected()
+09. creates respon : vostok::network::match_client          this;             this->m_on_connected();
+10. which is       : survarium::network_client::on_connected_to_match()
 
 
 
-    // ???
-    // Why is it not in chain
-    vostok::network::match_client->on_packet_received == on_match_packet_received
+//
+// When server sent the generic response
+//
+
+00.                : vostok::network_core::udp_match_client::process_incoming_packet()
+    > creates: predicate
+01. calls          : vostok::network_core::udp_match_connection::process_incoming_packet()
+02. calls          : vostok::network_core::udp_match_connection::call_predicate<vostok::network_core::process_packet_predicate>(predicate)
+03. calls          : vostok::network_core::udp_match_client this;             this->m_on_packet_received()    ; set at: vostok::network::match_client_impl::match_client_impl
+04. which is       : vostok::network::match_client::on_packet_received()
+05. calls          : vostok::network::match_client::on_packet_received_impl()
+06. calls          : vostok::network::match_client          this;             this->m_on_packet_received()    ; set at: survarium::network_client::on_match_packet_received
+07. calls          : survarium::network_client::on_match_packet_received()
 
 
-
-
+//
+// Moving packet down
+//
+00.                ; survarium::network_client::on_connected_to_match()
+01. calls          ; vostok::network::match_client::enqueue()
+02. creates order  ; enqueue_impl
+03. calls          ; vostok::network_core::udp_match_client::enqueue
+04. calls          ; vostok::network_core::udp_match_connection::enqueue
+05. calls          ; vostok::network_core::udp_match_connection::enqueue_impl
+    > vostok::network_core::udp_match_connection this;                       this->m_packets_to_send.push()
 
 //
 // Notes
 //
+
 * `func_ptr` in boost::function points to an actual function
-* survarium has network emulator
-
-
-# Goals
-0. vostok::network::match_client has `on_packet_received` callback.
-Which is set to `on_match_packet_received` on initialization of `network_client`
-THEORY: Called inside `call_predicate`. `block_consumer`.
-
-
-
-1. Figure out why packet created in `on_connected_to_match` sets its bits
-
+* survarium has network emulator, which I can enable by bin patching
+* vostok    -- low-level calls related to engin
+* survarium -- high-level calls related to game
 
 */
 
@@ -314,6 +298,7 @@ struct vostok::network::match_client_impl
             vostok::network_core::packet_reader &,
         )
     >                                                       m_on_packet_received;
+
     vostok::network::match_client_impl::state               m_state;
 };
 
@@ -502,10 +487,26 @@ struct __cppobj __declspec(align(2)) vostok::network_core::udp_match_packet
 
 
 
+
 //
 // Functions
 //
 
+
+/*
+ *
+
+
+Questions: 
+
+1. Why have multiple channels inside a connection?
+2. How c
+
+
+Channels have `sent_order_id` it is incremented for every single ordered packet in `enqueue_impl`
+
+
+ */
 
 /*
  * Enqueues a UDP match packet for sending.

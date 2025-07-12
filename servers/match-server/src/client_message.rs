@@ -6,26 +6,32 @@ use self::raw::*;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct ClientMessage {
-    pub sequence_id: u16,
-    pub remote_sequence_id: u16,
-    pub remote_ack_bits: u16,
+    pub sequence_id: u16,        // sequence id of the client
+    pub remote_sequence_id: u16, // sequence id of the server
+    pub remote_ack_bits: u16,    // ???
     pub kinds: Vec<ClientMessageKind>,
 }
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum ClientMessageKind {
-    Unknown,
+    InitiateDisconnection,
+    ConfirmDisconnection,
+    ContinuousFlow,
     ConnectionRequest {
-        // Known from this function
-        // void __thiscall vostok::network_core::udp_match_connection::enqueue_impl(
+        // Set and increment here, because the packet `is_ordered`
+        // void __thiscall vostok::network_core::udp_match_connection::enqueue_impl
+        // Does that mean it is true for all packages?
         sent_order_id: u16,
         session_id: u32,
     },
     GetStartupInfo {
-        unknown: u16,
+        // Set and increment here, because the packet `is_ordered`
+        // void __thiscall vostok::network_core::udp_match_connection::enqueue_impl
+        sent_order_id: u16,
     },
     ClientPlayerUpdate {
-        unknown: Box<[u8; 46]>,
+        sent_order_id: u16,
+        unknown: Box<[u8; 44]>,
     },
 }
 
@@ -36,18 +42,25 @@ pub mod raw {
     #[repr(u8)]
     #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
     #[rustfmt::skip]
-    pub enum match_client_message_types_enum {
-        unknown                            = 0x02,
+    pub enum low_level_message_type_enum {
+        initiate_disconnection = 0x0,
+        confirm_disconnection  = 0x1,
+        continuous_flow        = 0x2,
+    }
 
+    #[repr(u8)]
+    #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
+    #[rustfmt::skip]
+    pub enum match_client_message_types_enum {
         connection_request                 = 0x40, // 64
         get_startup_info                   = 0x41,
-        join_match                         = 0x42,
+        join_match                         = 0x42, // !!!!
         client_player_update               = 0x43,
         client_player_commit_suicide       = 0x44,
-        time_synchronization_request       = 0x45,
+        time_synchronization_request       = 0x45, // process_sync_response | sync_response
         time_synchronization_confirmation  = 0x46,
         bullets_info_request               = 0x47,
-        team_bases_initialize_info         = 0x48,
+        team_bases_initialize_info         = 0x48, // !!!!
         force_finish_match                 = 0x49,
         world_synchronization_confirmation = 0x4A, // 74
         match_client_invalid_message_type  = 0x7F,
@@ -95,7 +108,6 @@ impl Deserialize for ClientMessage {
         }
 
         if !out_buffer.is_empty() {
-            println!("{out_buffer:?}");
             return Err(DeserializeError::incorrect_input());
         }
 
@@ -110,29 +122,42 @@ impl Deserialize for ClientMessage {
 
 impl ClientMessageKind {
     fn parse_kind(out_buffer: &mut &[u8]) -> Result<Self, DeserializeError> {
-        let msg_type = advance_buffer::<match_client_message_types_enum>(out_buffer)?;
-        let kind = match msg_type {
-            match_client_message_types_enum::unknown => ClientMessageKind::Unknown,
-            match_client_message_types_enum::connection_request => {
-                let sent_order_id = advance_buffer::<u16>(out_buffer)?;
-                let session_id = advance_buffer::<u32>(out_buffer)?;
+        let kind = if let Ok(msg_type) = advance_buffer::<low_level_message_type_enum>(out_buffer) {
+            match msg_type {
+                low_level_message_type_enum::initiate_disconnection => {
+                    ClientMessageKind::InitiateDisconnection
+                }
+                low_level_message_type_enum::confirm_disconnection => {
+                    ClientMessageKind::ConfirmDisconnection
+                }
+                low_level_message_type_enum::continuous_flow => ClientMessageKind::ContinuousFlow,
+            }
+        } else {
+            let msg_type = advance_buffer::<match_client_message_types_enum>(out_buffer)?;
+            match msg_type {
+                match_client_message_types_enum::connection_request => {
+                    let sent_order_id = advance_buffer::<u16>(out_buffer)?;
+                    let session_id = advance_buffer::<u32>(out_buffer)?;
 
-                ClientMessageKind::ConnectionRequest {
-                    sent_order_id,
-                    session_id,
+                    ClientMessageKind::ConnectionRequest {
+                        sent_order_id,
+                        session_id,
+                    }
                 }
-            }
-            match_client_message_types_enum::get_startup_info => {
-                let unknown = advance_buffer::<u16>(out_buffer)?;
-                ClientMessageKind::GetStartupInfo { unknown }
-            }
-            match_client_message_types_enum::client_player_update => {
-                let unknown = advance_buffer::<[u8; 46]>(out_buffer)?;
-                ClientMessageKind::ClientPlayerUpdate {
-                    unknown: Box::new(unknown),
+                match_client_message_types_enum::get_startup_info => {
+                    let sent_order_id = advance_buffer::<u16>(out_buffer)?;
+                    ClientMessageKind::GetStartupInfo { sent_order_id }
                 }
+                match_client_message_types_enum::client_player_update => {
+                    let sent_order_id = advance_buffer::<u16>(out_buffer)?;
+                    let unknown = advance_buffer::<[u8; 44]>(out_buffer)?;
+                    ClientMessageKind::ClientPlayerUpdate {
+                        sent_order_id,
+                        unknown: Box::new(unknown),
+                    }
+                }
+                _ => return Err(DeserializeError::UnknownMessageType(msg_type as u8)),
             }
-            _ => return Err(DeserializeError::UnknownMessageType(msg_type as u8)),
         };
 
         if !out_buffer.is_empty() {
@@ -171,7 +196,7 @@ mod test {
             sequence_id: 14,
             remote_sequence_id: 0xFFFF,
             remote_ack_bits: 0,
-            kinds: vec![ClientMessageKind::Unknown {}],
+            kinds: vec![ClientMessageKind::ContinuousFlow {}],
         };
         assert_eq!(defacto, dejure);
     }

@@ -1,8 +1,10 @@
 #![expect(non_snake_case)]
 #![expect(dead_code)]
-#![allow(unused_imports)]
+#![expect(unused_imports)]
+#![feature(slice_split_once)]
 
 mod client_message;
+mod player_profile;
 mod server_message;
 
 use crate::client_message::{ClientMessage, ClientMessageKind};
@@ -62,7 +64,7 @@ fn main() {
     let mut i = 0;
     loop {
         i += 1;
-        let message = client.recv::<ClientMessage>().unwrap();
+        let message = client.recv::<ClientMessage>();
         println!("recv: {message:?}");
 
         if i == 1 {
@@ -71,17 +73,74 @@ fn main() {
                 .send(ServerMessage {
                     remote_sequence_id: 1,
                     local_sequence_id: 1, // ?
-                    local_ack_bits: 0,
+                    local_ack_bits: 0b0100_0000_0000_0000,
                     match_packets_count:
                         client_message::raw::udp_match_packets_count_enum::single_packet,
                     kind: server_message::ServerMessageKind::MatchOptions {
+                        order_id: 1,
                         map_id: 0,
-                        map_name: "radar".to_string(),
+                        map_name: "level_03".to_string(),
                         match_mode: server_message::raw::game_mode_type::gather_victory_items,
-                        player_count: 1,
+                        player_count: 2,
                         victory_item_count: 10,
                         respawn_time: 10,
                         match_time: 15 * 60,
+                    },
+                })
+                .unwrap();
+
+            // client
+            //     .send(ServerMessage {
+            //         remote_sequence_id: 2,
+            //         local_sequence_id: 1, // ?
+            //         local_ack_bits: 0b0100_0000_0000_0000,
+            //         match_packets_count:
+            //             client_message::raw::udp_match_packets_count_enum::single_packet,
+            //         kind: server_message::ServerMessageKind::MatchOptions {
+            //             order_id: 1,
+            //             map_id: 0,
+            //             map_name: "lobby_scene".to_string(),
+            //             match_mode: server_message::raw::game_mode_type::gather_victory_items,
+            //             player_count: 2,
+            //             victory_item_count: 10,
+            //             respawn_time: 10,
+            //             match_time: 15 * 60,
+            //         },
+            //     })
+            //     .unwrap();
+
+            client
+                .send(ServerMessage {
+                    remote_sequence_id: 2,
+                    local_sequence_id: 1, // ?
+                    local_ack_bits: 0b0100_0000_0000_0000,
+                    match_packets_count:
+                        client_message::raw::udp_match_packets_count_enum::single_packet,
+                    kind: server_message::ServerMessageKind::PlayerProfile {
+                        order_id: 2,
+                        player_profile: player_profile::raw::player_profile {
+                            team: player_profile::raw::game_team_id::team_1,
+                            is_local: true,
+                            ..player_profile::raw::player_profile::new_dummy(0, 0, "sheepy")
+                        },
+                    },
+                })
+                .unwrap();
+
+            client
+                .send(ServerMessage {
+                    remote_sequence_id: 3,
+                    local_sequence_id: 1, // ?
+                    local_ack_bits: 0b0100_0000_0000_0000,
+                    match_packets_count:
+                        client_message::raw::udp_match_packets_count_enum::single_packet,
+                    kind: server_message::ServerMessageKind::PlayerProfile {
+                        order_id: 3,
+                        player_profile: player_profile::raw::player_profile {
+                            team: player_profile::raw::game_team_id::team_2,
+                            is_local: false,
+                            ..player_profile::raw::player_profile::new_dummy(0, 0, "beauty")
+                        },
                     },
                 })
                 .unwrap();
