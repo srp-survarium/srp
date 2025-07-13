@@ -43,10 +43,6 @@ impl UdpClient {
     pub fn send<T: NetworkResponse>(&mut self, message: T) -> Result<(), NetworkError> {
         message.serialize(&mut self.buffer);
         let buffer_len = self.buffer.get_message().len();
-        println!(
-            "-------------------------------- BUFFER LEN: {buffer_len} ---------------------------------------"
-        );
-        dbg!(buffer_len);
         self.buffer.send(&self.socket)?;
         self.buffer.clear();
         Ok(())
