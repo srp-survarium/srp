@@ -63,4 +63,3 @@
 54: "gameplay/items/artefacts/lifebone"
 57: "gameplay/items/artefacts/lifebone"
 69: "gameplay/items/scopes/leupold"
-

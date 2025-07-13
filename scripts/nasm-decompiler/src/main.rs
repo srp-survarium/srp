@@ -1,23 +1,31 @@
+//! Helper script to build and apply patches to the game.
+//!
 //! ```no-run
+//! // To apply all current patches
+//! cargo run --bin nasm-decompiler -- --patch-name udp patch-survarium --all
+//!
+//! // To make a patch yourself
 //! cargo run --bin nasm-decompiler -- --patch-name udp parse-survarium --offset "0x00747787" --size 0x50
 //! cargo run --bin nasm-decompiler -- --patch-name udp parse-patch
+//! cargo run --bin nasm-decompiler -- --patch-name udp patch-survarium
 //! ```
 
 use clap::Parser;
 use iced_x86::{Decoder, DecoderOptions, Formatter, Instruction, NasmFormatter};
 
-const FILEPATH: &str = "D:/Projects/Survarium/binaries/win32/survarium.exe";
+const GAME_PATH: &str = "D:/Projects/Survarium/binaries/win32/survarium.exe";
 const PATCH_DIR: &str = "./resources/patches";
 const NASM_OUTPUT_DIR: &str = "./target";
 const BITNESS: u32 = 32;
 const HEXBYTES_COLUMN_BYTE_LENGTH: usize = 10;
 
+/// Ensure that `nasm.exe` is installed and is in `PATH`.
 #[derive(clap::Parser)]
 struct Args {
     #[arg(long, default_value = NASM_OUTPUT_DIR)]
     nasm_dir: String,
 
-    #[arg(long, env = "SURVARIUM_EXE", default_value = FILEPATH)]
+    #[arg(long, env = "SURVARIUM_EXE", default_value = GAME_PATH)]
     game_path: String,
 
     #[arg(long, default_value = PATCH_DIR)]
@@ -32,6 +40,8 @@ struct Args {
 
 #[derive(clap::Subcommand)]
 enum Commands {
+    /// Extract assembly at an `offset` of a given `size`.
+    /// Note that this will not parse PE headers. This is a direct offset.
     ParseSurvarium {
         #[arg(long, value_parser = parse_hex)]
         offset: usize,
@@ -40,14 +50,18 @@ enum Commands {
         size: usize,
     },
 
+    /// Print patches
     ParsePatch,
 
+    /// Compare and print a given patch
     Match {
         #[arg(long)]
         binary: bool,
     },
 
+    /// Apply patches
     PatchSurvarium {
+        /// Apply all currently existing patches
         #[arg(long)]
         all: bool,
     },
