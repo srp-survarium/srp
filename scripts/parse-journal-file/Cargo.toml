@@ -1,0 +1,9 @@
+[package]
+name = "parse-journal-file"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true
