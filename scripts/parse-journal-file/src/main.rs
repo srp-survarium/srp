@@ -5,39 +5,48 @@
 #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
 #[rustfmt::skip]
 pub enum match_server_message_types_enum {
-    match_server_connection_successful = 80, // changes connection_type to connected
-    match_options_message_type         = 81, // [+] - survarium::network_client::on_match_packet_received
-    server_player_input                = 82, // [+]
-    kill_player                        = 83, // [+]
-    spawn_player                       = 84, // [+]
-    team_base_capture_progress         = 85, // [+]
-    match_time_changed                 = 86, // [+]
-    respawn_time_changed               = 87, // [+]
-    player_kd_stats_changed            = 88, // [+]
-    hit_player                         = 89, // [+]
-    affect_damage_model                , // [+]
-    sync_response                      , // [+]
-    match_finished                     , // [+]
-    server_bullet_added                , // ??
-    server_bullet_removed              , // ??
-    server_bullet_moved                , // ??
-    server_bullet_collided             , // ??
-    player_visibility_changed          , // [+] hidden
-    player_profile_message_type        ,
-    team_bases_message_type            ,
-    initialize_victory_items           ,
-    victory_item_take_or_put           ,
-    trap_placed                        ,
-    trap_removed                       ,
-    trap_fired                         ,
-    trap_disarmed                      ,
-    game_status_changed                ,
-    match_wait_time_changed            ,
-    game_world_object_state            ,
-    world_synchronization_request      ,
-    damage_model_state                 , // [+] hidden
-    match_server_invalid_message_type  ,
+    match_server_connection_successful = 0x50,
+    static_match_info                  = 0x51,
+    set_time_request                   = 0x52,
+    dynamic_match_info                 = 0x53,
+    player_input_change                = 0x54,
+    floating_timer_set_offset          = 0x55,
+    player_entered_match               = 0x56,
+    player_left_match                  = 0x57,
+    local_player_input_discard         = 0x58,
+    on_hash_mismatch                   = 0x59,
 }
+// server_player_input                = 82, // [+]
+// kill_player                        = 83, // [+]
+// spawn_player                       = 84, // [+]
+// team_base_capture_progress         = 85, // [+]
+// match_time_changed                 = 86, // [+]
+// respawn_time_changed               = 87, // [+]
+// player_kd_stats_changed            = 88, // [+]
+// hit_player                         = 89, // [+]
+// affect_damage_model                , // [+]
+// sync_response                      , // [+]
+// match_finished                     , // [+]
+// server_bullet_added                , // ??
+// server_bullet_removed              , // ??
+// server_bullet_moved                , // ??
+// server_bullet_collided             , // ??
+// player_visibility_changed          , // [+] hidden
+// player_profile_message_type        ,
+// team_bases_message_type            ,
+// initialize_victory_items           ,
+// victory_item_take_or_put           ,
+// trap_placed                        ,
+// trap_removed                       ,
+// trap_fired                         ,
+// trap_disarmed                      ,
+// game_status_changed                ,
+// match_wait_time_changed            ,
+// game_world_object_state            ,
+// world_synchronization_request      ,
+// damage_model_state                 , // [+] hidden
+// match_server_invalid_message_type  ,
+// }
 
 #[repr(u8)]
 #[derive(bytemuck::CheckedBitPattern, bytemuck::NoUninit, Copy, Clone, Debug, PartialEq)]
@@ -155,6 +164,7 @@ fn main() {
                 i += len;
 
                 eprintln!("{:?}: {}", kind, msg_type);
+                println!("{:?}: {}", kind, msg_type);
             }
             /* version_chunk */
             data_chunk_type_enum::version_chunk => {
